@@ -3,12 +3,20 @@
 #include <QMessageBox>
 #include <QVector>
 #include <QDebug>
+#include <fstream>
+#include <boost/algorithm/string.hpp>
+#include <QFile>
+#include <QTextStream>
+#include <map>
+
 
 Dialog::Dialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialog)
 {
     ui->setupUi(this);
+
+    read_data_from_DB();
 
     // let's make focus on the second lineEdit by default
     ui->lineEdit_2->setFocus();
@@ -28,7 +36,7 @@ Dialog::~Dialog()
     delete ui;
 }
 
-//RUS_ENG, ENG_RUS, RUS_SWE, SWE_RUS
+
 void Dialog::on_confirm_mode_clicked()
 {
 
@@ -60,3 +68,25 @@ void Dialog::on_stats_button_clicked()
     ui->lineEdit_2->setFocus();
 }
 
+void Dialog::read_data_from_DB()
+{
+    std::ifstream input_stream("/home/andrey/eng_words_temp_db.txt");
+    if(!input_stream){
+        qDebug() << "Couldn't open a file for reading data from DB";
+    }
+
+    std::string temp_str;
+
+    // reading a data from the file (temporary. data will be in DB soon)
+    while(std::getline(input_stream, temp_str)){
+        std::vector<std::string> words(2);
+        // split text by ':' via boost
+        boost::split(words, temp_str, boost::is_any_of(":"));
+        data_base[words[0]] = words[1];
+    }
+
+    // let's show the first word for user
+    QString first_word = QString::fromStdString(data_base.cbegin()->first);
+    ui->lineEdit->setText(first_word);
+
+}

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QString>
+#include <string>
+#include <map>
 
 enum All_Modes{RUS_ENG, ENG_RUS, RUS_SWE, SWE_RUS};
 
@@ -34,6 +36,10 @@ private:
         "rus - swe",
         "swe - rus"
     };
+
+    std::map<std::string, std::string> data_base;
+
+    void read_data_from_DB();
 
 };
 
