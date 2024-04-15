@@ -33,6 +33,7 @@ pcviewer.cfg
 *.obj
 *.orig
 *.swp
+*.txt
 *.rej
 *.so
 *.pbxuser
