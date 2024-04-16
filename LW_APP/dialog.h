@@ -26,7 +26,9 @@ public:
 private slots:
     void on_stats_button_clicked();
     void on_confirm_mode_clicked();
+    void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
 
 private:
     Ui::Dialog *ui;
@@ -37,9 +39,11 @@ private:
         "swe - rus"
     };
 
-    std::map<std::string, std::string> data_base;
+    std::map<std::string, std::string> data_base;  // probably unordered_map will be better
 
     void read_data_from_DB();
+    void display_first_word();
+    unsigned counter = 1;
 
 };
 
