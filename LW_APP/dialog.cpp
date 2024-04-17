@@ -27,6 +27,9 @@ Dialog::Dialog(QWidget *parent)
     // let's make focus on edit line 2
     ui->lineEdit_2->setFocus();
 
+    // let's set value of progressBar equal to zero
+    ui->progressBar->setValue(0);
+
     // let's add modes to the combobox (modes for users)
     for(const auto &mode : modes){
         ui->comboBox->addItem(mode);
@@ -59,7 +62,16 @@ void Dialog::answer_is_right(const QString &task, const QString &answer) noexcep
     // ///////////////////
     // return false;
 
-    if(task == answer + ' ') ++answers_counter;
+    if(task == answer){
+        ++answers_counter;
+        ui->result_label->setText("\tRight!");
+        ui->result_label->setStyleSheet("QLabel { color : green; }");
+
+    }
+    else{
+        ui->result_label->setText("\tWrong!");
+        ui->result_label->setStyleSheet("QLabel { color : red; }");
+    }
 }
 
 // Function displays on edit line word (rus) from the DB
@@ -145,6 +157,13 @@ void Dialog::on_pushButton_clicked()
 {
     // when user pushes this button we should check
     // his answer and show him the next word
+
+    // let's show the progress by changing the progressBar value
+    unsigned user_progress = (steps / data_base.size()) * 100;
+    qDebug() << user_progress;
+    ui->progressBar->setValue(user_progress);
+    ++steps;
+
     // first of all let's check if counter less then words we have in the data base
     if(counter == data_base.size()){
         // save the last user's answer
@@ -203,6 +222,12 @@ void Dialog::on_pushButton_2_clicked()
 
     // let's make focus on edit line 2
     ui->lineEdit_2->setFocus();
+
+    // let/s make progress bar empty
+    ui->progressBar->setValue(0);
+
+    // let's make steps equal 1 again
+    steps = 1;
 
     // counter must starts from the scratch
     counter = 0;

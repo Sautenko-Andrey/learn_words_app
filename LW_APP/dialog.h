@@ -47,6 +47,7 @@ private:
     unsigned counter = 0;
     unsigned right_answers = 0;
     unsigned answers_counter = 0;
+    double steps = 1.0;
 
 };
 
