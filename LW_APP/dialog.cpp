@@ -16,9 +16,15 @@ Dialog::Dialog(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // read data from the DB
     read_data_from_DB();
 
-    // let's make focus on the second lineEdit by default
+    //let's show the first word (rus) for user
+    QString first_word = QString::fromStdString(data_base.cbegin()->second);
+    ui->lineEdit->setText(first_word);
+    ++counter;
+
+    // let's make focus on edit line 2
     ui->lineEdit_2->setFocus();
 
     // let's add modes to the combobox (modes for users)
@@ -36,12 +42,35 @@ Dialog::~Dialog()
     delete ui;
 }
 
-// Function displays on edit line the very first word from the DB
+// Function checks if the user's answer is right
+void Dialog::answer_is_right(const QString &task, const QString &answer) noexcept
+{
+    // ++answers_counter;
+
+    // if(task == answer){
+    //     ++right_answers;
+    //     // DELETE IT
+    //     qDebug() << "Done!";
+    //     ///////////////////
+    //     return true;
+    // }
+    // // DELETE IT
+    // qDebug() << "Failed!";
+    // ///////////////////
+    // return false;
+
+    if(task == answer + ' ') ++answers_counter;
+}
+
+// Function displays on edit line word (rus) from the DB
 void Dialog::display_first_word()
 {
     auto iter = data_base.cbegin();
     std::advance(iter, counter);
-    ui->lineEdit->setText(QString::fromStdString(iter->first));
+
+    // displays word for the user
+    ui->lineEdit->setText(QString::fromStdString(iter->second));
+
     ++counter;
 }
 
@@ -100,13 +129,14 @@ void Dialog::read_data_from_DB()
         data_base[words[0]] = words[1];
     }
 
-    // let's show the first word for user
-    QString first_word = QString::fromStdString(data_base.cbegin()->first);
-    ui->lineEdit->setText(first_word);
+    //let's show the first word (rus) for user
+    // QString first_word = QString::fromStdString(data_base.cbegin()->second);
+    // ui->lineEdit->setText(first_word);
+    // ++counter;
 
 }
 
-// Function do logic when user pushes the button "Ok".
+// Function do logic when user pushes the button "Next".
 // It displays every time a next word
 // and test user's answer is it correct or not
 // save the results and then show it
@@ -119,33 +149,45 @@ void Dialog::on_pushButton_clicked()
     if(counter == data_base.size()){
         // save the last user's answer
         QString user_answer = ui->lineEdit_2->text();
-        // test it
+
+        // test it DELETE IT!
         qDebug() << user_answer;
+        ////////////////////////////////
+
+        // we have to check the very last user answer as well
+        answer_is_right(QString::fromStdString((std::prev(data_base.cend()))->first), user_answer);
+
 
         // we show user results
         QMessageBox::information(this, "Results", "Succesful answers: 100%");
+
         // let's clear line
         ui->lineEdit_2->clear();
 
         // let's block edit_line2 while user pushes restart
         ui->lineEdit_2->setDisabled(true);
 
-        // let's make button "Ok" unaccessable
+        // let's make button "Next" unaccessable
         ui->pushButton->setDisabled(true);
 
         return;
     }
 
-
     // let's read user's answer from the line
     QString user_answer = ui->lineEdit_2->text();
-    // let's clear line
-    ui->lineEdit_2->clear();
-    // test it
     qDebug() << user_answer;
 
-    // show for the user the very first word
+    // let's clear line
+    ui->lineEdit_2->clear();
+
+    // show for the user the word
     display_first_word();
+
+    // let's check user answer
+    auto task = data_base.cbegin();
+    std::advance(task, answers_counter);
+    answer_is_right(QString::fromStdString(task->first), user_answer);
+
 }
 
 // Function begins the session from the top
@@ -164,6 +206,9 @@ void Dialog::on_pushButton_2_clicked()
 
     // counter must starts from the scratch
     counter = 0;
+
+    // answers counter starts from the scratch as well
+    answers_counter = 0;
 
     // show for the user the very first word
     display_first_word();

@@ -43,7 +43,10 @@ private:
 
     void read_data_from_DB();
     void display_first_word();
-    unsigned counter = 1;
+    void answer_is_right(const QString &task, const QString &answer) noexcept;
+    unsigned counter = 0;
+    unsigned right_answers = 0;
+    unsigned answers_counter = 0;
 
 };
 
