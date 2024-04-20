@@ -1,19 +1,16 @@
-#include "dialog.h"
-#include "ui_dialog.h"
-#include <QMessageBox>
-#include <QVector>
-#include <QDebug>
-#include <fstream>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+#include <string>
 #include <boost/algorithm/string.hpp>
-#include <QFile>
-#include <QTextStream>
-#include <map>
+#include <fstream>
+#include <vector>
+#include <QString>
 #include <QTimer>
+#include <QMessageBox>
 
-
-Dialog::Dialog(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::Dialog)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -22,72 +19,69 @@ Dialog::Dialog(QWidget *parent)
 
     //let's show the first word (rus) for user
     QString first_word = QString::fromStdString(data_base.cbegin()->second);
-    ui->lineEdit->setText(first_word);
+    ui->lineTask->setText(first_word);
     ++counter;
 
-    // let's make focus on edit line 2
-    ui->lineEdit_2->setFocus();
+    // let's make focus on lineTask
+    ui->lineUser->setFocus();
 
     // let's set value of progressBar equal to zero
     ui->progressBar->setValue(0);
 
-    // let's add modes to the combobox (modes for users)
-    for(const auto &mode : modes){
-        ui->comboBox->addItem(mode);
-    }
-
     // when user pushes "Close" button
-    connect(ui->exitButton, SIGNAL(clicked(bool)), SLOT(close()));
+    connect(ui->finishButton, SIGNAL(clicked(bool)), SLOT(close()));
 }
 
-
-Dialog::~Dialog()
+MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-// Function checks if the user answer is right
-void Dialog::answer_is_right(const QString &task, const QString &answer) noexcept
+// Function checks if the users answer is right
+void MainWindow::answer_is_right(const QString &task, const QString &answer) noexcept
 {
     ++answers_counter;
     if(task == answer){
         ++right_answers;
-        ui->result_label->setText("+");
-        ui->result_label->setStyleSheet("QLabel { color : green; }");
+        ui->resultLabel->setText("+");
+        ui->resultLabel->setStyleSheet("QLabel { color : green; }");
     }
     else{
-        ui->result_label->setText("-");
-        ui->result_label->setStyleSheet("QLabel { color : red; }");
+        ui->resultLabel->setText("-");
+        ui->resultLabel->setStyleSheet("QLabel { color : red; }");
     }
 
     // let's hide label after 2 seconds
-    ui->result_label->setVisible(true);
-    QTimer::singleShot(2000, ui->result_label, &QLabel::hide);
+    ui->resultLabel->setVisible(true);
+    QTimer::singleShot(2000, ui->resultLabel, &QLabel::hide);
 
 }
 
 // Function displays on edit line word (rus) from the DB
-void Dialog::display_first_word()
+void MainWindow::display_first_word()
 {
     auto iter = data_base.cbegin();
     std::advance(iter, counter);
 
     // displays word for the user
-    ui->lineEdit->setText(QString::fromStdString(iter->second));
+    ui->lineTask->setText(QString::fromStdString(iter->second));
 
     ++counter;
 }
+
 
 
 // Function reads the data from the DB
 // and saves it into map,
 // then displays the very first word for the user.
 // Obviously, this is the start of the user's session
-void Dialog::read_data_from_DB()
+void MainWindow::read_data_from_DB()
 {
     std::ifstream input_stream("/home/andrey/eng_words_temp_db.txt");
+
     if(!input_stream){
         qDebug() << "Couldn't open a file for reading data from DB";
+        return;
     }
 
     std::string temp_str;
@@ -102,12 +96,23 @@ void Dialog::read_data_from_DB()
 }
 
 
+// Function displays a user's result when he/she pushes button "Stats"
+// After closing this dialog window function returns focus on edit line
+void MainWindow::on_statsButton_clicked()
+{
+    QMessageBox::information(this, "Results", "Succesful answers: 100%");
+    // let's return focus on the second lineEdit after closing dialog window
+    ui->lineUser->setFocus();
+}
+
+
+
 // Function do logic when user pushes the button "Next".
 // It displays every time a next word
 // and test user's answer is it correct or not
 // save the results and then show it
 // when user press "Stats" or the session ends.
-void Dialog::on_nextButton_clicked()
+void MainWindow::on_nextButton_clicked()
 {
     // when user pushes this button we should check
     // his answer and show him the next word
@@ -121,7 +126,7 @@ void Dialog::on_nextButton_clicked()
     // first of all let's check if counter less then words we have in the data base
     if(counter == data_base.size()){
         // save the last user's answer
-        QString user_answer = ui->lineEdit_2->text();
+        QString user_answer = ui->lineUser->text();
 
         // test it DELETE IT!
         qDebug() << user_answer;
@@ -135,23 +140,23 @@ void Dialog::on_nextButton_clicked()
         QMessageBox::information(this, "Results", "Succesful answers: 100%");
 
         // let's clear line
-        ui->lineEdit_2->clear();
+        ui->lineUser->clear();
 
         // let's block edit_line2 while user pushes restart
-        ui->lineEdit_2->setDisabled(true);
+        ui->lineUser->setDisabled(true);
 
         // let's make button "Next" unaccessable
-        ui->nextButton->setDisabled(true);
+        ui->restartButton->setDisabled(true);
 
         return;
     }
 
     // let's read user's answer from the line
-    QString user_answer = ui->lineEdit_2->text();
+    QString user_answer = ui->lineUser->text();
     qDebug() << user_answer;
 
     // let's clear line
-    ui->lineEdit_2->clear();
+    ui->lineUser->clear();
 
     // show for the user the word
     display_first_word();
@@ -162,19 +167,20 @@ void Dialog::on_nextButton_clicked()
     answer_is_right(QString::fromStdString(task->first), user_answer);
 }
 
+
 // Function begins the session from the top
 // when user pushes button "Restart".
-void Dialog::on_restartButton_clicked()
+void MainWindow::on_restartButton_clicked()
 {
     // Restart lesson from the top
     // make lineEdit_2 not disabled
-    ui->lineEdit_2->setDisabled(false);
+    ui->lineUser->setDisabled(false);
 
-    // let's make button "Ok" accessable
+    // let's make button "Next" accessable
     ui->nextButton->setDisabled(false);
 
     // let's make focus on edit line 2
-    ui->lineEdit_2->setFocus();
+    ui->lineUser->setFocus();
 
     // let/s make progress bar empty
     ui->progressBar->setValue(0);
@@ -190,40 +196,5 @@ void Dialog::on_restartButton_clicked()
 
     // show for the user the very first word
     display_first_word();
-}
-
-
-// Function displays a user's result when he/she pushes button "Stats"
-// After closing this dialog window function returns focus on edit line
-void Dialog::on_statsButton_clicked()
-{
-    QMessageBox::information(this, "Results", "Succesful answers: 100%");
-    // let's return focus on the second lineEdit after closing dialog window
-    ui->lineEdit_2->setFocus();
-}
-
-
-// Function prompts for the user choice
-// The user can set a mode for a lesson
-void Dialog::on_confirmButton_clicked()
-{
-    // CHANGE qDebug() to the real logic!!!
-    switch (ui->comboBox->currentIndex()) {
-    case All_Modes::RUS_ENG:
-        qDebug() << "RUS_ENG";
-        break;
-    case All_Modes::ENG_RUS:
-        qDebug() << "ENG_RUS";
-        break;
-    case All_Modes::RUS_SWE:
-        qDebug() << "RUS_SWE";
-        break;
-    case All_Modes::SWE_RUS:
-        qDebug() << "SWE_RUS";
-        break;
-    }
-
-    // let's return focus on the second lineEdit after closing dialog window
-    ui->lineEdit_2->setFocus();
 }
 
