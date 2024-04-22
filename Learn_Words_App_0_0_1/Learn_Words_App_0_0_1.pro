@@ -10,21 +10,27 @@ CONFIG += c++17
 
 SOURCES += \
     addoneword.cpp \
+    deleteoneword.cpp \
     main.cpp \
     mainwindow.cpp \
     opendb.cpp \
+    setword.cpp \
     usersession.cpp
 
 HEADERS += \
     addoneword.h \
     all_sizes.h \
+    deleteoneword.h \
     mainwindow.h \
     opendb.h \
+    setword.h \
     usersession.h
 
 FORMS += \
     addoneword.ui \
+    deleteoneword.ui \
     mainwindow.ui \
+    setword.ui \
     usersession.ui
 
 # Default rules for deployment.

@@ -4,9 +4,10 @@
 #include <QMainWindow>
 #include "usersession.h"
 #include "addoneword.h"
+#include "deleteoneword.h"
+#include "setword.h"
 #include <memory>
-#include <unordered_map>
-#include <string>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +28,12 @@ private slots:
 
     void on_actionAdd_word_triggered();
 
+    void on_actionStats_triggered();
+
+    void on_actionSet_word_triggered();
+
+    void on_actionDelete_word_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -34,7 +41,10 @@ private:
 
     std::unique_ptr<AddOneWord> add_one_word_session;
 
-    //void read_data_from_DB();
+    std::unique_ptr<SetWord> set_one_word_session;
+
+    std::unique_ptr<DeleteOneWord> del_one_word_session;
+
 
 };
 #endif // MAINWINDOW_H

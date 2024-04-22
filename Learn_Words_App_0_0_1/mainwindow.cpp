@@ -1,16 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//#include <fstream>
-//#include <QDebug>
-//#include <string>
-//#include <boost/algorithm/string.hpp>
-#include<all_sizes.h>
+#include <all_sizes.h>
+#include <QMessageBox>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    // when user pushes "finish lesson" we close the program
+    // and show him his result
+    connect(ui->actionFinish_lesson, SIGNAL(triggered(bool)), this, SLOT(close()));
 }
 
 MainWindow::~MainWindow()
@@ -54,9 +56,32 @@ void MainWindow::on_actionStart_lesson_triggered()
 
 void MainWindow::on_actionAdd_word_triggered()
 {
-    // here we will call add word widget
+    // here we call add word widget
     add_one_word_session = std::make_unique<AddOneWord>(this);
     add_one_word_session->resize(Sizes::ADD_WORD_DIALOG_WIDTH, Sizes::ADD_WORD_DIALOG_HEIGHT);
     add_one_word_session->show();
+}
+
+
+void MainWindow::on_actionStats_triggered()
+{
+    // here we call a Message box with user's result
+    // in percentes
+    QMessageBox::information(this, "Result", "Successful answers: 100 %");
+}
+
+
+void MainWindow::on_actionSet_word_triggered()
+{
+    set_one_word_session = std::make_unique<SetWord>(this);
+    set_one_word_session->show();
+}
+
+
+void MainWindow::on_actionDelete_word_triggered()
+{
+    // call the delete word dialog
+    del_one_word_session = std::make_unique<DeleteOneWord>(this);
+    del_one_word_session->show();
 }
 

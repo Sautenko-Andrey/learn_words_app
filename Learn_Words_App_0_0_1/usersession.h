@@ -2,8 +2,6 @@
 #define USERSESSION_H
 
 #include <QDialog>
-#include <map>
-#include <string>
 
 namespace Ui {
 class UserSession;
