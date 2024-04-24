@@ -112,7 +112,7 @@ void Dialog::on_nextButton_clicked()
     // when user pushes this button we should check
     // his answer and show him the next word
 
-    // let's show the progress by changing the progressBar value
+    // let's show the progress by changing the progress Bar value
     unsigned user_progress = (steps / data_base.size()) * 100;
     qDebug() << user_progress;
     ui->progressBar->setValue(user_progress);

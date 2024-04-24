@@ -4,6 +4,8 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include <QtSql>
+#include <QTimer>
+#include <QHash>
 
 UserSession::UserSession(QWidget *parent)
     : QDialog(parent)
@@ -11,89 +13,178 @@ UserSession::UserSession(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Read all data from the DB and save in the container
+    QSqlQuery get_all_words_query(db.get_my_db());
+    get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
+    // fill the container
+    while(get_all_words_query.next()){
+        all_words.insert(get_all_words_query.value(0).toString(),
+                         get_all_words_query.value(1).toString());
+    }
+
+    // let's show the very first word(rus) to user
+    QString first_word = all_words.cbegin().value();
+    ui->taskLineEdit->setText(first_word);
+    ++counter;
+
     // Let's make focus on user's edit line
     ui->userLineEdit->setFocus();
 
     // Let's set progress bar value equal to null
     ui->progressBar->setValue(0);
 
-    // Let's show the tasks for the user
-    QSqlQuery query(db.get_my_db());
-
-    // rus -> eng mode
-    // Showing to user the very first rus word from the data base
-    query.prepare("SELECT rus_word FROM ENG_RUS_WORDS ORDER BY id LIMIT 1");
-
-    if(!query.exec()){
-        qDebug() << db.get_my_db().lastError().text();
-    }
-
-    // showing the task
-    while(query.next()){
-        ui->taskLineEdit->setText(query.value(0).toString());
-    }
-
-
-    while(query.next()){
-        qDebug() << query.value(0);
-    }
+    // Make button "Stats" closed before user inputs the first answer
+    ui->statsButton->setDisabled(true);
 
     // when user uses "Finish" button we close current learning session
     connect(ui->finishButton, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
+
 
 UserSession::~UserSession()
 {
     delete ui;
 }
 
-void UserSession::on_nextButton_clicked()
+// Function checks if the user answer is right
+void UserSession::answer_is_right(const QString &task, const QString &answer) noexcept
 {
-    // Let's clear a previous word(task)
-    ui->taskLineEdit->clear();
-
-    // let's clear user edit line
-    ui->userLineEdit->clear();
-
-    // let's show the progress by changing the progressBar value
-    // Let's get a number of words in the data base
-    QSqlQuery query(db.get_my_db());
-    query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");
-
-    if(query.first()){
-
-        // We display user's progress through progress bar
-        unsigned total_words = query.value(0).toUInt();
-        unsigned user_progress = (progress_steps / total_words) * 100;
-        ui->progressBar->setValue(user_progress);
-
-        // when all tasks are passed we show result to user
-        if(static_cast<unsigned>(progress_steps) == total_words){
-            QMessageBox::information(this, "Lesson is finished", "Rigth answers: 100 %");
-
-            // and we make user edit line closed until user press button "Restart"
-            ui->userLineEdit->setDisabled(true);
-        }
-        progress_steps += 1.0;
-    }
-
-    // let's show to user the next word(task)
-    // let's make a new query
-    QSqlQuery task_query(db.get_my_db());
-    task_query.prepare("SELECT rus_word FROM ENG_RUS_WORDS ORDER BY id LIMIT 1 OFFSET :my_offset");
-    task_query.bindValue(":my_offset", offset);
-    if(!task_query.exec()){
-        qDebug() << db.get_my_db().lastError().text();
-        QMessageBox::information(this, "Error", "Couldn't load word from data base.");
-        return;
+    ++answers_counter;
+    if(task == answer)
+    {
+        ++right_answers;
+        ui->resultLabel->setText("+");
+        ui->resultLabel->setStyleSheet("QLabel { color : green; }");
     }
     else{
-        // let's show the word
-        while(task_query.next()){
-            ui->taskLineEdit->setText(task_query.value(0).toString());
-            //qDebug() << "rus word: " << task_query.value(0);
-            ++offset; // if OK we increment counter offset
-        }
+        ui->resultLabel->setText("-");
+        ui->resultLabel->setStyleSheet("QLabel { color : red; }");
     }
 
+    // let's hide the result label after 2 seconds
+    ui->resultLabel->setVisible(true);
+    QTimer::singleShot(2000, ui->resultLabel, &QLabel::hide);
 }
+
+// Function displays on edit line word (rus) from the DB
+void UserSession::display_first_word()
+{
+    auto iter = all_words.cbegin();
+    std::advance(iter, counter);
+
+    // displays word for the user
+    ui->taskLineEdit->setText(iter.value());
+
+    ++counter;
+}
+
+void UserSession::get_stats() noexcept
+{
+    auto result = (static_cast<float>(right_answers) / answers_counter) * 100;
+
+    // we show user results
+    QMessageBox::information(this, "Results",
+                             "Successful answers: "
+                                 + QString::number(result, 'f', 2) + " %");
+}
+
+
+void UserSession::on_nextButton_clicked()
+{
+    // We display user's progress through progress bar
+    unsigned user_progress = (progress_steps / all_words.size()) * 100;
+    ui->progressBar->setValue(user_progress);
+    progress_steps += 1.0;
+
+    // Make "Stats" button available
+    ui->statsButton->setDisabled(false);
+
+    // first of all let's check if counter less then words we have in the data base
+    if(counter == all_words.size()){
+        // save the last user's answer
+        QString last_user_answer = ui->userLineEdit->text();
+
+        // we have to check the very last user answer as well
+        auto last_it = all_words.cbegin();
+        std::advance(last_it, all_words.size() - 1);
+
+        //answer_is_right(last_task, last_user_answer);
+        answer_is_right(last_it.key(), last_user_answer);
+
+        get_stats();
+
+        // let's clear user's line
+        ui->userLineEdit->clear();
+
+        // let's block user's line while user pushes restart
+        ui->userLineEdit->setDisabled(true);
+
+        // let's make button "Next" unaccessable
+        ui->nextButton->setDisabled(true);
+
+        // make focus on the "Restart" button
+        ui->restartButton->setFocus();
+
+        // clear the task line
+        ui->taskLineEdit->clear();
+
+        return;
+    }
+
+    // let's read user's answer from the line
+    QString user_answer = ui->userLineEdit->text();
+
+    // let's clear line
+    ui->userLineEdit->clear();
+
+    // show for the user the word
+    display_first_word();
+
+    // let's check user answer
+    auto task = all_words.cbegin();
+    std::advance(task, answers_counter);
+
+    //QString user_task = task.value();
+    answer_is_right(task.key(), user_answer);
+}
+
+
+void UserSession::on_restartButton_clicked()
+{
+    // Let's unlock user edit line and next button
+    ui->userLineEdit->setDisabled(false);
+    ui->nextButton->setDisabled(false);
+
+    // Make "Stats" button closed before the first click "Next"
+    ui->statsButton->setDisabled(true);
+
+    // let's make focus to user line edit
+    ui->userLineEdit->setFocus();
+
+    // let's make progress bar value as it was from the start
+    ui->progressBar->setValue(0);
+
+    // let's make progress steps as it was from the start
+    progress_steps = 1.0;
+
+    // counter must starts from the scratch
+    counter = 0;
+
+    // answers counter starts from the scratch as well
+    answers_counter = 0;
+
+    // right answers starts from the scratch as well
+    right_answers = 0;
+
+    // let's show the very first word(task) to the user
+    display_first_word();
+}
+
+void UserSession::on_statsButton_clicked()
+{
+    get_stats();
+
+    // return focus on user's edit line
+    ui->userLineEdit->setFocus();
+}
+

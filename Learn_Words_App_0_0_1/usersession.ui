@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Learning session</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
@@ -36,7 +36,13 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="userLineEdit"/>
+     <widget class="QLineEdit" name="userLineEdit">
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="nextButton">
@@ -114,6 +120,24 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="resultLabel">
+   <property name="geometry">
+    <rect>
+     <x>400</x>
+     <y>135</y>
+     <width>51</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
   </widget>
  </widget>
  <resources/>
