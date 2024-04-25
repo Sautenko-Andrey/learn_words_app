@@ -1,9 +1,11 @@
-#ifndef OPENDB_H
-#define OPENDB_H
+#ifndef COMMON_H
+#define COMMON_H
 
 #include <QString>
 #include <QDir>
 #include <QSqlDatabase>
+
+
 
 // Class for opening/closing sqlite3 data base
 class OpenDB
@@ -17,4 +19,4 @@ public:
     QSqlDatabase& get_my_db() { return my_db; }
 };
 
-#endif // OPENDB_H
+#endif // COMMON_H

@@ -10,19 +10,19 @@ CONFIG += c++17
 
 SOURCES += \
     addoneword.cpp \
+    common.cpp \
     deleteoneword.cpp \
     main.cpp \
     mainwindow.cpp \
-    opendb.cpp \
     setword.cpp \
     usersession.cpp
 
 HEADERS += \
     addoneword.h \
     all_sizes.h \
+    common.h \
     deleteoneword.h \
     mainwindow.h \
-    opendb.h \
     setword.h \
     usersession.h
 

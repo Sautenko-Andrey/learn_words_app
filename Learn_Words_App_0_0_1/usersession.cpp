@@ -59,6 +59,15 @@ void UserSession::answer_is_right(const QString &task, const QString &answer) no
     else{
         ui->resultLabel->setText("-");
         ui->resultLabel->setStyleSheet("QLabel { color : red; }");
+
+        // show to user information window with the correct answer
+        QMessageBox *mbox = new QMessageBox();
+        mbox->resize(75, 50);
+        mbox->setWindowTitle("Fail!");
+        mbox->setText("Correct answer: <b><u>" + task + "</u></b>");
+        mbox->setStyleSheet("background-color:gray;");
+        mbox->show();
+        QTimer::singleShot(2000, mbox, SLOT(hide()));
     }
 
     // let's hide the result label after 2 seconds

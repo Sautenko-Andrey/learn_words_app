@@ -1,7 +1,8 @@
-#include "opendb.h"
+#include "common.h"
 #include <QtSql>
 #include <QDebug>
 
+// Constructor for the class OpenDB
 OpenDB::OpenDB()
 {
     // Specify the path to the db

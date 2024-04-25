@@ -2,7 +2,8 @@
 #define USERSESSION_H
 
 #include <QDialog>
-#include "opendb.h"
+#include "common.h"
+#include <memory>
 
 namespace Ui {
 class UserSession;
