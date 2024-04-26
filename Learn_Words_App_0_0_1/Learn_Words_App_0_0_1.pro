@@ -9,26 +9,26 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    addoneword.cpp \
+    addword.cpp \
     common.cpp \
-    deleteoneword.cpp \
+    deleteword.cpp \
     main.cpp \
     mainwindow.cpp \
     setword.cpp \
     usersession.cpp
 
 HEADERS += \
-    addoneword.h \
-    all_sizes.h \
+    addword.h \
     common.h \
-    deleteoneword.h \
+    deleteword.h \
     mainwindow.h \
     setword.h \
+    sizes.h \
     usersession.h
 
 FORMS += \
-    addoneword.ui \
-    deleteoneword.ui \
+    addword.ui \
+    deleteword.ui \
     mainwindow.ui \
     setword.ui \
     usersession.ui

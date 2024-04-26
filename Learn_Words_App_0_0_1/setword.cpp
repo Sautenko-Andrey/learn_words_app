@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QtSql>
+#include <QMessageBox>
 
 SetWord::SetWord(QWidget *parent)
     : QDialog(parent)
@@ -19,7 +20,7 @@ SetWord::SetWord(QWidget *parent)
     ui->setButton->setDisabled(true);
 
     // let's add all modes to the modes combobox
-    for(const auto &mode : modes){
+    for(const auto &mode : MODES){
         ui->mode_comboBox->addItem(mode);
     }
 }
@@ -30,18 +31,50 @@ SetWord::~SetWord()
 }
 
 
-void SetWord::make_set_query(QSqlQuery &query, const QString &data_base_name,
-                    const QString &word_lang, const QString &corrupted_word,
-                    const QString &correct_word)
+void SetWord::make_set_query(const QString &corrupted_word,
+                         const QString &correct_word, All_Modes mode)
 {
-    query.prepare("UPDATE :data_base "
-                  "SET :word = :correct_data WHERE :word = :corrupted_data");
+
+    // Make a query
+    QSqlQuery query(db.get_my_db());
+
+    switch (mode) {
+    case All_Modes::RUS__ENG_RUS:
+        query.prepare("UPDATE ENG_RUS_WORDS SET "
+                      "rus_word = :correct_data "
+                      "WHERE rus_word = :corrupted_data");
+        break;
+
+    case All_Modes::ENG__ENG_RUS:
+        query.prepare("UPDATE ENG_RUS_WORDS SET "
+                      "eng_word = :correct_data "
+                      "WHERE eng_word = :corrupted_data");
+        break;
+
+    case All_Modes::SWE__SWE_RUS:
+        query.prepare("UPDATE SWE_RUS_WORDS SET "
+                      "swe_word = :correct_data "
+                      "WHERE swe_word = :corrupted_data");
+        break;
+
+    case All_Modes::RUS__SWE_RUS:
+        query.prepare("UPDATE SWE_RUS_WORDS SET "
+                      "rus_word = :correct_data "
+                      "WHERE rus_word = :corrupted_data");
+        break;
+    }
+
     query.bindValue(":correct_data", correct_word);
     query.bindValue(":corrupted_data", corrupted_word);
-    query.bindValue(":word", word_lang);
-    query.bindValue(":data_base", data_base_name);
+
     if(!query.exec()){
-        qDebug() << "Error while setting rus word in eng-rus mode";
+        qDebug() << "Error while setting a word in the data base!";
+        QMessageBox::information(this, "Error!",
+                                 "Data base corrupted. Try one more time.");
+        return;
+    }
+    else{
+        ShowTempMessage("Status", "Word has been successfuly setted.", 2000);
     }
 }
 
@@ -52,55 +85,27 @@ void SetWord::on_setButton_clicked()
     QString corrupted_word = ui->word_for_correctLine->text();
     QString correct_word = ui->new_wordLine->text();
 
-    // Make a query
-    QSqlQuery query(db.get_my_db());
-
-    //switch (current_mode) {
+    // depened of mode we set a desired word
     switch (mode_index) {
     case All_Modes::RUS__ENG_RUS:
-        // let's update rus word
-
-        query.prepare("UPDATE ENG_RUS_WORDS "
-                   "SET rus_word = :correct_data WHERE rus_word = :corrupted_data");
-        query.bindValue(":correct_data", correct_word);
-        query.bindValue(":corrupted_data", corrupted_word);
-        if(!query.exec()){
-            qDebug() << "Error while setting rus word in eng-rus mode\n"
-                     << db.get_my_db().lastError().text();
-        }
-        // function doesn't wwork correctly!!! FIX IT!
-        //---------------------------------------------------------------
-        // make_set_query(query, "ENG_RUS_WORDS", "rus_word",
-        //                corrupted_word, correct_word);
-        //-------------------------------------------------------------
-
+        // let's update rus word in eng-rus data base
+        make_set_query(corrupted_word, correct_word, All_Modes::RUS__ENG_RUS);
         break;
 
     case All_Modes::ENG__ENG_RUS:
-        // let's update eng word
-
-        query.prepare("UPDATE ENG_RUS_WORDS "
-                      "SET eng_word = :correct_data WHERE eng_word = :corrupted_data");
-        query.bindValue(":correct_data", correct_word);
-        query.bindValue(":corrupted_data", corrupted_word);
-        if(!query.exec()){
-            qDebug() << "Error while setting eng word in eng-rus mode\n"
-                     << db.get_my_db().lastError().text();
-        }
-
-        // make_set_query(query, "ENG_RUS_WORDS", "eng_word",
-        //                corrupted_word, correct_word);
+        // let's update eng word in eng-rus data base
+        make_set_query(corrupted_word, correct_word, All_Modes::ENG__ENG_RUS);
 
         break;
 
     case All_Modes::SWE__SWE_RUS:
-        // let's update swedish word
-        qDebug() << "Updating a swedish word in swe-rus mode";
+        // let's update swedish word in swe-rus data base
+        make_set_query(corrupted_word, correct_word, All_Modes::SWE__SWE_RUS);
         break;
 
     case All_Modes::RUS__SWE_RUS:
-        // let's update rus word
-        qDebug() << "Updating a rus word in swe-rus mode";
+        // let's update rus word in swe-rus data base
+        make_set_query(corrupted_word, correct_word, All_Modes::RUS__SWE_RUS);
         break;
     }
 
@@ -108,6 +113,11 @@ void SetWord::on_setButton_clicked()
     ui->word_for_correctLine->clear();
     ui->new_wordLine->clear();
 
+    // make "Set" button accessable
+    ui->setButton->setDefault(false);
+
+    // make focus on the first line edit
+    ui->word_for_correctLine->setFocus();
 
 }
 

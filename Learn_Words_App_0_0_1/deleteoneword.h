@@ -27,7 +27,12 @@ private slots:
 private:
     //Ui::DeleteOneWord *ui;
     std::unique_ptr<Ui::DeleteOneWord> ui;
+
     OpenDB db;
+
+    int mode_index;
+
+    void make_delete_query(const QString &target_word, All_Modes mode);
 };
 
 #endif // DELETEONEWORD_H

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "common.h"
 #include <memory>
+#include <QComboBox>
 
 namespace Ui {
 class UserSession;
@@ -46,6 +47,8 @@ private:
     void display_first_word();
 
     void get_stats() noexcept;
+
+
 
 };
 

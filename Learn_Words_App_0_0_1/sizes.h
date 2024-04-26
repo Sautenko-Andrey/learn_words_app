@@ -1,0 +1,14 @@
+#ifndef SIZES_H
+#define SIZES_H
+
+// sizes for widgets
+enum Sizes {
+    MAIN_WINDOW_WIDTH = 1366,
+    MAIN_WINDOW_HEIGHT = 768,
+    ADD_WORD_DIALOG_WIDTH = 509,
+    ADD_WORD_DIALOG_HEIGHT = 108,
+    TEMP_MESSAGE_BOX_WIDTH = 75,
+    TEMP_MESSAGE_BOX_HEIGHT = 50
+};
+
+#endif // SIZES_H

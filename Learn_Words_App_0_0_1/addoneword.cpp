@@ -33,6 +33,12 @@ AddOneWord& AddOneWord::operator=(const AddOneWord &other)
 }
 
 
+void AddOneWord::on_selectButton_clicked()
+{
+    qDebug() << "Select!";
+}
+
+
 // Function addes a one new word into the data base
 void AddOneWord::on_addButton_clicked()
 {
@@ -78,6 +84,8 @@ void AddOneWord::on_addButton_clicked()
     ui->words_counter_Label->clear();
     show_total_words();
 }
+
+
 
 void AddOneWord::show_total_words()
 {

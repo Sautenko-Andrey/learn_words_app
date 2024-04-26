@@ -13,7 +13,21 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="imageLabel">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>10</y>
+      <width>421</width>
+      <height>351</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PIcture</string>
+    </property>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -37,11 +51,8 @@
      <string>Edit</string>
     </property>
     <addaction name="actionAdd_word"/>
-    <addaction name="actionAdd_words"/>
     <addaction name="actionDelete_word"/>
-    <addaction name="actionDelete_words"/>
     <addaction name="actionSet_word"/>
-    <addaction name="actionSet_words"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -88,11 +99,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionAdd_word"/>
-   <addaction name="actionAdd_words"/>
    <addaction name="actionDelete_word"/>
-   <addaction name="actionDelete_words"/>
    <addaction name="actionSet_word"/>
-   <addaction name="actionSet_words"/>
    <addaction name="separator"/>
   </widget>
   <action name="actionAdd_word">
@@ -100,29 +108,14 @@
     <string>Add word</string>
    </property>
   </action>
-  <action name="actionAdd_words">
-   <property name="text">
-    <string>Add words</string>
-   </property>
-  </action>
   <action name="actionDelete_word">
    <property name="text">
     <string>Delete word</string>
    </property>
   </action>
-  <action name="actionDelete_words">
-   <property name="text">
-    <string>Delete words</string>
-   </property>
-  </action>
   <action name="actionSet_word">
    <property name="text">
     <string>Set word</string>
-   </property>
-  </action>
-  <action name="actionSet_words">
-   <property name="text">
-    <string>Set words</string>
    </property>
   </action>
   <action name="actionStart_lesson">

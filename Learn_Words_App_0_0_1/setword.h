@@ -9,7 +9,7 @@ namespace Ui {
 class SetWord;
 }
 
-enum All_Modes{RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
+//enum All_Modes{RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
 
 class SetWord : public QDialog
 {
@@ -30,20 +30,19 @@ private:
 
     OpenDB db;
 
-    const QVector<QString> modes = {
-        "rus (eng-rus mode)",
-        "eng (eng-rus mode)",
-        "swe (swe-rus mode)",
-        "rus (swe-rus mode)"
-    };
+    // const QVector<QString> modes = {
+    //     "rus (eng-rus mode)",
+    //     "eng (eng-rus mode)",
+    //     "swe (swe-rus mode)",
+    //     "rus (swe-rus mode)"
+    // };
 
     All_Modes current_mode;
 
     int mode_index;
 
-    void make_set_query(QSqlQuery &query, const QString &data_base_name,
-                        const QString &word_lang, const QString &corrupted_word,
-                        const QString &correct_word);
+    void make_set_query(const QString &corrupted_word,
+                    const QString &correct_word, All_Modes mode);
 };
 
 #endif // SETWORD_H
