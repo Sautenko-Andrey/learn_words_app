@@ -3,6 +3,8 @@
 #include <all_sizes.h>
 #include <QMessageBox>
 #include <QPixmap>
+#include <QDir>
+#include <QString>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -11,8 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->imageLabel->resize(421, 341);
-    QPixmap pixmap("/home/andrey/languages_6.jpg");
+    ui->imageLabel->resize(626, 626);
+    // Path to main image
+    const QString path_main_image = QDir::homePath() +
+                              "/learn_words_app/Learn_Words_App_0_0_1/main.jpeg";
+    QPixmap pixmap(path_main_image);
     ui->imageLabel->setPixmap(pixmap);
     ui->imageLabel->setMask(pixmap.mask());
 

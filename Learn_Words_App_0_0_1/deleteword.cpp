@@ -11,6 +11,9 @@ DeleteWord::DeleteWord(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Show to user what he has to type in edit lines
+    ui->deleteLineEdit->setPlaceholderText(QString("type word for deleting"));
+
     // let's make the focus on the "Select" button
     ui->setButton->setFocus();
 

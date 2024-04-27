@@ -41,13 +41,9 @@ private:
 
     std::unique_ptr<UserSession> user_session;
 
-    //std::unique_ptr<AddOneWord> add_one_word_session;
-
     std::unique_ptr<AddWord> add_word_session;
 
     std::unique_ptr<SetWord> set_one_word_session;
-
-    //std::unique_ptr<DeleteOneWord> del_one_word_session;
 
     std::unique_ptr<DeleteWord> delete_word_session;
 

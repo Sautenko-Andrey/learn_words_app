@@ -18,6 +18,10 @@ AddWord::AddWord(QWidget *parent)
     ui->rusLine->setDisabled(true);
     ui->addButton->setDisabled(true);
 
+    // Show to user what he has type in edit lines
+    ui->foreignlangLineEdit->setPlaceholderText(QString("type foreign word"));
+    ui->rusLine->setPlaceholderText(QString("type russian word"));
+
     // let's show a number of words in current data base
     show_total_words();
 
@@ -130,7 +134,7 @@ void AddWord::show_total_words()
 
     if(query.first()){
         QString total_words = query.value(0).toString();
-        ui->counterLabel->setText("Total words: " + total_words);
+        ui->counterLabel->setText("<i>Total words: " + total_words + "<\i>");
         return;
     }
 }

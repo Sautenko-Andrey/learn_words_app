@@ -26,7 +26,7 @@
     <string>Counter</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>16</x>
@@ -37,10 +37,22 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QLineEdit" name="foreignlangLineEdit"/>
+     <widget class="QLineEdit" name="foreignlangLineEdit">
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="rusLine"/>
+     <widget class="QLineEdit" name="rusLine">
+      <property name="font">
+       <font>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="addButton">
@@ -51,7 +63,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>

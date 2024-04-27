@@ -1,11 +1,12 @@
 #include "usersession.h"
 #include "ui_usersession.h"
 #include <QMessageBox>
-#include <QSqlQuery>
+// #include <QSqlQuery>
 #include <QDebug>
 #include <QtSql>
 #include <QTimer>
 #include <QHash>
+#include <QPixmap>
 
 UserSession::UserSession(QWidget *parent)
     : QDialog(parent)
@@ -14,27 +15,51 @@ UserSession::UserSession(QWidget *parent)
     ui->setupUi(this);
 
     // Read all data from the DB and save in the container
-    QSqlQuery get_all_words_query(db.get_my_db());
-    get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
-    // fill the container
-    while(get_all_words_query.next()){
-        all_words.insert(get_all_words_query.value(0).toString(),
-                         get_all_words_query.value(1).toString());
-    }
+    // Assuming ENG_RUS data base as default
+    //---------------------------------------------------------------------------OLD
+    // QSqlQuery get_all_words_query(db.get_my_db());
+
+    // get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
+    // // fill the container
+    // while(get_all_words_query.next()){
+    //     all_words.insert(get_all_words_query.value(0).toString(),
+    //                      get_all_words_query.value(1).toString());
+    // }
+    //------------------------------------------------------------------------------OLD
+
+    //--------------NEW------------------------
+    fill_vocabulary(All_Languges::ENG);
+    //--------------NEW-------------------------
+
 
     // let's show the very first word(rus) to user
     QString first_word = all_words.cbegin().value();
     ui->taskLineEdit->setText(first_word);
     ++counter;
 
+    // Show to user what he has type in edit line
+    ui->userLineEdit->setPlaceholderText(QString("type your answer"));
+
     // Let's make focus on user's edit line
-    ui->userLineEdit->setFocus();
+    //ui->userLineEdit->setFocus();
 
     // Let's set progress bar value equal to null
     ui->progressBar->setValue(0);
 
-    // Make button "Stats" closed before user inputs the first answer
+    // Make buttons "Stats" and "Next" closed before user inputs the first answer
     ui->statsButton->setDisabled(true);
+    ui->nextButton->setDisabled(true);
+
+    // Make user's edit line unaccessable before user select mode
+    ui->userLineEdit->setDisabled(true);
+
+    // Make focus on modes select
+    ui->selectButton->setFocus();
+
+    // let's add all modes to the modes combobox
+    for(const auto &mode : LANGUAGES_DB){
+        ui->selectComboBox->addItem(mode);
+    }
 
 
     // when user uses "Finish" button we close current learning session
@@ -47,6 +72,26 @@ UserSession::~UserSession()
     delete ui;
 }
 
+// Function creates and fill a vocabulary
+void UserSession::fill_vocabulary(All_Languges mode)
+{
+    QSqlQuery get_all_words_query(db.get_my_db());
+
+    if(mode == All_Languges::ENG){
+        get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
+    }
+    else{
+        get_all_words_query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS");
+    }
+
+    // fill the container
+    while(get_all_words_query.next()){
+        all_words.insert(get_all_words_query.value(0).toString(),
+                         get_all_words_query.value(1).toString());
+    }
+}
+
+
 // Function checks if the user answer is right
 void UserSession::answer_is_right(const QString &task, const QString &answer) noexcept
 {
@@ -54,12 +99,15 @@ void UserSession::answer_is_right(const QString &task, const QString &answer) no
     if(task == answer)
     {
         ++right_answers;
-        ui->resultLabel->setText("+");
-        ui->resultLabel->setStyleSheet("QLabel { color : green; }");
+        QPixmap pixmap(PathToIcon("done.png"));
+        ui->resultLabel->setPixmap(pixmap);
+        ui->resultLabel->setMask(pixmap.mask());
     }
     else{
-        ui->resultLabel->setText("-");
-        ui->resultLabel->setStyleSheet("QLabel { color : red; }");
+        QPixmap pixmap(PathToIcon("fail.png"));
+        ui->resultLabel->setPixmap(pixmap);
+        ui->resultLabel->setMask(pixmap.mask());
+
 
         // show to user information window with the correct answer
         ShowTempMessage("Fail!",
@@ -95,7 +143,7 @@ void UserSession::get_stats() noexcept
 
 
 void UserSession::on_nextButton_clicked()
-{
+{   
     // We display user's progress through progress bar
     unsigned user_progress = (progress_steps / all_words.size()) * 100;
     ui->progressBar->setValue(user_progress);
@@ -191,5 +239,35 @@ void UserSession::on_statsButton_clicked()
 
     // return focus on user's edit line
     ui->userLineEdit->setFocus();
+}
+
+
+void UserSession::on_selectButton_clicked()
+{
+    // make edit lines and "Next" button accessable
+    ui->taskLineEdit->setDisabled(false);
+    ui->userLineEdit->setDisabled(false);
+    ui->nextButton->setDisabled(false);
+
+    // make the user's edit line on focus
+    ui->userLineEdit->setFocus();
+
+    // saving chosen mode by user
+    mode_index = ui->selectComboBox->currentIndex();
+
+    // Focus on the user's edit line
+    ui->userLineEdit->setFocus();
+
+    //-----------------------------------------NEW---
+
+    // Check if user changed mode
+    qDebug() << mode_index;
+    if(mode_index == All_Languges::SWE){
+        // It means that user changed data base to SWE_RUS
+        // We have to upload this db instead of ENG_RUS data base
+        fill_vocabulary(All_Languges::SWE);
+    }
+
+    //------------------------NEW-------------------------------
 }
 

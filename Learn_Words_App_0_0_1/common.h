@@ -28,7 +28,7 @@ const QVector<QString> LANGUAGES_DB = {
     "swe-rus"
 };
 
-const QString BACKGROUND_COLOR = "background-color:gray;";
+const QString BACKGROUND_COLOR = "background-color:lightGray;";
 
 // Common classes
 
@@ -36,7 +36,7 @@ const QString BACKGROUND_COLOR = "background-color:gray;";
 class OpenDB
 {
     QSqlDatabase my_db = QSqlDatabase::addDatabase("QSQLITE","Connection");
-    QString path_to_db = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/data.db";
+    const QString path_to_db = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/data.db";
 public:
     OpenDB();
     ~OpenDB() { my_db.close(); }
@@ -46,6 +46,9 @@ public:
 
 // Function displays custom QMessagebox when it needs
 void ShowTempMessage(const QString &title, const QString &message, unsigned milisecs);
+
+// Function shows an icon you choose
+QString& PathToIcon(QString &&file_name) noexcept;
 
 
 #endif // COMMON_H

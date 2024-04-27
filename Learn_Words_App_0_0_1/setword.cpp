@@ -14,6 +14,10 @@ SetWord::SetWord(QWidget *parent)
     // Make focus on the mode box
     ui->mode_comboBox->setFocus();
 
+    // Show to user what he has to type in edit lines
+    ui->word_for_correctLine->setPlaceholderText(QString("type incorrect word"));
+    ui->new_wordLine->setPlaceholderText(QString("type correct word"));
+
     // Make both edit lines and "Set" button unaccessable
     ui->word_for_correctLine->setDisabled(true);
     ui->new_wordLine->setDisabled(true);
