@@ -9,7 +9,6 @@ namespace Ui {
 class SetWord;
 }
 
-//enum All_Modes{RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
 
 class SetWord : public QDialog
 {
@@ -29,13 +28,6 @@ private:
     Ui::SetWord *ui;
 
     OpenDB db;
-
-    // const QVector<QString> modes = {
-    //     "rus (eng-rus mode)",
-    //     "eng (eng-rus mode)",
-    //     "swe (swe-rus mode)",
-    //     "rus (swe-rus mode)"
-    // };
 
     All_Modes current_mode;
 

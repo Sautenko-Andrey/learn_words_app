@@ -1,7 +1,6 @@
 #include "usersession.h"
 #include "ui_usersession.h"
 #include <QMessageBox>
-// #include <QSqlQuery>
 #include <QDebug>
 #include <QtSql>
 #include <QTimer>
@@ -17,20 +16,26 @@ UserSession::UserSession(QWidget *parent)
     // Read all data from the DB and save in the container
     // Assuming ENG_RUS data base as default
     //---------------------------------------------------------------------------OLD
-    // QSqlQuery get_all_words_query(db.get_my_db());
+    QSqlQuery get_all_words_query(db.get_my_db());
 
-    // get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
-    // // fill the container
-    // while(get_all_words_query.next()){
-    //     all_words.insert(get_all_words_query.value(0).toString(),
-    //                      get_all_words_query.value(1).toString());
-    // }
-    //------------------------------------------------------------------------------OLD
+    // ATTENTION! Using global variable for getting knowladge about
+    // what language mode user has choosen
+    extern All_Languges USER_LANGUAGE_MODE;
+    if(USER_LANGUAGE_MODE == All_Languges::ENG){
+        get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
+        // Set language flag
+        DrawLangLabel(ui->current_languageLabel, "eng_flag.png");
+    }
+    else{
+        get_all_words_query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS");
+        DrawLangLabel(ui->current_languageLabel, "swe_flag.png");
+    }
 
-    //--------------NEW------------------------
-    fill_vocabulary(All_Languges::ENG);
-    //--------------NEW-------------------------
-
+    // fill the container
+    while(get_all_words_query.next()){
+        all_words.insert(get_all_words_query.value(0).toString(),
+                         get_all_words_query.value(1).toString());
+    }
 
     // let's show the very first word(rus) to user
     QString first_word = all_words.cbegin().value();
@@ -41,26 +46,13 @@ UserSession::UserSession(QWidget *parent)
     ui->userLineEdit->setPlaceholderText(QString("type your answer"));
 
     // Let's make focus on user's edit line
-    //ui->userLineEdit->setFocus();
+    ui->userLineEdit->setFocus();
 
     // Let's set progress bar value equal to null
     ui->progressBar->setValue(0);
 
-    // Make buttons "Stats" and "Next" closed before user inputs the first answer
+    // Make buttons "Stats" closed before user inputs the first answer
     ui->statsButton->setDisabled(true);
-    ui->nextButton->setDisabled(true);
-
-    // Make user's edit line unaccessable before user select mode
-    ui->userLineEdit->setDisabled(true);
-
-    // Make focus on modes select
-    ui->selectButton->setFocus();
-
-    // let's add all modes to the modes combobox
-    for(const auto &mode : LANGUAGES_DB){
-        ui->selectComboBox->addItem(mode);
-    }
-
 
     // when user uses "Finish" button we close current learning session
     connect(ui->finishButton, SIGNAL(clicked(bool)), this, SLOT(close()));
@@ -70,25 +62,6 @@ UserSession::UserSession(QWidget *parent)
 UserSession::~UserSession()
 {
     delete ui;
-}
-
-// Function creates and fill a vocabulary
-void UserSession::fill_vocabulary(All_Languges mode)
-{
-    QSqlQuery get_all_words_query(db.get_my_db());
-
-    if(mode == All_Languges::ENG){
-        get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS");
-    }
-    else{
-        get_all_words_query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS");
-    }
-
-    // fill the container
-    while(get_all_words_query.next()){
-        all_words.insert(get_all_words_query.value(0).toString(),
-                         get_all_words_query.value(1).toString());
-    }
 }
 
 
@@ -204,6 +177,12 @@ void UserSession::on_nextButton_clicked()
 
 void UserSession::on_restartButton_clicked()
 {
+    // Show warning message to the user
+    // if he tryes to restart session in the middle
+    if(progress_steps < all_words.size()){
+        QMessageBox::warning(this, "Warning!", "Your progress will be losen");
+    }
+
     // Let's unlock user edit line and next button
     ui->userLineEdit->setDisabled(false);
     ui->nextButton->setDisabled(false);
@@ -240,34 +219,3 @@ void UserSession::on_statsButton_clicked()
     // return focus on user's edit line
     ui->userLineEdit->setFocus();
 }
-
-
-void UserSession::on_selectButton_clicked()
-{
-    // make edit lines and "Next" button accessable
-    ui->taskLineEdit->setDisabled(false);
-    ui->userLineEdit->setDisabled(false);
-    ui->nextButton->setDisabled(false);
-
-    // make the user's edit line on focus
-    ui->userLineEdit->setFocus();
-
-    // saving chosen mode by user
-    mode_index = ui->selectComboBox->currentIndex();
-
-    // Focus on the user's edit line
-    ui->userLineEdit->setFocus();
-
-    //-----------------------------------------NEW---
-
-    // Check if user changed mode
-    qDebug() << mode_index;
-    if(mode_index == All_Languges::SWE){
-        // It means that user changed data base to SWE_RUS
-        // We have to upload this db instead of ENG_RUS data base
-        fill_vocabulary(All_Languges::SWE);
-    }
-
-    //------------------------NEW-------------------------------
-}
-

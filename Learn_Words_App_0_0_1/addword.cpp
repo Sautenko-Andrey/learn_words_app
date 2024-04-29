@@ -34,6 +34,7 @@ AddWord::AddWord(QWidget *parent)
     }
 }
 
+
 AddWord::~AddWord()
 {
     delete ui;
@@ -53,12 +54,10 @@ void AddWord::on_addButton_clicked()
         return;
     }
 
-
     // set focus on the eng line edit
     ui->foreignlangLineEdit->setFocus();
 
     // let's read words from line edits
-
     QString user_foreign_word = ui->foreignlangLineEdit->text();
     QString user_rus_word = ui->rusLine->text();
 
@@ -85,9 +84,8 @@ void AddWord::on_addButton_clicked()
         return;
     }
     else{
-        ShowTempMessage("Status", "A new word has been successfuly added.", 2000);
+        ShowTempMessage("Status", "A new word has been successfuly added.", 1000);
     }
-
 
     // let's clean both edit lines
     ui->foreignlangLineEdit->clear();
@@ -134,7 +132,7 @@ void AddWord::show_total_words()
 
     if(query.first()){
         QString total_words = query.value(0).toString();
-        ui->counterLabel->setText("<i>Total words: " + total_words + "<\i>");
+        ui->counterLabel->setText("<i>Total words: " + total_words + "</i>");
         return;
     }
 }

@@ -6,6 +6,9 @@
 #include <QSqlDatabase>
 #include <QVector>
 #include <QMessageBox>
+#include <QPixmap>
+#include <QLabel>
+
 
 
 //Common data
@@ -49,6 +52,10 @@ void ShowTempMessage(const QString &title, const QString &message, unsigned mili
 
 // Function shows an icon you choose
 QString& PathToIcon(QString &&file_name) noexcept;
+
+
+void DrawLangLabel(QLabel *label, const QString &path);
+
 
 
 #endif // COMMON_H

@@ -3,11 +3,10 @@
 
 #include <QMainWindow>
 #include "usersession.h"
-//#include "addoneword.h"
 #include "addword.h"
-//#include "deleteoneword.h"
 #include "deleteword.h"
 #include "setword.h"
+#include "changelessonmode.h"
 #include <memory>
 
 
@@ -36,6 +35,10 @@ private slots:
 
     void on_actionDelete_word_triggered();
 
+    void on_actionChange_mode_triggered();
+
+    void on_actionFinish_lesson_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -46,6 +49,8 @@ private:
     std::unique_ptr<SetWord> set_one_word_session;
 
     std::unique_ptr<DeleteWord> delete_word_session;
+
+    std::unique_ptr<ChangeLessonMode> change_lesson_mode_session;
 
 
 };

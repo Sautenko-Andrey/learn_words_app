@@ -43,7 +43,6 @@
     </property>
     <addaction name="actionStart_lesson"/>
     <addaction name="actionFinish_lesson"/>
-    <addaction name="actionRestart_lesson"/>
     <addaction name="actionStats"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -76,7 +75,6 @@
    </attribute>
    <addaction name="actionStart_lesson"/>
    <addaction name="actionFinish_lesson"/>
-   <addaction name="actionRestart_lesson"/>
    <addaction name="actionStats"/>
    <addaction name="actionChange_mode"/>
    <addaction name="separator"/>
@@ -127,15 +125,6 @@
    </property>
    <property name="text">
     <string>Finish</string>
-   </property>
-  </action>
-  <action name="actionRestart_lesson">
-   <property name="icon">
-    <iconset resource="all_resources.qrc">
-     <normaloff>:/all_pics/restart.png</normaloff>:/all_pics/restart.png</iconset>
-   </property>
-   <property name="text">
-    <string>Restart</string>
    </property>
   </action>
   <action name="actionStats">

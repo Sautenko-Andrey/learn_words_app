@@ -37,3 +37,12 @@ QString& PathToIcon(QString &&file_name) noexcept
     file_name = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + file_name;
     return file_name;
 }
+
+void DrawLangLabel(QLabel *label, const QString &path)
+{
+
+    QString full_path = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + path;
+    QPixmap curr_lang_pixmap(full_path);
+    label->setPixmap(curr_lang_pixmap);
+    label->setMask(curr_lang_pixmap.mask());
+}

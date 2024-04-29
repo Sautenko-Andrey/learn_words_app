@@ -34,7 +34,6 @@ DeleteWord::~DeleteWord()
 void DeleteWord::on_deleteButton_clicked()
 {
     // Action when user clickes on delete button
-
     // let's read users data from edit lines
     QString target_word = ui->deleteLineEdit->text();
 
@@ -69,7 +68,6 @@ void DeleteWord::on_deleteButton_clicked()
 
     // make focus on the line edit
     ui->deleteLineEdit->setFocus();
-
 }
 
 
@@ -84,7 +82,6 @@ void DeleteWord::on_setButton_clicked()
 
     // saving chosen mode by user
     mode_index = ui->modeComboBox->currentIndex();
-
 }
 
 void DeleteWord::make_delete_query(const QString &target_word, All_Modes mode)

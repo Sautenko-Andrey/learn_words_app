@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     addword.cpp \
+    changelessonmode.cpp \
     common.cpp \
     deleteword.cpp \
     main.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     addword.h \
+    changelessonmode.h \
     common.h \
     deleteword.h \
     mainwindow.h \
@@ -28,6 +30,7 @@ HEADERS += \
 
 FORMS += \
     addword.ui \
+    changelessonmode.ui \
     deleteword.ui \
     mainwindow.ui \
     setword.ui \

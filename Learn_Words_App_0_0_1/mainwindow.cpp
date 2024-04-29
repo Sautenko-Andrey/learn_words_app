@@ -20,11 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     QPixmap pixmap(path_main_image);
     ui->imageLabel->setPixmap(pixmap);
     ui->imageLabel->setMask(pixmap.mask());
-
-    // when user pushes "finish lesson" we close the program
-    // and show him his result
-    connect(ui->actionFinish_lesson, SIGNAL(triggered(bool)), this, SLOT(close()));
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -43,10 +40,6 @@ void MainWindow::on_actionStart_lesson_triggered()
 void MainWindow::on_actionAdd_word_triggered()
 {
     // here we call add word widget
-    // add_one_word_session = std::make_unique<AddOneWord>(this);
-    // add_one_word_session->resize(Sizes::ADD_WORD_DIALOG_WIDTH, Sizes::ADD_WORD_DIALOG_HEIGHT);
-    // add_one_word_session->show();
-
     add_word_session = std::make_unique<AddWord>(this);
     add_word_session->show();
 }
@@ -70,9 +63,27 @@ void MainWindow::on_actionSet_word_triggered()
 void MainWindow::on_actionDelete_word_triggered()
 {
     // call the delete word dialog
-    // del_one_word_session = std::make_unique<DeleteOneWord>(this);
-    // del_one_word_session->show();
     delete_word_session = std::make_unique<DeleteWord>(this);
     delete_word_session->show();
+}
+
+
+void MainWindow::on_actionChange_mode_triggered()
+{
+    change_lesson_mode_session = std::make_unique<ChangeLessonMode>(this);
+    change_lesson_mode_session->show();
+}
+
+
+void MainWindow::on_actionFinish_lesson_triggered()
+{
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(this, "Confirm", "Wanna exit?",
+                          QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes){
+        close();
+    }
 }
 
