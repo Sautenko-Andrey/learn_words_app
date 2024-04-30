@@ -3,7 +3,7 @@
 
 // sizes for widgets
 enum Sizes {
-    MAIN_WINDOW_WIDTH = 750,
+    MAIN_WINDOW_WIDTH = 675,
     MAIN_WINDOW_HEIGHT = 615,
     ADD_WORD_DIALOG_WIDTH = 509,
     ADD_WORD_DIALOG_HEIGHT = 108,
