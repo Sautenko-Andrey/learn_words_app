@@ -86,28 +86,29 @@ void SetWord::make_set_query(const QString &corrupted_word,
 void SetWord::on_setButton_clicked()
 {
     // let's read users data from edit lines
-    QString corrupted_word = ui->word_for_correctLine->text();
-    QString correct_word = ui->new_wordLine->text();
+    // get rid of leading and trailing unwanted spaces
+    QString corrupted_word = (ui->word_for_correctLine->text()).trimmed();
+    QString correct_word = (ui->new_wordLine->text()).trimmed();
 
     // depened of mode we set a desired word
     switch (mode_index) {
-    case All_Modes::RUS__ENG_RUS:
+    case static_cast<int>(All_Modes::RUS__ENG_RUS):
         // let's update rus word in eng-rus data base
         make_set_query(corrupted_word, correct_word, All_Modes::RUS__ENG_RUS);
         break;
 
-    case All_Modes::ENG__ENG_RUS:
+    case static_cast<int>(All_Modes::ENG__ENG_RUS):
         // let's update eng word in eng-rus data base
         make_set_query(corrupted_word, correct_word, All_Modes::ENG__ENG_RUS);
 
         break;
 
-    case All_Modes::SWE__SWE_RUS:
+    case static_cast<int>(All_Modes::SWE__SWE_RUS):
         // let's update swedish word in swe-rus data base
         make_set_query(corrupted_word, correct_word, All_Modes::SWE__SWE_RUS);
         break;
 
-    case All_Modes::RUS__SWE_RUS:
+    case static_cast<int>(All_Modes::RUS__SWE_RUS):
         // let's update rus word in swe-rus data base
         make_set_query(corrupted_word, correct_word, All_Modes::RUS__SWE_RUS);
         break;

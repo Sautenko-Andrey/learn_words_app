@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <all_sizes.h>
+#include <sizes.h>
 #include <QMessageBox>
 #include <QPixmap>
 #include <QDir>
@@ -13,7 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->imageLabel->resize(626, 626);
+    ui->imageLabel->resize(static_cast<int>(Sizes::MAIN_WINDOW_IMAGE_LABEL),
+                           static_cast<int>(Sizes::MAIN_WINDOW_IMAGE_LABEL));
     // Path to main image
     const QString path_main_image = QDir::homePath() +
                               "/learn_words_app/Learn_Words_App_0_0_1/main.jpeg";

@@ -22,7 +22,8 @@ void ShowTempMessage(const QString &title, const QString &message, unsigned mili
 {
     // show to user information window with the correct answer
     QMessageBox *mbox = new QMessageBox();
-    mbox->resize(Sizes::TEMP_MESSAGE_BOX_WIDTH, Sizes::TEMP_MESSAGE_BOX_HEIGHT);
+    mbox->resize(static_cast<int>(Sizes::TEMP_MESSAGE_BOX_WIDTH),
+                 static_cast<int>(Sizes::TEMP_MESSAGE_BOX_HEIGHT));
     mbox->setWindowTitle(title);
     mbox->setText(message);
     mbox->setStyleSheet(BACKGROUND_COLOR);

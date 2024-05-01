@@ -58,14 +58,16 @@ void AddWord::on_addButton_clicked()
     ui->foreignlangLineEdit->setFocus();
 
     // let's read words from line edits
-    QString user_foreign_word = ui->foreignlangLineEdit->text();
-    QString user_rus_word = ui->rusLine->text();
+    // let's get rid of potential unwanted leading and trailing characters
+    // in this case spaces
+    QString user_foreign_word = (ui->foreignlangLineEdit->text()).trimmed();
+    QString user_rus_word = (ui->rusLine->text()).trimmed();
 
     // Adding word to the data_base
     // let's make a query
     QSqlQuery query(db.get_my_db());
 
-    if(mode_index == All_Languges::ENG){
+    if(mode_index == static_cast<int>(All_Languges::ENG)){
         query.prepare("INSERT INTO ENG_RUS_WORDS(eng_word, rus_word) "
                       "VALUES(:user_foreign_word, :user_rus_word)");
     }
@@ -123,7 +125,7 @@ void AddWord::show_total_words()
 {
     QSqlQuery query(db.get_my_db());
 
-    if(mode_index == All_Languges::ENG){
+    if(mode_index == static_cast<int>(All_Languges::ENG)){
         query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");
     }
     else{

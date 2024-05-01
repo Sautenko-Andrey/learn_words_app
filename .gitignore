@@ -33,7 +33,6 @@ pcviewer.cfg
 *.obj
 *.orig
 *.swp
-*.txt
 *.rej
 *.so
 *.pbxuser
@@ -123,6 +122,7 @@ tools/activeqt/testcon/testcon.tlb
 translations/*.qm
 translations/*_untranslated.ts
 qrc_*.cpp
+access.txt
 
 src/contacts/qtcontactsversion.h
 src/organizer/qtorganizerversion.h

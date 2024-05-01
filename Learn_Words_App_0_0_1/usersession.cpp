@@ -128,7 +128,10 @@ void UserSession::on_nextButton_clicked()
     // first of all let's check if counter less then words we have in the data base
     if(counter == all_words.size()){
         // save the last user's answer
-        QString last_user_answer = ui->userLineEdit->text();
+        QString last_user_answer = (ui->userLineEdit->text()).trimmed();
+
+        // get rid of unwanted leading and trailing spaces
+        //boost::trim(last_user_answer);
 
         // we have to check the very last user answer as well
         auto last_it = all_words.cbegin();
@@ -158,7 +161,8 @@ void UserSession::on_nextButton_clicked()
     }
 
     // let's read user's answer from the line
-    QString user_answer = ui->userLineEdit->text();
+    // and get rid of unwanted leading and trailing spaces
+    QString user_answer = (ui->userLineEdit->text()).trimmed();
 
     // let's clear line
     ui->userLineEdit->clear();

@@ -35,26 +35,27 @@ void DeleteWord::on_deleteButton_clicked()
 {
     // Action when user clickes on delete button
     // let's read users data from edit lines
-    QString target_word = ui->deleteLineEdit->text();
+    // get rid of unwanted leading and traling spaces
+    QString target_word = (ui->deleteLineEdit->text()).trimmed();
 
     // depened of mode we set a desired word
     switch (mode_index) {
-    case All_Modes::RUS__ENG_RUS:
+    case static_cast<int>(All_Modes::RUS__ENG_RUS):
         // let's delete rus word in eng-rus data base
         make_delete_query(target_word, All_Modes::RUS__ENG_RUS);
         break;
 
-    case All_Modes::ENG__ENG_RUS:
+    case static_cast<int>(All_Modes::ENG__ENG_RUS):
         // let's delete eng word in eng-rus data base
         make_delete_query(target_word, All_Modes::ENG__ENG_RUS);
         break;
 
-    case All_Modes::SWE__SWE_RUS:
+    case static_cast<int>(All_Modes::SWE__SWE_RUS):
         // let's delete swedish word in swe-rus data base
         make_delete_query(target_word, All_Modes::SWE__SWE_RUS);
         break;
 
-    case All_Modes::RUS__SWE_RUS:
+    case static_cast<int>(All_Modes::RUS__SWE_RUS):
         // let's delete rus word in swe-rus data base
         make_delete_query(target_word, All_Modes::RUS__SWE_RUS);
         break;
