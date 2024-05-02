@@ -56,39 +56,6 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>76</y>
-     <width>441</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
-     <widget class="QPushButton" name="statsButton">
-      <property name="text">
-       <string>Stats</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="restartButton">
-      <property name="text">
-       <string>Restart</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="finishButton">
-      <property name="text">
-       <string>Finish</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
      <x>320</x>
      <y>130</y>
      <width>271</width>
@@ -151,6 +118,46 @@
    <property name="text">
     <string>language</string>
    </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>231</x>
+     <y>80</y>
+     <width>441</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QPushButton" name="statsButton">
+      <property name="text">
+       <string>Stats</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="restartButton">
+      <property name="text">
+       <string>Restart</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="finishButton">
+      <property name="text">
+       <string>Finish</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="showtasksButton">
+      <property name="text">
+       <string>Show tasks</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

@@ -28,6 +28,8 @@ private slots:
 
     void on_statsButton_clicked();
 
+    void on_showtasksButton_clicked();
+
 private:
     Ui::UserSession *ui;
 

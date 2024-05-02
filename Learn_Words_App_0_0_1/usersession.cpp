@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QHash>
 #include <QPixmap>
+#include "listwidget.h"
 
 UserSession::UserSession(QWidget *parent)
     : QDialog(parent)
@@ -84,7 +85,8 @@ void UserSession::answer_is_right(const QString &task, const QString &answer) no
 
         // show to user information window with the correct answer
         ShowTempMessage("Fail!",
-                                "Correct answer: <b><u>" + task + "</u></b>", 2000);
+                        "Correct answer: <b><u>" + task + "</u></b>"
+                        ", yours was: <b><i>" + answer + "</i></b>", 5000);
     }
 
     // let's hide the result label after 2 seconds
@@ -167,7 +169,7 @@ void UserSession::on_nextButton_clicked()
     // let's clear line
     ui->userLineEdit->clear();
 
-    // show for the user the word
+    // show a word for the user
     display_first_word();
 
     // let's check user answer
@@ -223,3 +225,12 @@ void UserSession::on_statsButton_clicked()
     // return focus on user's edit line
     ui->userLineEdit->setFocus();
 }
+
+void UserSession::on_showtasksButton_clicked()
+{
+    // show all tasks and right answers
+    // create and show up a list widget
+    ListWidget *list_widget = new ListWidget(this);
+    list_widget->show();
+}
+

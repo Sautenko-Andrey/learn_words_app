@@ -13,6 +13,7 @@ SOURCES += \
     changelessonmode.cpp \
     common.cpp \
     deleteword.cpp \
+    listwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     setword.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     changelessonmode.h \
     common.h \
     deleteword.h \
+    listwidget.h \
     mainwindow.h \
     setword.h \
     sizes.h \
@@ -32,6 +34,7 @@ FORMS += \
     addword.ui \
     changelessonmode.ui \
     deleteword.ui \
+    listwidget.ui \
     mainwindow.ui \
     setword.ui \
     usersession.ui
