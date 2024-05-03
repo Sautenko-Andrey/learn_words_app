@@ -106,14 +106,16 @@ void UserSession::display_first_word()
     ++counter;
 }
 
-void UserSession::get_stats() noexcept
+double UserSession::get_stats() noexcept
 {
-    auto result = (static_cast<float>(right_answers) / answers_counter) * 100;
+    double result = (static_cast<double>(right_answers) / answers_counter) * 100;
 
     // we show user results
     QMessageBox::information(this, "Results",
                              "Successful answers: "
                                  + QString::number(result, 'f', 2) + " %");
+
+    return result;
 }
 
 
@@ -142,7 +144,8 @@ void UserSession::on_nextButton_clicked()
         //answer_is_right(last_task, last_user_answer);
         answer_is_right(last_it.key(), last_user_answer);
 
-        get_stats();
+        // Get the final stats in the end
+        auto user_stats = get_stats();
 
         // let's clear user's line
         ui->userLineEdit->clear();
@@ -158,6 +161,28 @@ void UserSession::on_nextButton_clicked()
 
         // clear the task line
         ui->taskLineEdit->clear();
+
+        // At last we save statistic of the session in the DB Stats
+        QSqlQuery save_result_query(db.get_my_db());
+
+        // ATTENTION! Using global variable for getting knowladge about
+        // what language mode user has choosen
+        extern All_Languges USER_LANGUAGE_MODE;
+        if(USER_LANGUAGE_MODE == All_Languges::ENG){
+            save_result_query.prepare("INSERT INTO Stats(mode, success) "
+                          "VALUES('eng', :user_success)");
+        }
+        else{
+            save_result_query.prepare("INSERT INTO Stats(mode, success) "
+                          "VALUES('swe', :user_success)");
+        }
+
+        save_result_query.bindValue(":user_success", user_stats);
+
+        if(!save_result_query.exec()){
+            qDebug() << "Error while adding a new stats to the data base!";
+            return;
+        }
 
         return;
     }

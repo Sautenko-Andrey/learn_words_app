@@ -7,6 +7,7 @@
 #include "deleteword.h"
 #include "setword.h"
 #include "changelessonmode.h"
+#include "userstats.h"
 #include <memory>
 
 
@@ -52,6 +53,7 @@ private:
 
     std::unique_ptr<ChangeLessonMode> change_lesson_mode_session;
 
+    std::unique_ptr<UserStats> user_stats_session;
 
 };
 #endif // MAINWINDOW_H

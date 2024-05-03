@@ -3,6 +3,20 @@
 #include <QDebug>
 #include "sizes.h"
 
+const QVector<QString> MODES = {
+    "rus (eng-rus mode)",
+    "eng (eng-rus mode)",
+    "swe (swe-rus mode)",
+    "rus (swe-rus mode)"
+};
+
+const QVector<QString> LANGUAGES_DB = {
+    "eng-rus",
+    "swe-rus"
+};
+
+const QString BACKGROUND_COLOR = "background-color:lightGray;";
+
 
 // Constructor for the class OpenDB
 OpenDB::OpenDB()

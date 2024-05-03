@@ -50,7 +50,11 @@ void MainWindow::on_actionStats_triggered()
 {
     // here we call a Message box with user's result
     // in percentes
-    QMessageBox::information(this, "Result", "Successful answers: 100 %");
+    //QMessageBox::information(this, "Result", "Successful answers: 100 %");
+
+    // We create and call stats dialog
+    user_stats_session = std::make_unique<UserStats>(this);
+    user_stats_session->show();
 }
 
 

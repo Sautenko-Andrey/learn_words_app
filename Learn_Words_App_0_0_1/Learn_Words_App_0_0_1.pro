@@ -17,7 +17,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     setword.cpp \
-    usersession.cpp
+    usersession.cpp \
+    userstats.cpp
 
 HEADERS += \
     addword.h \
@@ -28,7 +29,8 @@ HEADERS += \
     mainwindow.h \
     setword.h \
     sizes.h \
-    usersession.h
+    usersession.h \
+    userstats.h
 
 FORMS += \
     addword.ui \
@@ -37,7 +39,8 @@ FORMS += \
     listwidget.ui \
     mainwindow.ui \
     setword.ui \
-    usersession.ui
+    usersession.ui \
+    userstats.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

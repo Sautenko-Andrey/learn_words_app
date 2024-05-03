@@ -49,7 +49,7 @@ private:
 
     void display_first_word();
 
-    void get_stats() noexcept;
+    double get_stats() noexcept;
 
 };
 

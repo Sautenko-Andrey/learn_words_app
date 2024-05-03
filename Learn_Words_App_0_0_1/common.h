@@ -18,19 +18,11 @@ enum class All_Modes{RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
 // Available foreign languages (assumed that user is rus/ukr speaker)
 enum class All_Languges{ENG, SWE};
 
-const QVector<QString> MODES = {
-    "rus (eng-rus mode)",
-    "eng (eng-rus mode)",
-    "swe (swe-rus mode)",
-    "rus (swe-rus mode)"
-};
+extern const QVector<QString> MODES;
 
-const QVector<QString> LANGUAGES_DB = {
-    "eng-rus",
-    "swe-rus"
-};
+extern const QVector<QString> LANGUAGES_DB;
 
-const QString BACKGROUND_COLOR = "background-color:lightGray;";
+extern const QString BACKGROUND_COLOR;
 
 // Common classes
 
