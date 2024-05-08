@@ -30,6 +30,8 @@ private slots:
 
     void on_showtasksButton_clicked();
 
+    void on_finishButton_clicked();
+
 private:
     Ui::UserSession *ui;
 
@@ -50,6 +52,8 @@ private:
     void display_first_word();
 
     double get_stats() noexcept;
+
+    void save_stats();
 
 };
 
