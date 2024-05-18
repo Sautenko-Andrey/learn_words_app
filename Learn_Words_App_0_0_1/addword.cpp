@@ -14,13 +14,13 @@ AddWord::AddWord(QWidget *parent)
 
     // let's block access to the both edit lines and "Add" button
     // before user sets mode
-    ui->foreignlangLineEdit->setDisabled(true);
-    ui->rusLine->setDisabled(true);
+    ui->textEdit->setDisabled(true);
+    ui->textEdit_2->setDisabled(true);
     ui->addButton->setDisabled(true);
 
     // Show to user what he has type in edit lines
-    ui->foreignlangLineEdit->setPlaceholderText(QString("type foreign word"));
-    ui->rusLine->setPlaceholderText(QString("type russian word"));
+    ui->textEdit->setPlaceholderText(QString("type foreign word"));
+    ui->textEdit_2->setPlaceholderText(QString("type russian word"));
 
     // let's show a number of words in current data base
     show_total_words();
@@ -43,25 +43,25 @@ AddWord::~AddWord()
 void AddWord::on_addButton_clicked()
 {
     // Let's check if the addition string/s is/are not empty
-    if(ui->foreignlangLineEdit->text().isEmpty()){
+    if(ui->textEdit->toPlainText().isEmpty()){
         QMessageBox::information(this, "Warning",
                                  "You can't add an empty string as english word");
         return;
     }
-    if(ui->rusLine->text().isEmpty()){
+    if(ui->textEdit_2->toPlainText().isEmpty()){
         QMessageBox::information(this, "Warning",
                                  "You can't add an empty string as russian word");
         return;
     }
 
     // set focus on the eng line edit
-    ui->foreignlangLineEdit->setFocus();
+    ui->textEdit->setFocus();
 
     // let's read words from line edits
     // let's get rid of potential unwanted leading and trailing characters
     // in this case spaces
-    QString user_foreign_word = (ui->foreignlangLineEdit->text()).trimmed();
-    QString user_rus_word = (ui->rusLine->text()).trimmed();
+    QString user_foreign_word = (ui->textEdit->toPlainText()).trimmed();
+    QString user_rus_word = (ui->textEdit_2->toPlainText()).trimmed();
 
     // Adding word to the data_base
     // let's make a query
@@ -90,8 +90,8 @@ void AddWord::on_addButton_clicked()
     }
 
     // let's clean both edit lines
-    ui->foreignlangLineEdit->clear();
-    ui->rusLine->clear();
+    ui->textEdit->clear();
+    ui->textEdit_2->clear();
 
     // let's show total words
     // before that we should flush old value
@@ -103,12 +103,12 @@ void AddWord::on_addButton_clicked()
 void AddWord::on_selectButton_clicked()
 {
     // make edit lines and "Add" button accessable
-    ui->foreignlangLineEdit->setDisabled(false);
-    ui->rusLine->setDisabled(false);
+    ui->textEdit->setDisabled(false);
+    ui->textEdit_2->setDisabled(false);
     ui->addButton->setDisabled(false);
 
     // make the first edit line on focus
-    ui->foreignlangLineEdit->setFocus();
+    ui->textEdit->setFocus();
 
     // saving chosen mode by user
     mode_index = ui->modeComboBox->currentIndex();
@@ -117,7 +117,7 @@ void AddWord::on_selectButton_clicked()
     show_total_words();
 
     // Focus on the first edit line
-    ui->foreignlangLineEdit->setFocus();
+    ui->textEdit->setFocus();
 }
 
 // Function counts how many words saved in particular data base

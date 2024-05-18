@@ -33,8 +33,10 @@ MainWindow::~MainWindow()
 // Function activates the user learning session dialog
 void MainWindow::on_actionStart_lesson_triggered()
 {
-    user_session = std::make_unique<UserSession>(this);
-    user_session->show();
+    // user_session = std::make_unique<UserSession>(this);
+    // user_session->show();
+    user_learns_session = std::make_unique<UserLearns>(this);
+    user_learns_session->show();
 }
 
 
@@ -50,10 +52,11 @@ void MainWindow::on_actionStats_triggered()
 {
     // here we call a Message box with user's result
     // in percentes
-    //QMessageBox::information(this, "Result", "Successful answers: 100 %");
-
     // We create and call stats dialog
     user_stats_session = std::make_unique<UserStats>(this);
+    user_stats_session->setGeometry(0, 0,
+                                      static_cast<int>(Sizes::STATS_DIALOG_WIDTH),
+                                      static_cast<int>(Sizes::STATS_DIALOG_HEIGHT));
     user_stats_session->show();
 }
 
@@ -61,6 +64,9 @@ void MainWindow::on_actionStats_triggered()
 void MainWindow::on_actionSet_word_triggered()
 {
     set_one_word_session = std::make_unique<SetWord>(this);
+    set_one_word_session->setGeometry(0, 0,
+                                      static_cast<int>(Sizes::DIALOG_WINDOW_WIDTH),
+                                      static_cast<int>(Sizes::DIALOG_WINDOW_HEIGHT));
     set_one_word_session->show();
 }
 
@@ -69,6 +75,9 @@ void MainWindow::on_actionDelete_word_triggered()
 {
     // call the delete word dialog
     delete_word_session = std::make_unique<DeleteWord>(this);
+    delete_word_session->setGeometry(0, 0,
+                                     static_cast<int>(Sizes::DIALOG_WINDOW_WIDTH),
+                                     static_cast<int>(Sizes::DIALOG_WINDOW_HEIGHT));
     delete_word_session->show();
 }
 
@@ -76,6 +85,9 @@ void MainWindow::on_actionDelete_word_triggered()
 void MainWindow::on_actionChange_mode_triggered()
 {
     change_lesson_mode_session = std::make_unique<ChangeLessonMode>(this);
+    change_lesson_mode_session->setGeometry(0, 0,
+                                     static_cast<int>(Sizes::CHANGE_MODE_DIALOG_WIDTH),
+                                     static_cast<int>(Sizes::CHANGE_MODE_DOALOG_HEIGHT));
     change_lesson_mode_session->show();
 }
 

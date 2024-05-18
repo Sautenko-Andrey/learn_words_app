@@ -4,7 +4,6 @@
 #include <QString>
 #include <QDir>
 #include <QSqlDatabase>
-#include <QVector>
 #include <QMessageBox>
 #include <QPixmap>
 #include <QLabel>
@@ -13,10 +12,10 @@
 //Common data
 
 // Modes for user session, adding/delete/setting words
-enum class All_Modes{RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
+enum class All_Modes {RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
 
 // Available foreign languages (assumed that user is rus/ukr speaker)
-enum class All_Languges{ENG, SWE};
+enum class All_Languges {ENG, SWE};
 
 extern const QVector<QString> MODES;
 

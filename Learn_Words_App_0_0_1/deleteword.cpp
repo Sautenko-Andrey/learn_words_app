@@ -12,13 +12,13 @@ DeleteWord::DeleteWord(QWidget *parent)
     ui->setupUi(this);
 
     // Show to user what he has to type in edit lines
-    ui->deleteLineEdit->setPlaceholderText(QString("type word for deleting"));
+    ui->textEdit->setPlaceholderText(QString("type word for deleting"));
 
     // let's make the focus on the "Select" button
     ui->setButton->setFocus();
 
     // make edit line unaccessable
-    ui->deleteLineEdit->setDisabled(true);
+    ui->textEdit->setDisabled(true);
 
     // let's add all modes to the modes combobox
     for(const auto &mode : MODES){
@@ -36,7 +36,7 @@ void DeleteWord::on_deleteButton_clicked()
     // Action when user clickes on delete button
     // let's read users data from edit lines
     // get rid of unwanted leading and traling spaces
-    QString target_word = (ui->deleteLineEdit->text()).trimmed();
+    QString target_word = (ui->textEdit->toPlainText()).trimmed();
 
     // depened of mode we set a desired word
     switch (mode_index) {
@@ -62,24 +62,24 @@ void DeleteWord::on_deleteButton_clicked()
     }
 
     // clear all edit lines
-    ui->deleteLineEdit->clear();
+    ui->textEdit->clear();
 
     // make "Set" button accessable
     ui->setButton->setDefault(false);
 
     // make focus on the line edit
-    ui->deleteLineEdit->setFocus();
+    ui->textEdit->setFocus();
 }
 
 
 void DeleteWord::on_setButton_clicked()
 {
     // make edit lines and "Delete" button accessable
-    ui->deleteLineEdit->setDisabled(false);
-    ui->deleteButton->setDisabled(false);
+    ui->textEdit->setDisabled(false);
+    ui->textEdit->setDisabled(false);
 
     // make edit line on focus
-    ui->deleteLineEdit->setFocus();
+    ui->textEdit->setFocus();
 
     // saving chosen mode by user
     mode_index = ui->modeComboBox->currentIndex();

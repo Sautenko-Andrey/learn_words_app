@@ -17,6 +17,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     setword.cpp \
+    userlearns.cpp \
     usersession.cpp \
     userstats.cpp
 
@@ -29,6 +30,7 @@ HEADERS += \
     mainwindow.h \
     setword.h \
     sizes.h \
+    userlearns.h \
     usersession.h \
     userstats.h
 
@@ -39,6 +41,7 @@ FORMS += \
     listwidget.ui \
     mainwindow.ui \
     setword.ui \
+    userlearns.ui \
     usersession.ui \
     userstats.ui
 
@@ -49,3 +52,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     all_resources.qrc
+
+DISTFILES += \
+    loading.gif

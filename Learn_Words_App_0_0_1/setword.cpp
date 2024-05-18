@@ -15,12 +15,12 @@ SetWord::SetWord(QWidget *parent)
     ui->mode_comboBox->setFocus();
 
     // Show to user what he has to type in edit lines
-    ui->word_for_correctLine->setPlaceholderText(QString("type incorrect word"));
-    ui->new_wordLine->setPlaceholderText(QString("type correct word"));
+    ui->oldTextEdit->setPlaceholderText(QString("type incorrect word"));
+    ui->newTextEdit->setPlaceholderText(QString("type correct word"));
 
     // Make both edit lines and "Set" button unaccessable
-    ui->word_for_correctLine->setDisabled(true);
-    ui->new_wordLine->setDisabled(true);
+    ui->oldTextEdit->setDisabled(true);
+    ui->newTextEdit->setDisabled(true);
     ui->setButton->setDisabled(true);
 
     // let's add all modes to the modes combobox
@@ -87,8 +87,8 @@ void SetWord::on_setButton_clicked()
 {
     // let's read users data from edit lines
     // get rid of leading and trailing unwanted spaces
-    QString corrupted_word = (ui->word_for_correctLine->text()).trimmed();
-    QString correct_word = (ui->new_wordLine->text()).trimmed();
+    QString corrupted_word = (ui->oldTextEdit->toPlainText()).trimmed();
+    QString correct_word = (ui->newTextEdit->toPlainText()).trimmed();
 
     // depened of mode we set a desired word
     switch (mode_index) {
@@ -115,28 +115,27 @@ void SetWord::on_setButton_clicked()
     }
 
     // clear all edit lines
-    ui->word_for_correctLine->clear();
-    ui->new_wordLine->clear();
+    ui->oldTextEdit->clear();
+    ui->newTextEdit->clear();
 
     // make "Set" button accessable
     ui->setButton->setDefault(false);
 
     // make focus on the first line edit
-    ui->word_for_correctLine->setFocus();
+    ui->oldTextEdit->setFocus();
 
 }
 
 void SetWord::on_selectButton_clicked()
 {
     // make both edit lines and "Set" button accessable
-    ui->word_for_correctLine->setDisabled(false);
-    ui->new_wordLine->setDisabled(false);
+    ui->oldTextEdit->setDisabled(false);
+    ui->newTextEdit->setDisabled(false);
     ui->setButton->setDisabled(false);
 
     // make first edit line on focus
-    ui->word_for_correctLine->setFocus();
+    ui->oldTextEdit->setFocus();
 
     // saving chosen mode by user
     mode_index = ui->mode_comboBox->currentIndex();
 }
-

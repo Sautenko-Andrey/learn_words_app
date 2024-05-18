@@ -2,15 +2,28 @@
 #include <QtSql>
 #include <QDebug>
 #include "sizes.h"
+#include <QStringList>
 
-const QVector<QString> MODES = {
+const QStringList MODES = {
     "rus (eng-rus mode)",
     "eng (eng-rus mode)",
     "swe (swe-rus mode)",
     "rus (swe-rus mode)"
 };
 
-const QVector<QString> LANGUAGES_DB = {
+// const QVector<QString> MODES = {
+//     "rus (eng-rus mode)",
+//     "eng (eng-rus mode)",
+//     "swe (swe-rus mode)",
+//     "rus (swe-rus mode)"
+// };
+
+// const QVector<QString> LANGUAGES_DB = {
+//     "eng-rus",
+//     "swe-rus"
+// };
+
+const QStringList LANGUAGES_DB = {
     "eng-rus",
     "swe-rus"
 };
@@ -55,7 +68,6 @@ QString& PathToIcon(QString &&file_name) noexcept
 
 void DrawLangLabel(QLabel *label, const QString &path)
 {
-
     QString full_path = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + path;
     QPixmap curr_lang_pixmap(full_path);
     label->setPixmap(curr_lang_pixmap);

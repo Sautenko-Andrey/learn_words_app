@@ -8,7 +8,10 @@
 #include "setword.h"
 #include "changelessonmode.h"
 #include "userstats.h"
+#include "userlearns.h"
 #include <memory>
+#include "sizes.h"
+
 
 
 QT_BEGIN_NAMESPACE
@@ -43,7 +46,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    std::unique_ptr<UserSession> user_session;
+    //std::unique_ptr<UserSession> user_session;
 
     std::unique_ptr<AddWord> add_word_session;
 
@@ -54,6 +57,8 @@ private:
     std::unique_ptr<ChangeLessonMode> change_lesson_mode_session;
 
     std::unique_ptr<UserStats> user_stats_session;
+
+    std::unique_ptr<UserLearns> user_learns_session;
 
 };
 #endif // MAINWINDOW_H

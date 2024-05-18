@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
-    <height>331</height>
+    <width>447</width>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,12 +19,18 @@
      <property name="text">
       <string>Today's result</string>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+T</string>
+     </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="last_week_res_Button">
      <property name="text">
       <string>Last week result</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+W</string>
      </property>
     </widget>
    </item>
@@ -33,12 +39,18 @@
      <property name="text">
       <string>Last month result</string>
      </property>
+     <property name="shortcut">
+      <string>Ctrl+M</string>
+     </property>
     </widget>
    </item>
    <item>
     <widget class="QPushButton" name="overall_res_Button">
      <property name="text">
       <string>Overall result</string>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+O</string>
      </property>
     </widget>
    </item>
