@@ -1,0 +1,11 @@
+#ifndef ALL_SIZES_H
+#define ALL_SIZES_H
+
+enum Sizes {
+    MAIN_WINDOW_WIDTH = 1366,
+    MAIN_WINDOW_HEIGHT = 768,
+    ADD_WORD_DIALOG_WIDTH = 509,
+    ADD_WORD_DIALOG_HEIGHT = 108
+};
+
+#endif // ALL_SIZES_H

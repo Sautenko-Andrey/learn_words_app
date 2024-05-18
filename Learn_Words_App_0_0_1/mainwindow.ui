@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>669</width>
+    <height>411</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="imageLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>531</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PIcture</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>669</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionStart_lesson"/>
+    <addaction name="actionFinish_lesson"/>
+    <addaction name="actionStats"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionAdd_word"/>
+    <addaction name="actionDelete_word"/>
+    <addaction name="actionSet_word"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionStart_lesson"/>
+   <addaction name="actionFinish_lesson"/>
+   <addaction name="actionStats"/>
+   <addaction name="actionChange_mode"/>
+   <addaction name="separator"/>
+   <addaction name="actionAdd_word"/>
+   <addaction name="actionDelete_word"/>
+   <addaction name="actionSet_word"/>
+  </widget>
+  <action name="actionAdd_word">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/add.png</normaloff>:/all_pics/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add word</string>
+   </property>
+  </action>
+  <action name="actionDelete_word">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/delete.png</normaloff>:/all_pics/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete word</string>
+   </property>
+  </action>
+  <action name="actionSet_word">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/update.png</normaloff>:/all_pics/update.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set word</string>
+   </property>
+  </action>
+  <action name="actionStart_lesson">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/start.png</normaloff>:/all_pics/start.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start</string>
+   </property>
+  </action>
+  <action name="actionFinish_lesson">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/finish.png</normaloff>:/all_pics/finish.png</iconset>
+   </property>
+   <property name="text">
+    <string>Finish</string>
+   </property>
+  </action>
+  <action name="actionStats">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/stats.png</normaloff>:/all_pics/stats.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stats</string>
+   </property>
+  </action>
+  <action name="actionChange_mode">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/settings.png</normaloff>:/all_pics/settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Change mode</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="all_resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
