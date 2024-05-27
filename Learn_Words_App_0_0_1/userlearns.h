@@ -54,6 +54,8 @@ private:
     void save_stats();
 
     void DrawLabel(QString &&path, QLabel *label);
+
+    void waitingMovie();
 };
 
 #endif // USERLEARNS_H

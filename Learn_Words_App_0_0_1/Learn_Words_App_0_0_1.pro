@@ -1,4 +1,4 @@
-QT       += core gui sql
+QT       += core gui sql charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,6 +13,7 @@ SOURCES += \
     changelessonmode.cpp \
     common.cpp \
     deleteword.cpp \
+    graphicstats.cpp \
     listwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     changelessonmode.h \
     common.h \
     deleteword.h \
+    graphicstats.h \
     listwidget.h \
     mainwindow.h \
     setword.h \
@@ -38,6 +40,7 @@ FORMS += \
     addword.ui \
     changelessonmode.ui \
     deleteword.ui \
+    graphicstats.ui \
     listwidget.ui \
     mainwindow.ui \
     setword.ui \

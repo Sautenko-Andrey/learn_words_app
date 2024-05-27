@@ -139,3 +139,25 @@ void AddWord::show_total_words()
     }
 }
 
+// clear both lines (foreign language line and russian line)
+void AddWord::on_clearLinesButton_clicked()
+{
+    ui->textEdit->clear();
+    ui->textEdit_2->clear();
+    ui->textEdit->setFocus();
+}
+
+
+void AddWord::on_clearForeignButton_clicked()
+{
+    ui->textEdit->clear();
+    ui->textEdit->setFocus();
+}
+
+
+void AddWord::on_clearRusButton_clicked()
+{
+    ui->textEdit_2->clear();
+    ui->textEdit_2->setFocus();
+}
+

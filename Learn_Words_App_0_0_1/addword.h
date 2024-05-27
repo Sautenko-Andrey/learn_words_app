@@ -21,6 +21,12 @@ private slots:
 
     void on_selectButton_clicked();
 
+    void on_clearLinesButton_clicked();
+
+    void on_clearForeignButton_clicked();
+
+    void on_clearRusButton_clicked();
+
 private:
     Ui::AddWord *ui;
 

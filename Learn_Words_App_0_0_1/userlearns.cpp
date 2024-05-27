@@ -57,15 +57,21 @@ UserLearns::UserLearns(QWidget *parent)
     ui->statsButton->setDisabled(true);
 
     // draw a result label with loading animation
-    QMovie *movie = new QMovie(":/all_pics/loading_animation.gif");
-    movie->setScaledSize(QSize(25, 25));
-    ui->resultLabel->setMovie(movie);
-    movie->start();
+    waitingMovie();
 }
 
 UserLearns::~UserLearns()
 {
     delete ui;
+}
+
+void UserLearns::waitingMovie()
+{
+    // draw a result label with loading animation
+    QMovie *movie = new QMovie(":/all_pics/loading_animation.gif");
+    movie->setScaledSize(QSize(25, 25));
+    ui->resultLabel->setMovie(movie);
+    movie->start();
 }
 
 
@@ -229,6 +235,9 @@ void UserLearns::on_nextButton_clicked()
 
         // saving statistics
         save_stats();
+
+        // draw a result label with loading animation
+        waitingMovie();
 
         return;
     }
