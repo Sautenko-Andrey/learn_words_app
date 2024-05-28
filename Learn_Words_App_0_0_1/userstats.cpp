@@ -106,25 +106,31 @@ void UserStats::on_last_month_res_Button_clicked()
 // Method shows total success
 void UserStats::on_overall_res_Button_clicked()
 {
-    // Making query for each mode
-    QSqlQuery all_stats_query_eng(db.get_my_db());
-    QSqlQuery all_stats_query_swe(db.get_my_db());
+    // // Making query for each mode
+    // QSqlQuery all_stats_query_eng(db.get_my_db());
+    // QSqlQuery all_stats_query_swe(db.get_my_db());
 
-    if(!all_stats_query_eng.exec("SELECT round(avg(success), 2) FROM Stats "
-                                  "WHERE mode = 'eng'")){
-        qDebug() << "Couldn't open DB for reading eng stats data!";
-        return;
-    }
+    // if(!all_stats_query_eng.exec("SELECT round(avg(success), 2) FROM Stats "
+    //                               "WHERE mode = 'eng'")){
+    //     qDebug() << "Couldn't open DB for reading eng stats data!";
+    //     return;
+    // }
 
-    if(!all_stats_query_swe.exec("SELECT round(avg(success), 2) FROM Stats "
-                                  "WHERE mode = 'swe'")){
-        qDebug() << "Couldn't open DB for reading swe stats data!";
-        return;
-    }
+    // if(!all_stats_query_swe.exec("SELECT round(avg(success), 2) FROM Stats "
+    //                               "WHERE mode = 'swe'")){
+    //     qDebug() << "Couldn't open DB for reading swe stats data!";
+    //     return;
+    // }
 
-    if(all_stats_query_eng.next() && all_stats_query_swe.next()){
-        QMessageBox::information(this, "Total result",
-        "English: " + all_stats_query_eng.value(0).toString() + " %,"
-        "\nSwedish: " + all_stats_query_swe.value(0).toString() + " %");
-    }
+    // if(all_stats_query_eng.next() && all_stats_query_swe.next()){
+    //     QMessageBox::information(this, "Total result",
+    //     "English: " + all_stats_query_eng.value(0).toString() + " %,"
+    //     "\nSwedish: " + all_stats_query_swe.value(0).toString() + " %");
+    // }
+
+    // creating a chart
+    stats_chart = std::make_unique<DrawStatsChart>(this);
+    stats_chart->setGeometry(0, 0, 660, 500);
+    stats_chart->drawOverallStats();
+    stats_chart->show();
 }

@@ -3,7 +3,9 @@
 
 #include <QDialog>
 #include "common.h"
-#include "graphicstats.h"
+//#include "graphicstats.h"
+#include "drawstatschart.h"
+#include <memory>
 
 namespace Ui {
 class UserStats;
@@ -31,7 +33,9 @@ private:
 
     OpenDB db;
 
-    GraphicStats *stats_chart = nullptr;
+    //GraphicStats *stats_chart = nullptr;
+    //std::unique_ptr<GraphicStats> stats_chart;
+    std::unique_ptr<DrawStatsChart> stats_chart;
 };
 
 #endif // USERSTATS_H

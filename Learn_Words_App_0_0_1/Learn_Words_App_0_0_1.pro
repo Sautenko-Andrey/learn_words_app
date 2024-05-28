@@ -13,7 +13,7 @@ SOURCES += \
     changelessonmode.cpp \
     common.cpp \
     deleteword.cpp \
-    graphicstats.cpp \
+    drawstatschart.cpp \
     listwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -27,7 +27,7 @@ HEADERS += \
     changelessonmode.h \
     common.h \
     deleteword.h \
-    graphicstats.h \
+    drawstatschart.h \
     listwidget.h \
     mainwindow.h \
     setword.h \
@@ -40,7 +40,7 @@ FORMS += \
     addword.ui \
     changelessonmode.ui \
     deleteword.ui \
-    graphicstats.ui \
+    drawstatschart.ui \
     listwidget.ui \
     mainwindow.ui \
     setword.ui \
