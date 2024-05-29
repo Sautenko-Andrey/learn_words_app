@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include "common.h"
-#include <QVector>
+#include <QChart>
+#include <QBarSet>
 
 namespace Ui {
 class DrawStatsChart;
@@ -18,14 +19,21 @@ public:
     ~DrawStatsChart();
 
     void drawOverallStats();
-    void drawTodayStats() const;
-    void drawLastWeekStats() const;
-    void drawLastMonthStats() const;
+    void drawTodayStats();
+    void drawLastWeekStats();
+    void drawLastMonthStats();
 
 private:
     Ui::DrawStatsChart *ui;
+
     OpenDB db;
-    QVector<double> successContainer;
+
+
+    void createAndAddLineSeries(const QSqlDatabase& connection,
+                            All_Languges lesson_mode, QChart *chart);
+
+    void appendDatatoBarSet(const QSqlDatabase& connection,
+                            QBarSet *set, const QString &user_query);
 };
 
 #endif // DRAWSTATSCHART_H

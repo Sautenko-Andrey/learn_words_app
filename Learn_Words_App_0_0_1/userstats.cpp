@@ -18,27 +18,33 @@ UserStats::~UserStats()
 
 void UserStats::on_today_res_Button_clicked()
 {
-    // make query for the both modes
-    QSqlQuery today_stats_query_eng(db.get_my_db());
-    QSqlQuery today_stats_query_swe(db.get_my_db());
+    // // make query for the both modes
+    // QSqlQuery today_stats_query_eng(db.get_my_db());
+    // QSqlQuery today_stats_query_swe(db.get_my_db());
 
-    if(!today_stats_query_eng.exec("SELECT round(avg(success), 2) FROM Stats "
-                                  "WHERE mode = 'eng' AND DATE(session_time) = DATE('now')")){
-        qDebug() << "Couldn't open DB for reading eng stats today data!";
-        return;
-    }
+    // if(!today_stats_query_eng.exec("SELECT round(avg(success), 2) FROM Stats "
+    //                               "WHERE mode = 'eng' AND DATE(session_time) = DATE('now')")){
+    //     qDebug() << "Couldn't open DB for reading eng stats today data!";
+    //     return;
+    // }
 
-    if(!today_stats_query_swe.exec("SELECT round(avg(success), 2) FROM Stats "
-                                  "WHERE mode = 'swe' AND DATE(session_time) = DATE('now')")){
-        qDebug() << "Couldn't open DB for reading swe stats today data!";
-        return;
-    }
+    // if(!today_stats_query_swe.exec("SELECT round(avg(success), 2) FROM Stats "
+    //                               "WHERE mode = 'swe' AND DATE(session_time) = DATE('now')")){
+    //     qDebug() << "Couldn't open DB for reading swe stats today data!";
+    //     return;
+    // }
 
-    if(today_stats_query_eng.next() && today_stats_query_swe.next()){
-        QMessageBox::information(this, "Total result",
-        "English: " + today_stats_query_eng.value(0).toString() + " %,"
-        "\nSwedish: " + today_stats_query_swe.value(0).toString() + " %");
-    }
+    // if(today_stats_query_eng.next() && today_stats_query_swe.next()){
+    //     QMessageBox::information(this, "Total result",
+    //     "English: " + today_stats_query_eng.value(0).toString() + " %,"
+    //     "\nSwedish: " + today_stats_query_swe.value(0).toString() + " %");
+    // }
+
+    // creating a chart
+    stats_chart = std::make_unique<DrawStatsChart>(this);
+    stats_chart->setGeometry(0, 0, 660, 500);
+    stats_chart->drawTodayStats();
+    stats_chart->show();
 
 }
 
