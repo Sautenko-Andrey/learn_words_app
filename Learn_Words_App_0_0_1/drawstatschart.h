@@ -34,6 +34,9 @@ private:
 
     void appendDatatoBarSet(const QSqlDatabase& connection,
                             QBarSet *set, const QString &user_query);
+
+    void drawBarChart(const QString &title,
+                      const QString &eng_query, const QString &swe_query);
 };
 
 #endif // DRAWSTATSCHART_H

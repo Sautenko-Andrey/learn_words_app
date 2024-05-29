@@ -89,8 +89,7 @@ void DrawStatsChart::appendDatatoBarSet(const QSqlDatabase& connection,
     }
 }
 
-
-void DrawStatsChart::drawTodayStats()
+void DrawStatsChart::drawBarChart(const QString &title, const QString &eng_query, const QString &swe_query)
 {
     auto eng_set = new QBarSet("ENG");
     auto swe_set = new QBarSet("SWE");
@@ -99,12 +98,8 @@ void DrawStatsChart::drawTodayStats()
     auto connectDB = db.get_my_db();
 
     // appending data to BarSet
-    appendDatatoBarSet(connectDB, eng_set,
-                       "SELECT ROUND(success, 2) FROM Stats "
-                       "WHERE mode = 'eng' and DATE(session_time) = DATE('now')");
-    appendDatatoBarSet(connectDB, swe_set,
-                       "SELECT ROUND(success, 2) FROM Stats "
-                       "WHERE mode = 'swe' and DATE(session_time) = DATE('now')");
+    appendDatatoBarSet(connectDB, eng_set, eng_query);
+    appendDatatoBarSet(connectDB, swe_set, swe_query);
 
     QBarSeries *series = new QBarSeries;
     series->append(eng_set);
@@ -112,22 +107,57 @@ void DrawStatsChart::drawTodayStats()
 
     auto chart = new QChart;
     chart->addSeries(series);
-    chart->setTitle("Today statistics");
+    chart->setTitle(title);
     chart->createDefaultAxes();
     chart->setTheme(QChart::ChartTheme::ChartThemeBlueCerulean);
+    chart->legend()->setAlignment(Qt::AlignmentFlag::AlignBottom);
 
     QChartView *view = new QChartView(chart);
     view->setParent(ui->horizontalFrame);
 }
 
 
+void DrawStatsChart::drawTodayStats()
+{
+    drawBarChart(
+        "Today stats",
+
+        "SELECT round(success) FROM Stats "
+                 "WHERE mode = 'eng' and DATE(session_time) = DATE('now')",
+
+        "SELECT round(success) FROM Stats "
+        "WHERE mode = 'swe' and DATE(session_time) = DATE('now')"
+    );
+}
+
+
 void DrawStatsChart::drawLastWeekStats()
 {
+    drawBarChart(
+        "Last week stats",
 
+        "SELECT round(avg(success), 2) FROM Stats "
+        "WHERE mode = 'eng' AND session_time BETWEEN datetime('now', '-6 days') "
+        "AND datetime('now', 'localtime')",
+
+        "SELECT round(avg(success), 2) FROM Stats "
+        "WHERE mode = 'swe' AND session_time BETWEEN datetime('now', '-6 days') "
+        "AND datetime('now', 'localtime')"
+    );
 }
 
 
 void DrawStatsChart::drawLastMonthStats()
 {
+    drawBarChart(
+        "Last month stats",
 
+        "SELECT round(avg(success), 2) FROM Stats "
+        "WHERE mode = 'eng' AND session_time BETWEEN datetime('now', 'start of month') "
+        "AND datetime('now', 'localtime')",
+
+        "SELECT round(avg(success), 2) FROM Stats "
+        "WHERE mode = 'swe' AND session_time BETWEEN datetime('now', 'start of month') "
+        "AND datetime('now', 'localtime')"
+    );
 }

@@ -17,6 +17,9 @@ enum class All_Modes {RUS__ENG_RUS, ENG__ENG_RUS, SWE__SWE_RUS, RUS__SWE_RUS};
 // Available foreign languages (assumed that user is rus/ukr speaker)
 enum class All_Languges {ENG, SWE};
 
+// Stats modes
+enum class statsMode{TODAY, LAST_WEEK, LAST_MONTH, OVERALL};
+
 extern const QVector<QString> MODES;
 
 extern const QVector<QString> LANGUAGES_DB;
