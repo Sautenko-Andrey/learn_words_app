@@ -40,6 +40,7 @@ AddWord::~AddWord()
     delete ui;
 }
 
+
 void AddWord::on_addButton_clicked()
 {
     // Let's check if the addition string/s is/are not empty
@@ -123,6 +124,17 @@ void AddWord::on_selectButton_clicked()
 // Function counts how many words saved in particular data base
 void AddWord::show_total_words()
 {
+    // lcdNumber settings
+    auto palette = ui->lcdNumber->palette();
+    palette.setColor(palette.WindowText, Qt::black);
+    ui->lcdNumber->setPalette(palette);
+    ui->lcdNumber->setSegmentStyle(QLCDNumber::Flat);
+    ui->lcdNumber->display(getTotalWords());
+}
+
+
+int AddWord::getTotalWords()
+{
     QSqlQuery query(db.get_my_db());
 
     if(mode_index == static_cast<int>(All_Languges::ENG)){
@@ -133,10 +145,10 @@ void AddWord::show_total_words()
     }
 
     if(query.first()){
-        QString total_words = query.value(0).toString();
-        ui->counterLabel->setText("<i>Total words: " + total_words + "</i>");
-        return;
+        return query.value(0).toInt();
     }
+
+    return -1;
 }
 
 // clear both lines (foreign language line and russian line)

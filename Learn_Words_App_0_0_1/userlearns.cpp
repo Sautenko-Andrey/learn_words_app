@@ -239,7 +239,7 @@ void UserLearns::on_nextButton_clicked()
         // draw a result label with loading animation
         waitingMovie();
 
-        return;
+        QDialog::accept();
     }
 
     // let's read user's answer from the line

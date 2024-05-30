@@ -67,9 +67,6 @@
          <property name="text">
           <string>finish</string>
          </property>
-         <property name="shortcut">
-          <string>Ctrl+F</string>
-         </property>
         </widget>
        </item>
        <item>

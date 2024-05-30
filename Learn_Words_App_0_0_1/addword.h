@@ -34,6 +34,8 @@ private:
 
     void show_total_words();
 
+    int getTotalWords();
+
     int mode_index;
 };
 
