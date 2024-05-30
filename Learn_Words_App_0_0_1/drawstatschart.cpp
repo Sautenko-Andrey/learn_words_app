@@ -122,10 +122,10 @@ void DrawStatsChart::drawTodayStats()
     drawBarChart(
         "Today stats",
 
-        "SELECT round(success) FROM Stats "
+        "SELECT round(avg(success), 2) FROM Stats "
                  "WHERE mode = 'eng' and DATE(session_time) = DATE('now')",
 
-        "SELECT round(success) FROM Stats "
+        "SELECT round(avg(success), 2) FROM Stats "
         "WHERE mode = 'swe' and DATE(session_time) = DATE('now')"
     );
 }
