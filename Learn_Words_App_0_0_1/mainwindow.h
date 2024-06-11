@@ -11,6 +11,7 @@
 #include "userlearns.h"
 #include <memory>
 #include "sizes.h"
+#include "common.h"
 
 
 
@@ -43,6 +44,8 @@ private slots:
 
     void on_actionFinish_lesson_triggered();
 
+    void on_actionAdd_words_from_file_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -57,6 +60,8 @@ private:
     std::unique_ptr<UserStats> user_stats_session;
 
     std::unique_ptr<UserLearns> user_learns_session;
+
+    OpenDB db;
 
 };
 #endif // MAINWINDOW_H

@@ -5,6 +5,13 @@
 #include <QPixmap>
 #include <QDir>
 #include <QString>
+//#include <QInputDialog>
+#include <QFileDialog>
+#include <QDebug>
+//#include <QHash>
+#include <QFile>
+#include <string>
+#include <QTextStream>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -100,5 +107,62 @@ void MainWindow::on_actionFinish_lesson_triggered()
     if (reply == QMessageBox::Yes){
         close();
     }
+}
+
+
+void MainWindow::on_actionAdd_words_from_file_triggered()
+{
+    // get a file
+    const QString file_path = QFileDialog::getOpenFileName(this, "Select a file");
+
+    // work with file
+    QFile file(file_path);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QMessageBox::warning(this, "File error!", "Couldn't open a file");
+        return;
+    }
+
+    QTextStream in(&file);
+
+    // Adding words to the data_base
+    // let's make a query
+    QSqlQuery query(db.get_my_db());
+
+    while(!in.atEnd()){
+        QString temp = in.readLine();
+        std::string line = temp.toStdString();
+
+        auto res_index = line.find('*');
+
+        if(res_index != std::string::npos){
+
+            std::string rus{line.begin(), line.begin() + res_index};
+
+            QString rus_word = QString::fromStdString(rus);
+
+            std::string foreign{line.begin() + res_index + 1, line.end()};
+
+            QString foreign_word = QString::fromStdString(foreign);
+
+            query.prepare("INSERT INTO ENG_RUS_WORDS(eng_word, rus_word) "
+                          "VALUES(:user_foreign_word, :user_rus_word)");
+
+            query.bindValue(":user_foreign_word", foreign_word);
+            query.bindValue(":user_rus_word", rus_word);
+
+            if(!query.exec()){
+                qDebug() << "Dublicated word / another issue. Word hasn't been added.";
+            }
+            else{
+                qDebug() << "word has been added.";
+            }
+        }
+        else{
+            continue;
+        }
+    }
+
+    file.close();
 }
 

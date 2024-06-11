@@ -13,5 +13,6 @@
         <file>fail.png</file>
         <file>icon.jpeg</file>
         <file>loading_animation.gif</file>
+        <file>add_from_file.png</file>
     </qresource>
 </RCC>

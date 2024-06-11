@@ -52,6 +52,7 @@
     <addaction name="actionAdd_word"/>
     <addaction name="actionDelete_word"/>
     <addaction name="actionSet_word"/>
+    <addaction name="actionAdd_words_from_file"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -75,6 +76,7 @@
    <addaction name="actionAdd_word"/>
    <addaction name="actionDelete_word"/>
    <addaction name="actionSet_word"/>
+   <addaction name="actionAdd_words_from_file"/>
   </widget>
   <action name="actionAdd_word">
    <property name="icon">
@@ -137,6 +139,15 @@
    </property>
    <property name="text">
     <string>Change mode</string>
+   </property>
+  </action>
+  <action name="actionAdd_words_from_file">
+   <property name="icon">
+    <iconset resource="all_resources.qrc">
+     <normaloff>:/all_pics/add_from_file.png</normaloff>:/all_pics/add_from_file.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add eng words from file</string>
    </property>
   </action>
  </widget>
