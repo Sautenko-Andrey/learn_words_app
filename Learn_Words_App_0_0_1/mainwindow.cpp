@@ -40,8 +40,15 @@ MainWindow::~MainWindow()
 // Function activates the user learning session dialog
 void MainWindow::on_actionStart_lesson_triggered()
 {
+
     user_learns_session = std::make_unique<UserLearns>(this);
     user_learns_session->show();
+
+    // a new approach
+    // registering as a new observer
+    // ChangeLessonMode changeLessonMode;
+    // user_learns_session = std::make_unique<UserLearns>(&changeLessonMode, this);
+    // user_learns_session->show();
 }
 
 

@@ -55,6 +55,12 @@ and he/she desires to correct it, "Set word" is the saviour.
 It works in the familliar way as the previous features. Widget has a
 user friendly interface and it doesn't need a deep explanation here.
 
+Add eng words from a file -> user is allowed to add english words
+to his vocabulary from the text file. The only one requirement:
+data in the text file should be in the following structure:
+[native language word]*[english word] as one row in file.
+Notice that dublicated words will not be added. 
+
 For this application I use C++, QT6 and SQLite3.
 
 This release marked as 0.0.1.
