@@ -13,7 +13,7 @@ ListWidget::ListWidget(QWidget *parent)
     QSqlQuery get_all_words_query(db.get_my_db());
     // ATTENTION! Using global variable for getting knowladge about
     // what language mode user has choosen
-    extern All_Languges USER_LANGUAGE_MODE;
+    All_Languges USER_LANGUAGE_MODE = All_Languges::ENG;  // FIX IT!
 
     if(USER_LANGUAGE_MODE == All_Languges::ENG){
         get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS"

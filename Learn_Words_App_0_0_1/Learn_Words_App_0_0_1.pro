@@ -10,7 +10,6 @@ CONFIG += c++17
 
 SOURCES += \
     addword.cpp \
-    changelessonmode.cpp \
     common.cpp \
     deleteword.cpp \
     drawstatschart.cpp \
@@ -19,12 +18,10 @@ SOURCES += \
     mainwindow.cpp \
     setword.cpp \
     userlearns.cpp \
-    usersession.cpp \
     userstats.cpp
 
 HEADERS += \
     addword.h \
-    changelessonmode.h \
     common.h \
     deleteword.h \
     drawstatschart.h \
@@ -35,19 +32,16 @@ HEADERS += \
     sizes.h \
     subject.h \
     userlearns.h \
-    usersession.h \
     userstats.h
 
 FORMS += \
     addword.ui \
-    changelessonmode.ui \
     deleteword.ui \
     drawstatschart.ui \
     listwidget.ui \
     mainwindow.ui \
     setword.ui \
     userlearns.ui \
-    usersession.ui \
     userstats.ui
 
 # Default rules for deployment.

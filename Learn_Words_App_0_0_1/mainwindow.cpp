@@ -43,12 +43,6 @@ void MainWindow::on_actionStart_lesson_triggered()
 
     user_learns_session = std::make_unique<UserLearns>(this);
     user_learns_session->show();
-
-    // a new approach
-    // registering as a new observer
-    // ChangeLessonMode changeLessonMode;
-    // user_learns_session = std::make_unique<UserLearns>(&changeLessonMode, this);
-    // user_learns_session->show();
 }
 
 
@@ -94,14 +88,14 @@ void MainWindow::on_actionDelete_word_triggered()
 }
 
 
-void MainWindow::on_actionChange_mode_triggered()
-{
-    change_lesson_mode_session = std::make_unique<ChangeLessonMode>(this);
-    change_lesson_mode_session->setGeometry(0, 0,
-                                     static_cast<int>(Sizes::CHANGE_MODE_DIALOG_WIDTH),
-                                     static_cast<int>(Sizes::CHANGE_MODE_DOALOG_HEIGHT));
-    change_lesson_mode_session->show();
-}
+// void MainWindow::on_actionChange_mode_triggered()
+// {
+//     change_lesson_mode_session = std::make_unique<ChangeLessonMode>(this);
+//     change_lesson_mode_session->setGeometry(0, 0,
+//                                      static_cast<int>(Sizes::CHANGE_MODE_DIALOG_WIDTH),
+//                                      static_cast<int>(Sizes::CHANGE_MODE_DOALOG_HEIGHT));
+//     change_lesson_mode_session->show();
+// }
 
 
 void MainWindow::on_actionFinish_lesson_triggered()

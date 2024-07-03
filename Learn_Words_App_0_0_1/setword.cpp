@@ -27,6 +27,15 @@ SetWord::SetWord(QWidget *parent)
     for(const auto &mode : MODES){
         ui->mode_comboBox->addItem(mode);
     }
+
+    // buttons views
+    // confirm selection button
+    makeButtonIcon(":all_pics/confirm.png",
+                   "Confirm selection", ui->selectButton);
+
+    // confirm set button
+    makeButtonIcon(":all_pics/update.png",
+                   "Update the word", ui->setButton);
 }
 
 SetWord::~SetWord()

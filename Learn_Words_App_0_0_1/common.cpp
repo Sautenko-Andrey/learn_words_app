@@ -16,8 +16,7 @@ const QStringList LANGUAGES_DB = {
     "swe-rus"
 };
 
-const QString BACKGROUND_COLOR = "background-color:lightGray;";
-
+const QString BACKGROUND_COLOR = "background-color:#708090;";
 
 // Constructor for the class OpenDB
 OpenDB::OpenDB()
@@ -60,4 +59,12 @@ void DrawLangLabel(QLabel *label, const QString &path)
     QPixmap curr_lang_pixmap(full_path);
     label->setPixmap(curr_lang_pixmap);
     label->setMask(curr_lang_pixmap.mask());
+}
+
+void makeButtonIcon(const QString &img_path, const QString &tool_tip,
+                    QAbstractButton *button){
+    QIcon icon;
+    icon.addPixmap(QPixmap(img_path), QIcon::Active, QIcon::On);
+    button->setIcon(icon);
+    button->setToolTip(tool_tip);
 }

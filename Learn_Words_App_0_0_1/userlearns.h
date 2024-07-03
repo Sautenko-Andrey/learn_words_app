@@ -6,8 +6,6 @@
 #include <memory>
 #include <QComboBox>
 #include <QSqlQuery>
-#include "observer.h"   // new
-#include "changelessonmode.h"  // new
 
 
 namespace Ui {

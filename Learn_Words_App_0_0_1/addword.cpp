@@ -32,6 +32,28 @@ AddWord::AddWord(QWidget *parent)
     for(const auto &mode : LANGUAGES_DB){
         ui->modeComboBox->addItem(mode);
     }
+
+    // making icons for buttons
+    // add button
+    makeButtonIcon(":all_pics/add.png", "Add a new word", ui->addButton);
+
+    // clear all button
+    makeButtonIcon(":all_pics/clear_all.png", "Clear all lines", ui->clearLinesButton);
+
+    // clear left line button
+    makeButtonIcon(":all_pics/clear_f.png",
+                   "Clear the left line", ui->clearForeignButton);
+
+    // clear right line button
+    makeButtonIcon(":all_pics/clear_r.png",
+                   "Clear the right line", ui->clearRusButton);
+
+    // confirm selection button
+    makeButtonIcon(":all_pics/confirm.png",
+                   "Confirm selection", ui->selectButton);
+
+    // Set tool tip for the words counter
+    ui->lcdNumber->setToolTip(QString("Total words"));
 }
 
 
@@ -39,6 +61,15 @@ AddWord::~AddWord()
 {
     delete ui;
 }
+
+
+// void makeButtonIcon(const QString &img_path, const QString &tool_tip,
+//                     const QAbstractButton *button){
+//     QIcon icon;
+//     icon.addPixmap(QPixmap(img_path), QIcon::Active, QIcon::On);
+//     button->setIcon(icon);
+//     button->setToolTip(tool_tip);
+// }
 
 
 void AddWord::on_addButton_clicked()
@@ -96,7 +127,7 @@ void AddWord::on_addButton_clicked()
 
     // let's show total words
     // before that we should flush old value
-    ui->counterLabel->clear();
+    //ui->counterLabel->clear();
     show_total_words();
 }
 

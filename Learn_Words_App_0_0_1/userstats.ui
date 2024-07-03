@@ -13,46 +13,50 @@
   <property name="windowTitle">
    <string>Stats</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QPushButton" name="today_res_Button">
-     <property name="text">
-      <string>Today's result</string>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+T</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="last_week_res_Button">
-     <property name="text">
-      <string>Last week result</string>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+W</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="last_month_res_Button">
-     <property name="text">
-      <string>Last month result</string>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+M</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="overall_res_Button">
-     <property name="text">
-      <string>Overall result</string>
-     </property>
-     <property name="shortcut">
-      <string>Ctrl+O</string>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="today_res_Button">
+       <property name="text">
+        <string>Today's result</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+T</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="last_week_res_Button">
+       <property name="text">
+        <string>Last week result</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+W</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="last_month_res_Button">
+       <property name="text">
+        <string>Last month result</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+M</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="overall_res_Button">
+       <property name="text">
+        <string>Overall result</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+O</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

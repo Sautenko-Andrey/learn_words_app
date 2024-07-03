@@ -43,58 +43,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QPushButton" name="statsButton">
-           <property name="text">
-            <string>stats</string>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+S</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="restartButton">
-           <property name="text">
-            <string>restart</string>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+R</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="finishButton">
-           <property name="text">
-            <string>finish</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="showtasksButton">
-           <property name="text">
-            <string>tasks</string>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+T</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="nextButton">
-           <property name="text">
-            <string>next</string>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+Return</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="horizontalSpacer_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -107,35 +56,67 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="statsButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+S</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="restartButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+R</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="finishButton">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="showtasksButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+T</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="nextButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Return</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="reloadDataButton">
          <property name="text">
           <string/>
          </property>
-         <property name="icon">
-          <iconset resource="all_resources.qrc">
-           <normaloff>:/all_pics/restart.png</normaloff>:/all_pics/restart.png</iconset>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QProgressBar" name="progressBar">
-         <property name="value">
-          <number>24</number>
-         </property>
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer">
+        <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>18</width>
+           <width>40</width>
            <height>20</height>
           </size>
          </property>
@@ -162,6 +143,10 @@
          </property>
         </widget>
        </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <spacer name="horizontalSpacer_3">
          <property name="orientation">
@@ -170,6 +155,26 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="progressBar">
+         <property name="value">
+          <number>24</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>18</width>
            <height>20</height>
           </size>
          </property>
@@ -188,8 +193,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="all_resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

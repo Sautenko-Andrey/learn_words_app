@@ -6,6 +6,7 @@ UserStats::UserStats(QWidget *parent)
     , ui(new Ui::UserStats)
 {
     ui->setupUi(this);
+
 }
 
 UserStats::~UserStats()

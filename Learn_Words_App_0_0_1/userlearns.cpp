@@ -34,6 +34,31 @@ UserLearns::UserLearns(QWidget *parent)
     // Make buttons "Stats" closed before user inputs the first answer
     ui->statsButton->setDisabled(true);
 
+    // Minimum width for the progress bar
+    ui->progressBar->setMinimumWidth(500);
+
+    // making icons for buttons
+    // stats button
+    makeButtonIcon(":all_pics/stats.png", "Getting current stats", ui->statsButton);
+
+    // restart button
+    makeButtonIcon(":all_pics/restart_lesson.png", "Restart current lesson",
+                   ui->restartButton);
+
+    // finish button
+    makeButtonIcon(":all_pics/finish_lesson.png", "Finish current lesson",
+                   ui->finishButton);
+
+    // tasks button
+    makeButtonIcon(":all_pics/task_list.png", "Getting all tasks and answers",
+                   ui->showtasksButton);
+
+    // next button
+    makeButtonIcon(":all_pics/next.png", "Go to the next task", ui->nextButton);
+
+    // reload database button
+    makeButtonIcon(":all_pics/restart.png", "Reload database", ui->reloadDataButton);
+
     // connections
     connect(ui->engModeRadioButton, SIGNAL(toggled(bool)), this, SLOT(modeChanged()));
 }

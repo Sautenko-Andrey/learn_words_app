@@ -71,7 +71,6 @@
    <addaction name="actionStart_lesson"/>
    <addaction name="actionFinish_lesson"/>
    <addaction name="actionStats"/>
-   <addaction name="actionChange_mode"/>
    <addaction name="separator"/>
    <addaction name="actionAdd_word"/>
    <addaction name="actionDelete_word"/>
@@ -130,15 +129,6 @@
    </property>
    <property name="text">
     <string>Stats</string>
-   </property>
-  </action>
-  <action name="actionChange_mode">
-   <property name="icon">
-    <iconset resource="all_resources.qrc">
-     <normaloff>:/all_pics/settings.png</normaloff>:/all_pics/settings.png</iconset>
-   </property>
-   <property name="text">
-    <string>Change mode</string>
    </property>
   </action>
   <action name="actionAdd_words_from_file">

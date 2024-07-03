@@ -14,5 +14,13 @@
         <file>icon.jpeg</file>
         <file>loading_animation.gif</file>
         <file>add_from_file.png</file>
+        <file>restart_lesson.png</file>
+        <file>finish_lesson.png</file>
+        <file>task_list.png</file>
+        <file>next.png</file>
+        <file>clear_all.png</file>
+        <file>clear_f.png</file>
+        <file>clear_r.png</file>
+        <file>confirm.png</file>
     </qresource>
 </RCC>

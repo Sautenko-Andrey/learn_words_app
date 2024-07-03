@@ -24,6 +24,15 @@ DeleteWord::DeleteWord(QWidget *parent)
     for(const auto &mode : MODES){
         ui->modeComboBox->addItem(mode);
     }
+
+    // buttons views
+    // confirm selection button
+    makeButtonIcon(":all_pics/confirm.png",
+                   "Confirm selection", ui->setButton);
+
+    // confirm selection button
+    makeButtonIcon(":all_pics/delete.png",
+                   "Delete the word", ui->deleteButton);
 }
 
 DeleteWord::~DeleteWord()

@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QPixmap>
 #include <QLabel>
+#include <QAbstractButton>
 
 
 //Common data
@@ -48,6 +49,9 @@ QString& PathToIcon(QString &&file_name) noexcept;
 
 
 void DrawLangLabel(QLabel *label, const QString &path);
+
+void makeButtonIcon(const QString &img_path, const QString &tool_tip,
+                    QAbstractButton *button);
 
 
 #endif // COMMON_H
