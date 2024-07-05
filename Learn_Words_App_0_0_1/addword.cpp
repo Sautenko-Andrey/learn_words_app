@@ -63,15 +63,6 @@ AddWord::~AddWord()
 }
 
 
-// void makeButtonIcon(const QString &img_path, const QString &tool_tip,
-//                     const QAbstractButton *button){
-//     QIcon icon;
-//     icon.addPixmap(QPixmap(img_path), QIcon::Active, QIcon::On);
-//     button->setIcon(icon);
-//     button->setToolTip(tool_tip);
-// }
-
-
 void AddWord::on_addButton_clicked()
 {
     // Let's check if the addition string/s is/are not empty
@@ -127,7 +118,6 @@ void AddWord::on_addButton_clicked()
 
     // let's show total words
     // before that we should flush old value
-    //ui->counterLabel->clear();
     show_total_words();
 }
 

@@ -28,7 +28,6 @@ private:
 
     OpenDB db;
 
-
     void createAndAddLineSeries(const QSqlDatabase& connection,
                             All_Languges lesson_mode, QChart *chart);
 

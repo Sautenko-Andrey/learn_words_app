@@ -40,8 +40,6 @@ private slots:
 
     void on_actionDelete_word_triggered();
 
-    //void on_actionChange_mode_triggered();
-
     void on_actionFinish_lesson_triggered();
 
     void on_actionAdd_words_from_file_triggered();
@@ -49,17 +47,15 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    std::unique_ptr<AddWord> add_word_session;
+    std::unique_ptr<AddWord> add_word_session{nullptr};
 
-    std::unique_ptr<SetWord> set_one_word_session;
+    std::unique_ptr<SetWord> set_one_word_session{nullptr};
 
-    std::unique_ptr<DeleteWord> delete_word_session;
+    std::unique_ptr<DeleteWord> delete_word_session{nullptr};
 
-    //std::unique_ptr<ChangeLessonMode> change_lesson_mode_session;
+    std::unique_ptr<UserStats> user_stats_session{nullptr};
 
-    std::unique_ptr<UserStats> user_stats_session;
-
-    std::unique_ptr<UserLearns> user_learns_session;
+    std::unique_ptr<UserLearns> user_learns_session{nullptr};
 
     OpenDB db;
 

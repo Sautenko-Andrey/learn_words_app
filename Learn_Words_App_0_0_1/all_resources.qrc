@@ -22,5 +22,8 @@
         <file>clear_f.png</file>
         <file>clear_r.png</file>
         <file>confirm.png</file>
+        <file>help.png</file>
+        <file>font_down.png</file>
+        <file>font_up.png</file>
     </qresource>
 </RCC>

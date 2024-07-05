@@ -27,10 +27,8 @@ HEADERS += \
     drawstatschart.h \
     listwidget.h \
     mainwindow.h \
-    observer.h \
     setword.h \
     sizes.h \
-    subject.h \
     userlearns.h \
     userstats.h
 

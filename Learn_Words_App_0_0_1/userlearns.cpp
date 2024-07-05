@@ -25,6 +25,9 @@ UserLearns::UserLearns(QWidget *parent)
     // Show to user what he has type in edit line
     ui->userTextEdit->setPlaceholderText(QString("type your answer"));
 
+    // Make task line read only
+    ui->taskTextEdit->setReadOnly(true);
+
     // Let's make focus on user's edit line
     ui->userTextEdit->setFocus();
 
@@ -58,6 +61,18 @@ UserLearns::UserLearns(QWidget *parent)
 
     // reload database button
     makeButtonIcon(":all_pics/restart.png", "Reload database", ui->reloadDataButton);
+
+    // help button
+    makeButtonIcon(":all_pics/help.png", "Show the right answer", ui->helpButton);
+
+    // clear button
+    makeButtonIcon(":all_pics/clear_all.png", "Clear user's input text", ui->clearButton);
+
+    // font up button
+    makeButtonIcon(":all_pics/font_up.png", "Increase font size", ui->fontUpButton);
+
+    // font down button
+    makeButtonIcon(":all_pics/font_down.png", "Decrease font size", ui->fontDownButton);
 
     // connections
     connect(ui->engModeRadioButton, SIGNAL(toggled(bool)), this, SLOT(modeChanged()));
@@ -273,8 +288,15 @@ void UserLearns::on_showtasksButton_clicked()
 {
     // show all tasks and right answers
     // create and show up a list widget
-    ListWidget *list_widget = new ListWidget(this);
-    list_widget->show();
+    if(ui->engModeRadioButton->isChecked()){
+        ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::ENG);
+        list_widget->show();
+    }
+    else{
+        ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::SWE);
+        list_widget->show();
+    }
+
 }
 
 
@@ -365,7 +387,41 @@ void UserLearns::save_stats()
     save_result_query.bindValue(":user_success", user_stats);
 
     if(!save_result_query.exec()){
-        qDebug() << "Error while adding a new stats to the data base!";
+        QMessageBox::warning(this,
+                             "Warning",
+                             "Error while adding a new stats to the data base!");
         return;
     }
 }
+
+void UserLearns::on_helpButton_clicked()
+{
+    // show the right answer
+
+    auto it = all_words.cbegin();
+
+    std::advance(it, answers_counter);
+
+    QMessageBox::information(this, "Hint", "<b>" + it.key() + "</b>");
+
+}
+
+
+void UserLearns::on_clearButton_clicked()
+{
+    // clear user's answer
+    ui->userTextEdit->clear();
+}
+
+
+void UserLearns::on_fontUpButton_clicked()
+{
+    // increase font
+}
+
+
+void UserLearns::on_fontDownButton_clicked()
+{
+    //decrease font
+}
+

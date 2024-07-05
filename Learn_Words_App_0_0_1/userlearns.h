@@ -35,6 +35,14 @@ private slots:
 
     void on_reloadDataButton_clicked();
 
+    void on_helpButton_clicked();
+
+    void on_clearButton_clicked();
+
+    void on_fontUpButton_clicked();
+
+    void on_fontDownButton_clicked();
+
 private:
     Ui::UserLearns *ui;
 
@@ -65,6 +73,7 @@ private:
     void prepareData(const QString &request_msg,
                      const QString &path_to_flag,
                      QSqlQuery &query);
+
 };
 
 #endif // USERLEARNS_H

@@ -21,8 +21,8 @@
        <property name="font">
         <font>
          <pointsize>14</pointsize>
-         <italic>true</italic>
-         <bold>false</bold>
+         <italic>false</italic>
+         <bold>true</bold>
         </font>
        </property>
       </widget>
