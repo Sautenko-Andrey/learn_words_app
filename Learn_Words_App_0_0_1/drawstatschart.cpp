@@ -9,11 +9,14 @@
 #include <QtSql>
 #include <QMessageBox>
 
-DrawStatsChart::DrawStatsChart(QWidget *parent)
+DrawStatsChart::DrawStatsChart(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DrawStatsChart)
 {
     ui->setupUi(this);
+
+    // pointer on the database
+    db = &database;
 }
 
 DrawStatsChart::~DrawStatsChart()
@@ -21,13 +24,16 @@ DrawStatsChart::~DrawStatsChart()
     delete ui;
 }
 
-void DrawStatsChart::createAndAddLineSeries(const QSqlDatabase& connection,
-                                        All_Languges lesson_mode, QChart *chart)
+// void DrawStatsChart::createAndAddLineSeries(const QSqlDatabase& connection,
+//                                         All_Languges lesson_mode, QChart *chart)
+void DrawStatsChart::createAndAddLineSeries(QSqlDatabase *connection,
+                                            All_Languges lesson_mode, QChart *chart)
 {
     QString mode{};
     (lesson_mode == All_Languges::ENG) ? mode = "eng" : mode = "swe";
 
-    QSqlQuery query(connection);
+    // QSqlQuery query(connection);
+    QSqlQuery query(*connection);
     query.prepare("SELECT success FROM Stats WHERE mode = :user_mode");
     query.bindValue(":user_mode", mode);
 
@@ -54,14 +60,16 @@ void DrawStatsChart::createAndAddLineSeries(const QSqlDatabase& connection,
 void DrawStatsChart::drawOverallStats()
 {
     // let's make a query
-    auto connectDB = db.get_my_db();
+    //auto connectDB = db.get_my_db();
 
     // creating a chart
     auto chart = new QChart;
 
     // creating and adding series to chart
-    createAndAddLineSeries(connectDB, All_Languges::ENG, chart);
-    createAndAddLineSeries(connectDB, All_Languges::SWE, chart);
+    // createAndAddLineSeries(connectDB, All_Languges::ENG, chart);
+    // createAndAddLineSeries(connectDB, All_Languges::SWE, chart);
+    createAndAddLineSeries(db, All_Languges::ENG, chart);
+    createAndAddLineSeries(db, All_Languges::SWE, chart);
 
     chart->createDefaultAxes();
     chart->setTitle("Overall stats");
@@ -74,10 +82,13 @@ void DrawStatsChart::drawOverallStats()
     chartview->setParent(ui->horizontalFrame);
 }
 
-void DrawStatsChart::appendDatatoBarSet(const QSqlDatabase& connection,
+// void DrawStatsChart::appendDatatoBarSet(const QSqlDatabase& connection,
+//                                         QBarSet *set, const QString &user_query)
+void DrawStatsChart::appendDatatoBarSet(QSqlDatabase *connection,
                                         QBarSet *set, const QString &user_query)
 {
-    QSqlQuery query(connection);
+    // QSqlQuery query(connection);
+    QSqlQuery query(*connection);
     if(!query.exec(user_query)){
         QMessageBox::warning(this, "Error!",
                              "Can't get statistics. Try one more time.");
@@ -95,11 +106,13 @@ void DrawStatsChart::drawBarChart(const QString &title, const QString &eng_query
     auto swe_set = new QBarSet("SWE");
 
     // let's make a query
-    auto connectDB = db.get_my_db();
+    //auto connectDB = db.get_my_db();
 
     // appending data to BarSet
-    appendDatatoBarSet(connectDB, eng_set, eng_query);
-    appendDatatoBarSet(connectDB, swe_set, swe_query);
+    // appendDatatoBarSet(connectDB, eng_set, eng_query);
+    // appendDatatoBarSet(connectDB, swe_set, swe_query);
+    appendDatatoBarSet(db, eng_set, eng_query);
+    appendDatatoBarSet(db, swe_set, swe_query);
 
     QBarSeries *series = new QBarSeries;
     series->append(eng_set);

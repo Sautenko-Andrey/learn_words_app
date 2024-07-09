@@ -13,7 +13,7 @@ class DeleteWord : public QDialog
     Q_OBJECT
 
 public:
-    explicit DeleteWord(QWidget *parent = nullptr);
+    explicit DeleteWord(QSqlDatabase &database, QWidget *parent = nullptr);
     ~DeleteWord();
 
 private slots:
@@ -24,7 +24,9 @@ private slots:
 private:
     Ui::DeleteWord *ui;
 
-    OpenDB db;
+    //OpenDB db;
+
+    QSqlDatabase *db{nullptr};
 
     int mode_index;
 

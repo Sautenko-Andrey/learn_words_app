@@ -16,7 +16,7 @@ class UserStats : public QDialog
     Q_OBJECT
 
 public:
-    explicit UserStats(QWidget *parent = nullptr);
+    explicit UserStats(QSqlDatabase &database, QWidget *parent = nullptr);
     ~UserStats();
 
 private slots:
@@ -31,9 +31,11 @@ private slots:
 private:
     Ui::UserStats *ui;
 
-    OpenDB db;
+    //OpenDB db;
 
-    std::unique_ptr<DrawStatsChart> stats_chart;
+    QSqlDatabase *db{nullptr};
+
+    std::unique_ptr<DrawStatsChart> stats_chart{nullptr};
 
     void createChart(statsMode mode);
 };

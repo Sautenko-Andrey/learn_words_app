@@ -59,7 +59,8 @@ Add eng words from a file -> user is allowed to add english words
 to his vocabulary from the text file. The only one requirement:
 data in the text file should be in the following structure:
 [native language word]*[english word] as one row in file.
-Notice that dublicated words will not be added. 
+Notice that dublicated words will not be added.
+Utility for the data preparing provides with the app.
 
 For this application I use C++, QT6 and SQLite3.
 

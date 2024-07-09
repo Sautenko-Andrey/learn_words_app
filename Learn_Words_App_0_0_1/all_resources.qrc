@@ -25,5 +25,7 @@
         <file>help.png</file>
         <file>font_down.png</file>
         <file>font_up.png</file>
+        <file>bold.png</file>
+        <file>italic.png</file>
     </qresource>
 </RCC>

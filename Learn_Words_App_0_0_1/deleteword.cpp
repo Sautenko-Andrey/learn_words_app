@@ -5,11 +5,14 @@
 #include <QString>
 #include <QDebug>
 
-DeleteWord::DeleteWord(QWidget *parent)
+DeleteWord::DeleteWord(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DeleteWord)
 {
     ui->setupUi(this);
+
+    // pointer on the database
+    db = &database;
 
     // Show to user what he has to type in edit lines
     ui->textEdit->setPlaceholderText(QString("type word for deleting"));
@@ -97,7 +100,9 @@ void DeleteWord::on_setButton_clicked()
 void DeleteWord::make_delete_query(const QString &target_word, All_Modes mode)
 {
     // Make a query
-    QSqlQuery query(db.get_my_db());
+    // QSqlQuery query(db.get_my_db());
+
+    QSqlQuery query(*db);
 
     switch (mode) {
     case All_Modes::RUS__ENG_RUS:

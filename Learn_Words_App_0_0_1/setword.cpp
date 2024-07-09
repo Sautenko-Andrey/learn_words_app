@@ -5,11 +5,14 @@
 #include <QtSql>
 #include <QMessageBox>
 
-SetWord::SetWord(QWidget *parent)
+SetWord::SetWord(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::SetWord)
 {
     ui->setupUi(this);
+
+    // pointer on the database
+    db = &database;
 
     // Make focus on the mode box
     ui->mode_comboBox->setFocus();
@@ -49,7 +52,9 @@ void SetWord::make_set_query(const QString &corrupted_word,
 {
 
     // Make a query
-    QSqlQuery query(db.get_my_db());
+    // QSqlQuery query(db.get_my_db());
+
+    QSqlQuery query(*db);
 
     switch (mode) {
     case All_Modes::RUS__ENG_RUS:
@@ -109,7 +114,6 @@ void SetWord::on_setButton_clicked()
     case static_cast<int>(All_Modes::ENG__ENG_RUS):
         // let's update eng word in eng-rus data base
         make_set_query(corrupted_word, correct_word, All_Modes::ENG__ENG_RUS);
-
         break;
 
     case static_cast<int>(All_Modes::SWE__SWE_RUS):

@@ -15,7 +15,7 @@ class SetWord : public QDialog
     Q_OBJECT
 
 public:
-    explicit SetWord(QWidget *parent = nullptr);
+    explicit SetWord(QSqlDatabase &database, QWidget *parent = nullptr);
     ~SetWord();
 
 private slots:
@@ -27,7 +27,9 @@ private slots:
 private:
     Ui::SetWord *ui;
 
-    OpenDB db;
+    //OpenDB db;
+
+    QSqlDatabase *db;
 
     All_Modes current_mode;
 

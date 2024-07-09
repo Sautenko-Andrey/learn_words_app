@@ -1,11 +1,17 @@
 #include "userstats.h"
 #include "ui_userstats.h"
 
-UserStats::UserStats(QWidget *parent)
+UserStats::UserStats(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UserStats)
 {
     ui->setupUi(this);
+
+    // pointer on the databse
+    db = &database;
+
+    // initializing DrawStatsChart class object
+    stats_chart = std::make_unique<DrawStatsChart>(database, this);
 
 }
 
@@ -16,7 +22,7 @@ UserStats::~UserStats()
 
 void UserStats::createChart(statsMode mode)
 {
-    stats_chart = std::make_unique<DrawStatsChart>(this);
+    // stats_chart = std::make_unique<DrawStatsChart>(this);
     stats_chart->setGeometry(0, 0,
                              static_cast<int>(Sizes::STATS_CHART_WIDTH),
                              static_cast<int>(Sizes::STATS_CHART_HEIGHT));

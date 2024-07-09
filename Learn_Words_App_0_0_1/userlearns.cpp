@@ -9,15 +9,19 @@
 #include "listwidget.h"
 #include <QMovie>
 
-UserLearns::UserLearns(QWidget *parent)
+UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::UserLearns)
 {
     ui->setupUi(this);
 
+    // pointer on the database
+    db = &database;
+
     ui->engModeRadioButton->setChecked(true);
 
-    QSqlQuery get_all_words_query(db.get_my_db());
+    // QSqlQuery get_all_words_query(db.get_my_db());
+    QSqlQuery get_all_words_query(*db);
 
     prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
                 "eng_flag.png", get_all_words_query);
@@ -129,7 +133,8 @@ void UserLearns::prepareData(const QString &request_msg,
 
 void UserLearns::modeChanged(){
 
-    QSqlQuery get_all_words_query(db.get_my_db());
+    // QSqlQuery get_all_words_query(db.get_my_db());
+    QSqlQuery get_all_words_query(*db);
 
     if(ui->engModeRadioButton->isChecked()){
         prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
@@ -147,9 +152,11 @@ void UserLearns::on_reloadDataButton_clicked()
     // when user made changes in database and wants to continue lesson
     // with updating data without reloading app
 
-    OpenDB support_db;
+    //OpenDB support_db;
 
-    QSqlQuery support_query(support_db.get_my_db());
+    // QSqlQuery support_query(support_db.get_my_db());
+    QSqlQuery support_query(*db);
+
 
     if(ui->engModeRadioButton->isChecked()){
         prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
@@ -289,11 +296,13 @@ void UserLearns::on_showtasksButton_clicked()
     // show all tasks and right answers
     // create and show up a list widget
     if(ui->engModeRadioButton->isChecked()){
-        ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::ENG);
+        // ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::ENG);
+        ListWidget *list_widget = new ListWidget(*db, this, All_Languges::ENG);
         list_widget->show();
     }
     else{
-        ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::SWE);
+        // ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::SWE);
+        ListWidget *list_widget = new ListWidget(*db, this, All_Languges::SWE);
         list_widget->show();
     }
 
@@ -373,7 +382,8 @@ void UserLearns::save_stats()
     auto user_stats = get_stats();
 
     // make query
-    QSqlQuery save_result_query(db.get_my_db());
+    // QSqlQuery save_result_query(db.get_my_db());
+    QSqlQuery save_result_query(*db);
 
     if(ui->engModeRadioButton->isChecked()){
         save_result_query.prepare("INSERT INTO Stats(mode, success) "
@@ -413,15 +423,43 @@ void UserLearns::on_clearButton_clicked()
     ui->userTextEdit->clear();
 }
 
+void UserLearns::setCursor(bool increase)
+{
+    // minimum and maximum font size
+    int minimum = 5;
+    int maximum = 25;
+
+    // logic when user goes out of bounds
+    if (font_size < minimum){
+        QMessageBox::warning(this, "Warning", "You are out of minimal bound.");
+        font_size = ++minimum;
+        ui->taskTextEdit->setFontPointSize(minimum);
+    }
+    else if (font_size > maximum){
+        QMessageBox::warning(this, "Warning", "You are out of maximum bound.");
+        font_size = --maximum;
+        ui->taskTextEdit->setFontPointSize(maximum);
+    }
+
+    QTextCursor cursor = ui->taskTextEdit->textCursor();
+    ui->taskTextEdit->selectAll();
+
+    increase ? ui->taskTextEdit->setFontPointSize(++font_size)
+             : ui->taskTextEdit->setFontPointSize(--font_size);
+
+    ui->taskTextEdit->setTextCursor(cursor);
+}
+
 
 void UserLearns::on_fontUpButton_clicked()
 {
     // increase font
+    setCursor();
 }
 
 
 void UserLearns::on_fontDownButton_clicked()
 {
     //decrease font
+    setCursor(false);
 }
-

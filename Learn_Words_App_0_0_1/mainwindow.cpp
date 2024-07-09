@@ -5,10 +5,8 @@
 #include <QPixmap>
 #include <QDir>
 #include <QString>
-//#include <QInputDialog>
 #include <QFileDialog>
 #include <QDebug>
-//#include <QHash>
 #include <QFile>
 #include <string>
 #include <QTextStream>
@@ -41,7 +39,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_actionStart_lesson_triggered()
 {
 
-    user_learns_session = std::make_unique<UserLearns>(this);
+    user_learns_session = std::make_unique<UserLearns>(db.get_my_db(), this);
     user_learns_session->show();
 }
 
@@ -49,7 +47,7 @@ void MainWindow::on_actionStart_lesson_triggered()
 void MainWindow::on_actionAdd_word_triggered()
 {
     // here we call add word widget
-    add_word_session = std::make_unique<AddWord>(this);
+    add_word_session = std::make_unique<AddWord>(db.get_my_db(), this);
     add_word_session->show();
 }
 
@@ -59,7 +57,7 @@ void MainWindow::on_actionStats_triggered()
     // here we call a Message box with user's result
     // in percentes
     // We create and call stats dialog
-    user_stats_session = std::make_unique<UserStats>(this);
+    user_stats_session = std::make_unique<UserStats>(db.get_my_db(), this);
     user_stats_session->setGeometry(0, 0,
                                       static_cast<int>(Sizes::STATS_DIALOG_WIDTH),
                                       static_cast<int>(Sizes::STATS_DIALOG_HEIGHT));
@@ -69,7 +67,7 @@ void MainWindow::on_actionStats_triggered()
 
 void MainWindow::on_actionSet_word_triggered()
 {
-    set_one_word_session = std::make_unique<SetWord>(this);
+    set_one_word_session = std::make_unique<SetWord>(db.get_my_db(), this);
     set_one_word_session->setGeometry(0, 0,
                                       static_cast<int>(Sizes::DIALOG_WINDOW_WIDTH),
                                       static_cast<int>(Sizes::DIALOG_WINDOW_HEIGHT));
@@ -80,7 +78,7 @@ void MainWindow::on_actionSet_word_triggered()
 void MainWindow::on_actionDelete_word_triggered()
 {
     // call the delete word dialog
-    delete_word_session = std::make_unique<DeleteWord>(this);
+    delete_word_session = std::make_unique<DeleteWord>(db.get_my_db(), this);
     delete_word_session->setGeometry(0, 0,
                                      static_cast<int>(Sizes::DIALOG_WINDOW_WIDTH),
                                      static_cast<int>(Sizes::DIALOG_WINDOW_HEIGHT));
@@ -156,4 +154,3 @@ void MainWindow::on_actionAdd_words_from_file_triggered()
 
     file.close();
 }
-

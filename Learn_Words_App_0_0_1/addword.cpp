@@ -6,11 +6,14 @@
 #include <QtSql>
 #include <QMessageBox>
 
-AddWord::AddWord(QWidget *parent)
+AddWord::AddWord(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AddWord)
 {
     ui->setupUi(this);
+
+    // pointer on the database
+    db = &database;
 
     // let's block access to the both edit lines and "Add" button
     // before user sets mode
@@ -88,7 +91,9 @@ void AddWord::on_addButton_clicked()
 
     // Adding word to the data_base
     // let's make a query
-    QSqlQuery query(db.get_my_db());
+    // QSqlQuery query(db.get_my_db());
+
+    QSqlQuery query(*db);
 
     if(mode_index == static_cast<int>(All_Languges::ENG)){
         query.prepare("INSERT INTO ENG_RUS_WORDS(eng_word, rus_word) "
@@ -156,7 +161,9 @@ void AddWord::show_total_words()
 
 int AddWord::getTotalWords()
 {
-    QSqlQuery query(db.get_my_db());
+    // QSqlQuery query(db.get_my_db());
+
+    QSqlQuery query(*db);
 
     if(mode_index == static_cast<int>(All_Languges::ENG)){
         query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");

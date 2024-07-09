@@ -13,7 +13,7 @@ class AddWord : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddWord(QWidget *parent = nullptr);
+    explicit AddWord(QSqlDatabase &database, QWidget *parent = nullptr);
     ~AddWord();
 
 private slots:
@@ -30,7 +30,9 @@ private slots:
 private:
     Ui::AddWord *ui;
 
-    OpenDB db;
+    //OpenDB db;
+
+    QSqlDatabase *db{nullptr};
 
     void show_total_words();
 

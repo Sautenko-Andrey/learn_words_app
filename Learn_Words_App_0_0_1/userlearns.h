@@ -7,7 +7,6 @@
 #include <QComboBox>
 #include <QSqlQuery>
 
-
 namespace Ui {
 class UserLearns;
 }
@@ -17,7 +16,8 @@ class UserLearns : public QDialog
     Q_OBJECT
 
 public:
-    explicit UserLearns(QWidget *parent = nullptr);
+    // explicit UserLearns(QWidget *parent = nullptr);
+    explicit UserLearns(QSqlDatabase &database, QWidget *parent = nullptr);
     ~UserLearns();
 
 private slots:
@@ -46,7 +46,8 @@ private slots:
 private:
     Ui::UserLearns *ui;
 
-    OpenDB db;
+    //OpenDB db;
+    QSqlDatabase *db{nullptr};
 
     QHash<QString, QString> all_words;
 
@@ -57,6 +58,8 @@ private:
     unsigned answers_counter = 0;
 
     double progress_steps = 1.0;
+
+    int font_size = 14;
 
     void answer_is_right(const QString &task, const QString &answer) noexcept;
 
@@ -73,6 +76,8 @@ private:
     void prepareData(const QString &request_msg,
                      const QString &path_to_flag,
                      QSqlQuery &query);
+
+    void setCursor(bool increase = true);
 
 };
 

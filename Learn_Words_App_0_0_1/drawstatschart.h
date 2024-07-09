@@ -15,7 +15,7 @@ class DrawStatsChart : public QDialog
     Q_OBJECT
 
 public:
-    explicit DrawStatsChart(QWidget *parent = nullptr);
+    explicit DrawStatsChart(QSqlDatabase &database, QWidget *parent = nullptr);
     ~DrawStatsChart();
 
     void drawOverallStats();
@@ -26,12 +26,18 @@ public:
 private:
     Ui::DrawStatsChart *ui;
 
-    OpenDB db;
+    //OpenDB db;
 
-    void createAndAddLineSeries(const QSqlDatabase& connection,
-                            All_Languges lesson_mode, QChart *chart);
+    QSqlDatabase *db;
 
-    void appendDatatoBarSet(const QSqlDatabase& connection,
+    // void createAndAddLineSeries(const QSqlDatabase& connection,
+    //                             All_Languges lesson_mode, QChart *chart);
+    void createAndAddLineSeries(QSqlDatabase *connection,
+                                All_Languges lesson_mode, QChart *chart);
+
+    // void appendDatatoBarSet(const QSqlDatabase& connection,
+    //                         QBarSet *set, const QString &user_query);
+    void appendDatatoBarSet(QSqlDatabase *connection,
                             QBarSet *set, const QString &user_query);
 
     void drawBarChart(const QString &title,
