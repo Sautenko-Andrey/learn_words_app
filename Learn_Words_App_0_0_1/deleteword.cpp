@@ -20,8 +20,13 @@ DeleteWord::DeleteWord(QSqlDatabase &database, QWidget *parent)
     // let's make the focus on the "Select" button
     ui->setButton->setFocus();
 
-    // make edit line unaccessable
+    // make edit line and all buttons unaccessable
+    // except select mode button
+    // untill user chooses mode
     ui->textEdit->setDisabled(true);
+    ui->deleteButton->setDisabled(true);
+    ui->fontDownButton->setDisabled(true);
+    ui->fontUpButton->setDisabled(true);
 
     // let's add all modes to the modes combobox
     for(const auto &mode : MODES){
@@ -33,9 +38,17 @@ DeleteWord::DeleteWord(QSqlDatabase &database, QWidget *parent)
     makeButtonIcon(":all_pics/confirm.png",
                    "Confirm selection", ui->setButton);
 
-    // confirm selection button
+    // delete button
     makeButtonIcon(":all_pics/delete.png",
                    "Delete the word", ui->deleteButton);
+
+    // font up button
+    makeButtonIcon(":all_pics/font_up.png",
+                   "Make text bigger", ui->fontUpButton);
+
+    // font down button
+    makeButtonIcon(":all_pics/font_down.png",
+                   "Make text smaller", ui->fontDownButton);
 }
 
 DeleteWord::~DeleteWord()
@@ -76,8 +89,9 @@ void DeleteWord::on_deleteButton_clicked()
     // clear all edit lines
     ui->textEdit->clear();
 
-    // make "Set" button accessable
+    // make set button unaccessable
     ui->setButton->setDefault(false);
+
 
     // make focus on the line edit
     ui->textEdit->setFocus();
@@ -86,9 +100,12 @@ void DeleteWord::on_deleteButton_clicked()
 
 void DeleteWord::on_setButton_clicked()
 {
-    // make edit lines and "Delete" button accessable
+    // make edit line and all buttons accessable again
     ui->textEdit->setDisabled(false);
     ui->textEdit->setDisabled(false);
+    ui->deleteButton->setDisabled(false);
+    ui->fontDownButton->setDisabled(false);
+    ui->fontUpButton->setDisabled(false);
 
     // make edit line on focus
     ui->textEdit->setFocus();
@@ -138,3 +155,17 @@ void DeleteWord::make_delete_query(const QString &target_word, All_Modes mode)
         ShowTempMessage("Status", "Word has been successfuly deleted.", 2000);
     }
 }
+
+void DeleteWord::on_fontUpButton_clicked()
+{
+    // makes text bigger
+    setTextEditCursor(font_size, ui->textEdit, this);
+}
+
+
+void DeleteWord::on_fontDownButton_clicked()
+{
+    // makes text smaller
+    setTextEditCursor(font_size, ui->textEdit, this, false);
+}
+

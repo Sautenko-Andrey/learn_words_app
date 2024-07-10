@@ -41,6 +41,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="unmarkButton">
+         <property name="text">
+          <string>Unmark</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="unmarkAllButton">
+         <property name="text">
+          <string>Unmark all</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

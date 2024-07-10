@@ -27,6 +27,10 @@ private slots:
 
     void on_clearRusButton_clicked();
 
+    void on_fontUpButton_clicked();
+
+    void on_fontDownButton_clicked();
+
 private:
     Ui::AddWord *ui;
 
@@ -39,6 +43,8 @@ private:
     int getTotalWords();
 
     int mode_index;
+
+    int font_size = 14;
 };
 
 #endif // ADDWORD_H

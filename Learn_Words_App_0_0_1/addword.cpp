@@ -15,15 +15,20 @@ AddWord::AddWord(QSqlDatabase &database, QWidget *parent)
     // pointer on the database
     db = &database;
 
-    // let's block access to the both edit lines and "Add" button
-    // before user sets mode
-    ui->textEdit->setDisabled(true);
-    ui->textEdit_2->setDisabled(true);
+    // let's block access to the all buttons and text edits
+    // except "Select language mode button" and give it when user will choose a mode.
+    ui->leftTextEdit->setDisabled(true);
+    ui->rightTextEdit->setDisabled(true);
     ui->addButton->setDisabled(true);
+    ui->clearForeignButton->setDisabled(true);
+    ui->clearRusButton->setDisabled(true);
+    ui->clearLinesButton->setDisabled(true);
+    ui->fontDownButton->setDisabled(true);
+    ui->fontUpButton->setDisabled(true);
 
     // Show to user what he has type in edit lines
-    ui->textEdit->setPlaceholderText(QString("type foreign word"));
-    ui->textEdit_2->setPlaceholderText(QString("type russian word"));
+    ui->leftTextEdit->setPlaceholderText(QString("type foreign word"));
+    ui->rightTextEdit->setPlaceholderText(QString("type russian word"));
 
     // let's show a number of words in current data base
     show_total_words();
@@ -55,6 +60,14 @@ AddWord::AddWord(QSqlDatabase &database, QWidget *parent)
     makeButtonIcon(":all_pics/confirm.png",
                    "Confirm selection", ui->selectButton);
 
+    // font up button
+    makeButtonIcon(":all_pics/font_up.png",
+                   "Make text bigger", ui->fontUpButton);
+
+    // font down button
+    makeButtonIcon(":all_pics/font_down.png",
+                   "Make text smaller", ui->fontDownButton);
+
     // Set tool tip for the words counter
     ui->lcdNumber->setToolTip(QString("Total words"));
 }
@@ -69,25 +82,25 @@ AddWord::~AddWord()
 void AddWord::on_addButton_clicked()
 {
     // Let's check if the addition string/s is/are not empty
-    if(ui->textEdit->toPlainText().isEmpty()){
+    if(ui->leftTextEdit->toPlainText().isEmpty()){
         QMessageBox::information(this, "Warning",
                                  "You can't add an empty string as english word");
         return;
     }
-    if(ui->textEdit_2->toPlainText().isEmpty()){
+    if(ui->rightTextEdit->toPlainText().isEmpty()){
         QMessageBox::information(this, "Warning",
                                  "You can't add an empty string as russian word");
         return;
     }
 
     // set focus on the eng line edit
-    ui->textEdit->setFocus();
+    ui->leftTextEdit->setFocus();
 
     // let's read words from line edits
     // let's get rid of potential unwanted leading and trailing characters
     // in this case spaces
-    QString user_foreign_word = (ui->textEdit->toPlainText()).trimmed();
-    QString user_rus_word = (ui->textEdit_2->toPlainText()).trimmed();
+    QString user_foreign_word = (ui->leftTextEdit->toPlainText()).trimmed();
+    QString user_rus_word = (ui->rightTextEdit->toPlainText()).trimmed();
 
     // Adding word to the data_base
     // let's make a query
@@ -118,8 +131,8 @@ void AddWord::on_addButton_clicked()
     }
 
     // let's clean both edit lines
-    ui->textEdit->clear();
-    ui->textEdit_2->clear();
+    ui->leftTextEdit->clear();
+    ui->rightTextEdit->clear();
 
     // let's show total words
     // before that we should flush old value
@@ -130,12 +143,17 @@ void AddWord::on_addButton_clicked()
 void AddWord::on_selectButton_clicked()
 {
     // make edit lines and "Add" button accessable
-    ui->textEdit->setDisabled(false);
-    ui->textEdit_2->setDisabled(false);
+    ui->leftTextEdit->setDisabled(false);
+    ui->rightTextEdit->setDisabled(false);
     ui->addButton->setDisabled(false);
+    ui->clearForeignButton->setDisabled(false);
+    ui->clearRusButton->setDisabled(false);
+    ui->clearLinesButton->setDisabled(false);
+    ui->fontDownButton->setDisabled(false);
+    ui->fontUpButton->setDisabled(false);
 
     // make the first edit line on focus
-    ui->textEdit->setFocus();
+    ui->leftTextEdit->setFocus();
 
     // saving chosen mode by user
     mode_index = ui->modeComboBox->currentIndex();
@@ -144,7 +162,7 @@ void AddWord::on_selectButton_clicked()
     show_total_words();
 
     // Focus on the first edit line
-    ui->textEdit->setFocus();
+    ui->leftTextEdit->setFocus();
 }
 
 // Function counts how many words saved in particular data base
@@ -165,11 +183,18 @@ int AddWord::getTotalWords()
 
     QSqlQuery query(*db);
 
-    if(mode_index == static_cast<int>(All_Languges::ENG)){
-        query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");
+    // if(mode_index == static_cast<int>(All_Languges::ENG)){
+    //     query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");
+    // }
+    // else{
+    //     query.exec("SELECT COUNT(*) FROM SWE_RUS_WORDS");
+    // }
+
+    if(mode_index == static_cast<int>(All_Languges::SWE)){
+        query.exec("SELECT COUNT(*) FROM SWE_RUS_WORDS");
     }
     else{
-        query.exec("SELECT COUNT(*) FROM SWE_RUS_WORDS");
+        query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");
     }
 
     if(query.first()){
@@ -182,22 +207,36 @@ int AddWord::getTotalWords()
 // clear both lines (foreign language line and russian line)
 void AddWord::on_clearLinesButton_clicked()
 {
-    ui->textEdit->clear();
-    ui->textEdit_2->clear();
-    ui->textEdit->setFocus();
+    ui->leftTextEdit->clear();
+    ui->rightTextEdit->clear();
+    ui->leftTextEdit->setFocus();
 }
 
 
 void AddWord::on_clearForeignButton_clicked()
 {
-    ui->textEdit->clear();
-    ui->textEdit->setFocus();
+    ui->leftTextEdit->clear();
+    ui->leftTextEdit->setFocus();
 }
 
 
 void AddWord::on_clearRusButton_clicked()
 {
-    ui->textEdit_2->clear();
-    ui->textEdit_2->setFocus();
+    ui->rightTextEdit->clear();
+    ui->rightTextEdit->setFocus();
+}
+
+
+void AddWord::on_fontUpButton_clicked()
+{
+    // makes text bigger
+    setTextEditCursor(font_size, ui->leftTextEdit, ui->rightTextEdit, this);
+}
+
+
+void AddWord::on_fontDownButton_clicked()
+{
+    // makes text smaller
+    setTextEditCursor(font_size, ui->leftTextEdit, ui->rightTextEdit, this, false);
 }
 

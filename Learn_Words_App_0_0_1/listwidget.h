@@ -23,6 +23,10 @@ public:
 private slots:
     void on_markButton_clicked();
 
+    void on_unmarkButton_clicked();
+
+    void on_unmarkAllButton_clicked();
+
 private:
     Ui::ListWidget *ui;
 };

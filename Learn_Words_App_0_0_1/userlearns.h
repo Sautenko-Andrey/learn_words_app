@@ -77,8 +77,6 @@ private:
                      const QString &path_to_flag,
                      QSqlQuery &query);
 
-    void setCursor(bool increase = true);
-
 };
 
 #endif // USERLEARNS_H

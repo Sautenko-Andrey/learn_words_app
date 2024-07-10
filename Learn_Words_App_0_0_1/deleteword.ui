@@ -68,6 +68,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="fontUpButton">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="fontDownButton">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

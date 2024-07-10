@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QAbstractButton>
+#include <QTextEdit>
 
 
 //Common data
@@ -52,6 +53,13 @@ void DrawLangLabel(QLabel *label, const QString &path);
 
 void makeButtonIcon(const QString &img_path, const QString &tool_tip,
                     QAbstractButton *button);
+
+void setTextEditCursor(int &font_size, QTextEdit *leftTextEdit,
+               QTextEdit *rightTextEdit, QDialog *dialog,
+               bool increase = true);
+
+void setTextEditCursor(int &font_size, QTextEdit *textEdit,
+                       QDialog *dialog, bool increase = true);
 
 
 #endif // COMMON_H

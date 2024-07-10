@@ -73,10 +73,10 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
     makeButtonIcon(":all_pics/clear_all.png", "Clear user's input text", ui->clearButton);
 
     // font up button
-    makeButtonIcon(":all_pics/font_up.png", "Increase font size", ui->fontUpButton);
+    makeButtonIcon(":all_pics/font_up.png", "Make text bigger", ui->fontUpButton);
 
     // font down button
-    makeButtonIcon(":all_pics/font_down.png", "Decrease font size", ui->fontDownButton);
+    makeButtonIcon(":all_pics/font_down.png", "Make text smaller", ui->fontDownButton);
 
     // connections
     connect(ui->engModeRadioButton, SIGNAL(toggled(bool)), this, SLOT(modeChanged()));
@@ -423,43 +423,16 @@ void UserLearns::on_clearButton_clicked()
     ui->userTextEdit->clear();
 }
 
-void UserLearns::setCursor(bool increase)
-{
-    // minimum and maximum font size
-    int minimum = 5;
-    int maximum = 25;
-
-    // logic when user goes out of bounds
-    if (font_size < minimum){
-        QMessageBox::warning(this, "Warning", "You are out of minimal bound.");
-        font_size = ++minimum;
-        ui->taskTextEdit->setFontPointSize(minimum);
-    }
-    else if (font_size > maximum){
-        QMessageBox::warning(this, "Warning", "You are out of maximum bound.");
-        font_size = --maximum;
-        ui->taskTextEdit->setFontPointSize(maximum);
-    }
-
-    QTextCursor cursor = ui->taskTextEdit->textCursor();
-    ui->taskTextEdit->selectAll();
-
-    increase ? ui->taskTextEdit->setFontPointSize(++font_size)
-             : ui->taskTextEdit->setFontPointSize(--font_size);
-
-    ui->taskTextEdit->setTextCursor(cursor);
-}
-
 
 void UserLearns::on_fontUpButton_clicked()
 {
     // increase font
-    setCursor();
+    setTextEditCursor(font_size, ui->taskTextEdit, ui->userTextEdit, this);
 }
 
 
 void UserLearns::on_fontDownButton_clicked()
 {
     //decrease font
-    setCursor(false);
+    setTextEditCursor(font_size, ui->taskTextEdit, ui->userTextEdit, this, false);
 }

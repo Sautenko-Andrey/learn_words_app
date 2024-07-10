@@ -21,7 +21,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QTextEdit" name="textEdit">
+          <widget class="QTextEdit" name="leftTextEdit">
            <property name="font">
             <font>
              <pointsize>14</pointsize>
@@ -32,7 +32,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QTextEdit" name="textEdit_2">
+          <widget class="QTextEdit" name="rightTextEdit">
            <property name="font">
             <font>
              <pointsize>14</pointsize>
@@ -79,6 +79,20 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="fontUpButton">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="fontDownButton">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item>
@@ -89,7 +103,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
-             <height>78</height>
+             <height>18</height>
             </size>
            </property>
           </spacer>

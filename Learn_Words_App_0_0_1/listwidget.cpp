@@ -38,7 +38,26 @@ ListWidget::~ListWidget()
 
 void ListWidget::on_markButton_clicked()
 {
+    // Mark current line
     QListWidgetItem *item = ui->listWidget->currentItem();
     item->setForeground(Qt::yellow);
     item->setBackground(Qt::black);
 }
+
+void ListWidget::on_unmarkButton_clicked()
+{
+    // Unmark current line
+    QListWidgetItem *item = ui->listWidget->currentItem();
+    item->setForeground(Qt::black);
+    item->setBackground(QBrush(QColor("SlateGray")));
+}
+
+
+void ListWidget::on_unmarkAllButton_clicked()   // it's not completed!!
+{
+    // umark all marked lines
+    for(auto const& el: ui->listWidget->selectedItems()){
+        qDebug() << el->text();
+    }
+}
+

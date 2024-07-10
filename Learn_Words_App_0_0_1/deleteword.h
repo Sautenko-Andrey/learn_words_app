@@ -21,6 +21,10 @@ private slots:
 
     void on_setButton_clicked();
 
+    void on_fontUpButton_clicked();
+
+    void on_fontDownButton_clicked();
+
 private:
     Ui::DeleteWord *ui;
 
@@ -28,9 +32,11 @@ private:
 
     QSqlDatabase *db{nullptr};
 
+    void make_delete_query(const QString &target_word, All_Modes mode);
+
     int mode_index;
 
-    void make_delete_query(const QString &target_word, All_Modes mode);
+    int font_size = 14;
 };
 
 #endif // DELETEWORD_H
