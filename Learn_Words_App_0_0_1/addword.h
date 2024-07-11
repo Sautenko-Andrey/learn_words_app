@@ -34,13 +34,11 @@ private slots:
 private:
     Ui::AddWord *ui;
 
-    //OpenDB db;
-
-    QSqlDatabase *db{nullptr};
-
     void show_total_words();
 
     int getTotalWords();
+
+    QSqlDatabase *db{nullptr};
 
     int mode_index;
 

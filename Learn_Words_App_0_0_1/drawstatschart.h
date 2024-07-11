@@ -26,22 +26,16 @@ public:
 private:
     Ui::DrawStatsChart *ui;
 
-    //OpenDB db;
-
-    QSqlDatabase *db;
-
-    // void createAndAddLineSeries(const QSqlDatabase& connection,
-    //                             All_Languges lesson_mode, QChart *chart);
     void createAndAddLineSeries(QSqlDatabase *connection,
                                 All_Languges lesson_mode, QChart *chart);
 
-    // void appendDatatoBarSet(const QSqlDatabase& connection,
-    //                         QBarSet *set, const QString &user_query);
     void appendDatatoBarSet(QSqlDatabase *connection,
                             QBarSet *set, const QString &user_query);
 
     void drawBarChart(const QString &title,
                       const QString &eng_query, const QString &swe_query);
+
+    QSqlDatabase *db;
 };
 
 #endif // DRAWSTATSCHART_H

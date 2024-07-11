@@ -37,16 +37,14 @@ private slots:
 private:
     Ui::SetWord *ui;
 
-    //OpenDB db;
-
     QSqlDatabase *db;
-
-    All_Modes current_mode;
 
     void make_set_query(const QString &corrupted_word,
                     const QString &correct_word, All_Modes mode);
 
     int mode_index;
+
+    All_Modes current_mode;
 
     int font_size = 14;
 };

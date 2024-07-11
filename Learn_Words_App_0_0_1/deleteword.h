@@ -28,8 +28,6 @@ private slots:
 private:
     Ui::DeleteWord *ui;
 
-    //OpenDB db;
-
     QSqlDatabase *db{nullptr};
 
     void make_delete_query(const QString &target_word, All_Modes mode);

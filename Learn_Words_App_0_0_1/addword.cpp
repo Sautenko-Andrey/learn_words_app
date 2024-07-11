@@ -104,8 +104,6 @@ void AddWord::on_addButton_clicked()
 
     // Adding word to the data_base
     // let's make a query
-    // QSqlQuery query(db.get_my_db());
-
     QSqlQuery query(*db);
 
     if(mode_index == static_cast<int>(All_Languges::ENG)){
@@ -179,16 +177,7 @@ void AddWord::show_total_words()
 
 int AddWord::getTotalWords()
 {
-    // QSqlQuery query(db.get_my_db());
-
     QSqlQuery query(*db);
-
-    // if(mode_index == static_cast<int>(All_Languges::ENG)){
-    //     query.exec("SELECT COUNT(*) FROM ENG_RUS_WORDS");
-    // }
-    // else{
-    //     query.exec("SELECT COUNT(*) FROM SWE_RUS_WORDS");
-    // }
 
     if(mode_index == static_cast<int>(All_Languges::SWE)){
         query.exec("SELECT COUNT(*) FROM SWE_RUS_WORDS");

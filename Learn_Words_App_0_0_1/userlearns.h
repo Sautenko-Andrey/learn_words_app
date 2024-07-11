@@ -46,7 +46,6 @@ private slots:
 private:
     Ui::UserLearns *ui;
 
-    //OpenDB db;
     QSqlDatabase *db{nullptr};
 
     QHash<QString, QString> all_words;

@@ -8,6 +8,7 @@
 #include <QPixmap>
 #include "listwidget.h"
 #include <QMovie>
+#include <thread>
 
 UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
@@ -20,11 +21,24 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
 
     ui->engModeRadioButton->setChecked(true);
 
-    // QSqlQuery get_all_words_query(db.get_my_db());
     QSqlQuery get_all_words_query(*db);
 
     prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
                 "eng_flag.png", get_all_words_query);
+
+
+    //new=------------------------------------------------------------
+    // auto prepEngData{
+    //                  [&get_all_words_query](){
+    //         UserLearns::prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
+    //                     "eng_flag.png",
+    //                     get_all_words_query);
+    //     }
+    // };
+
+    //std::jthread thread_1(prepEngData);
+    //-----------------------------------------------------------------
+
 
     // Show to user what he has type in edit line
     ui->userTextEdit->setPlaceholderText(QString("type your answer"));
@@ -133,7 +147,6 @@ void UserLearns::prepareData(const QString &request_msg,
 
 void UserLearns::modeChanged(){
 
-    // QSqlQuery get_all_words_query(db.get_my_db());
     QSqlQuery get_all_words_query(*db);
 
     if(ui->engModeRadioButton->isChecked()){
@@ -152,9 +165,6 @@ void UserLearns::on_reloadDataButton_clicked()
     // when user made changes in database and wants to continue lesson
     // with updating data without reloading app
 
-    //OpenDB support_db;
-
-    // QSqlQuery support_query(support_db.get_my_db());
     QSqlQuery support_query(*db);
 
 
@@ -305,7 +315,6 @@ void UserLearns::on_showtasksButton_clicked()
         ListWidget *list_widget = new ListWidget(*db, this, All_Languges::SWE);
         list_widget->show();
     }
-
 }
 
 
@@ -381,8 +390,7 @@ void UserLearns::save_stats()
     // Get the final stats in the end
     auto user_stats = get_stats();
 
-    // make query
-    // QSqlQuery save_result_query(db.get_my_db());
+    // make a query
     QSqlQuery save_result_query(*db);
 
     if(ui->engModeRadioButton->isChecked()){

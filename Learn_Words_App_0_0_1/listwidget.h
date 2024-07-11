@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "common.h"
 #include <QString>
+#include <QListWidgetItem>
 
 namespace Ui {
 class ListWidget;
@@ -27,8 +28,19 @@ private slots:
 
     void on_unmarkAllButton_clicked();
 
+    void on_reloadButton_clicked();
+
 private:
     Ui::ListWidget *ui;
+
+    void prepareListData(const QSqlDatabase *db);
+
+    QList<QListWidgetItem *> selected_rows;
+
+    QSqlDatabase *database{nullptr};
+
+    All_Languges *current_lang_mode{nullptr};
+
 };
 
 #endif // LISTWIDGET_H

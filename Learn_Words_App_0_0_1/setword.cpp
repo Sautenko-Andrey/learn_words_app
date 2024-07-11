@@ -78,8 +78,6 @@ void SetWord::make_set_query(const QString &corrupted_word,
 {
 
     // Make a query
-    // QSqlQuery query(db.get_my_db());
-
     QSqlQuery query(*db);
 
     switch (mode) {

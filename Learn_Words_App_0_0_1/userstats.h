@@ -31,8 +31,6 @@ private slots:
 private:
     Ui::UserStats *ui;
 
-    //OpenDB db;
-
     QSqlDatabase *db{nullptr};
 
     std::unique_ptr<DrawStatsChart> stats_chart{nullptr};

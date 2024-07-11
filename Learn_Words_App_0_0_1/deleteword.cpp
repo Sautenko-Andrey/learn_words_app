@@ -117,8 +117,6 @@ void DeleteWord::on_setButton_clicked()
 void DeleteWord::make_delete_query(const QString &target_word, All_Modes mode)
 {
     // Make a query
-    // QSqlQuery query(db.get_my_db());
-
     QSqlQuery query(*db);
 
     switch (mode) {

@@ -9,24 +9,40 @@ ListWidget::ListWidget(QSqlDatabase &db, QWidget *parent, All_Languges lang_mode
 {
     ui->setupUi(this);
 
-    // Open a data base and read all data
-    QSqlQuery get_all_words_query(db);
+    // pointer on database
+    database = &db;
 
-    if(lang_mode == All_Languges::ENG){
-        get_all_words_query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS"
+    // pointer on language mode
+    current_lang_mode = &lang_mode;
+
+    // buttons settings
+    // reload database button
+    makeButtonIcon(":all_pics/restart.png", "Reload database", ui->reloadButton);
+
+    // display all words from the database in widget
+    prepareListData(database);
+}
+
+void ListWidget::prepareListData(const QSqlDatabase *db)
+{
+    // Open a data base and read all data
+    QSqlQuery query(*db);
+
+    if(*current_lang_mode == All_Languges::ENG){
+        query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS"
                                  " ORDER BY rus_word ASC");
     }
     else{
-        get_all_words_query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS"
+        query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS"
                                  " ORDER BY rus_word ASC");
     }
 
     // fill the list widget
-    while(get_all_words_query.next()){
+    while(query.next()){
         ui->listWidget->addItem(
-            get_all_words_query.value(1).toString() + "  ->  " +
-            get_all_words_query.value(0).toString()
-        );
+            query.value(1).toString() + "  ->  " +
+            query.value(0).toString()
+            );
     }
 }
 
@@ -42,6 +58,9 @@ void ListWidget::on_markButton_clicked()
     QListWidgetItem *item = ui->listWidget->currentItem();
     item->setForeground(Qt::yellow);
     item->setBackground(Qt::black);
+
+    // add selected row to the collection for unmarking purpose in future
+    selected_rows.append(item);
 }
 
 void ListWidget::on_unmarkButton_clicked()
@@ -53,11 +72,20 @@ void ListWidget::on_unmarkButton_clicked()
 }
 
 
-void ListWidget::on_unmarkAllButton_clicked()   // it's not completed!!
+void ListWidget::on_unmarkAllButton_clicked()
 {
     // umark all marked lines
-    for(auto const& el: ui->listWidget->selectedItems()){
-        qDebug() << el->text();
+    for(auto const &item : selected_rows){
+        item->setForeground(Qt::black);
+        item->setBackground(QBrush(QColor("SlateGray")));
     }
 }
 
+void ListWidget::on_reloadButton_clicked()
+{
+    // reload database
+    // clean widget's pitch
+    ui->listWidget->clear();
+
+    prepareListData(database);
+}

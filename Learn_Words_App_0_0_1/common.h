@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QAbstractButton>
 #include <QTextEdit>
+#include <QListWidgetItem>
 
 
 //Common data
@@ -60,6 +61,5 @@ void setTextEditCursor(int &font_size, QTextEdit *leftTextEdit,
 
 void setTextEditCursor(int &font_size, QTextEdit *textEdit,
                        QDialog *dialog, bool increase = true);
-
 
 #endif // COMMON_H

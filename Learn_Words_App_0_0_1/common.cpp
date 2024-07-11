@@ -49,7 +49,7 @@ void ShowTempMessage(const QString &title, const QString &message, unsigned mili
 
 QString& PathToIcon(QString &&file_name) noexcept
 {
-    // Path to the icaon ( assuming that file is in all_pics resources )
+    // Path to the icon ( assuming that file is in all_pics resources )
     file_name = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + file_name;
     return file_name;
 }
@@ -108,7 +108,6 @@ void setTextEditCursor(int &font_size, QTextEdit *leftTextEdit,
 }
 
 
-
 void setTextEditCursor(int &font_size, QTextEdit *textEdit,
                        QDialog *dialog, bool increase)
 {
@@ -137,3 +136,4 @@ void setTextEditCursor(int &font_size, QTextEdit *textEdit,
 
     textEdit->setTextCursor(cursor_left);
 }
+
