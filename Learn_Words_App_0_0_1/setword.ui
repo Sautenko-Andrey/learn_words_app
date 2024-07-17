@@ -65,6 +65,9 @@
          <property name="text">
           <string/>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+Enter</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -82,12 +85,18 @@
          <property name="text">
           <string/>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+U</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="fontDownButton">
          <property name="text">
           <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+D</string>
          </property>
         </widget>
        </item>
@@ -96,6 +105,9 @@
          <property name="text">
           <string/>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+A</string>
+         </property>
         </widget>
        </item>
        <item>
@@ -103,12 +115,18 @@
          <property name="text">
           <string/>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+L</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="clearRightButton">
          <property name="text">
           <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+R</string>
          </property>
         </widget>
        </item>

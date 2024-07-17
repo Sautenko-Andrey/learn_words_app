@@ -39,12 +39,18 @@
          <property name="text">
           <string>Mark</string>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+Return</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="unmarkButton">
          <property name="text">
           <string>Unmark</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+U</string>
          </property>
         </widget>
        </item>
@@ -53,12 +59,18 @@
          <property name="text">
           <string>Unmark all</string>
          </property>
+         <property name="shortcut">
+          <string>Ctrl+A</string>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="reloadButton">
          <property name="text">
           <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+R</string>
          </property>
         </widget>
        </item>

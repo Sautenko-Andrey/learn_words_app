@@ -8,7 +8,17 @@
 #include <QPixmap>
 #include "listwidget.h"
 #include <QMovie>
-#include <thread>
+//#include <thread>
+//#include<future>
+#include <algorithm>
+// #include <QThread>
+// #include <QFuture>
+// #include <QtConcurrent>
+
+
+enum class Restrinctions {
+    None = 0, Fifty = 50, Hundred = 100, TwoHundred = 200, FiveHundred = 500
+};
 
 UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
@@ -19,24 +29,33 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
     // pointer on the database
     db = &database;
 
+    // add words numbers modes
+    ui->wordsNumberComboBox->addItems(
+        {"All" ,"50", "100", "200", "500"}
+    );
+
     ui->engModeRadioButton->setChecked(true);
 
     QSqlQuery get_all_words_query(*db);
+
 
     prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
                 "eng_flag.png", get_all_words_query);
 
 
     //new=------------------------------------------------------------
-    // auto prepEngData{
-    //                  [&get_all_words_query](){
-    //         UserLearns::prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
-    //                     "eng_flag.png",
-    //                     get_all_words_query);
-    //     }
-    // };
+    // QFuture<void> future_1 = QtConcurrent::run(this, &UserLearns::prepareData,
+    //                          "SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
+    //                          "eng_flag.png", get_all_words_query);
+    // future_1.waitForFinished();
 
-    //std::jthread thread_1(prepEngData);
+    // QFuture<void> future_1 = QtConcurrent::run(
+    //     [&](){ prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
+    //                         "eng_flag.png", get_all_words_query); }
+    // );
+
+    // future_1.waitForFinished();
+
     //-----------------------------------------------------------------
 
 
@@ -94,6 +113,9 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
 
     // connections
     connect(ui->engModeRadioButton, SIGNAL(toggled(bool)), this, SLOT(modeChanged()));
+
+    connect(ui->wordsNumberComboBox, SIGNAL(currentTextChanged(QString)),
+            this, SLOT(wordsRangeComboChanged()));
 }
 
 UserLearns::~UserLearns()
@@ -305,23 +327,42 @@ void UserLearns::on_showtasksButton_clicked()
 {
     // show all tasks and right answers
     // create and show up a list widget
+    ListWidget *list_widget{nullptr};
     if(ui->engModeRadioButton->isChecked()){
-        // ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::ENG);
-        ListWidget *list_widget = new ListWidget(*db, this, All_Languges::ENG);
-        list_widget->show();
+        list_widget = new ListWidget(*db, this, All_Languges::ENG);
     }
     else{
-        // ListWidget *list_widget = new ListWidget(db.get_my_db(), this, All_Languges::SWE);
-        ListWidget *list_widget = new ListWidget(*db, this, All_Languges::SWE);
-        list_widget->show();
+        list_widget = new ListWidget(*db, this, All_Languges::SWE);
     }
+    list_widget->show();
 }
 
 
 void UserLearns::on_nextButton_clicked()
 {
     // We display user's progress through progress bar
-    unsigned user_progress = (progress_steps / all_words.size()) * 100;
+    unsigned user_progress{0};
+
+    // make range mode button unaccessable
+    ui->wordsNumberComboBox->setDisabled(true);
+
+    if (restrictionValue == static_cast<int>(Restrinctions::None)){
+        user_progress = (progress_steps / all_words.size()) * 100;
+    }
+    else if (restrictionValue == static_cast<int>(Restrinctions::Fifty)){
+        user_progress = (progress_steps / restrictionValue) * 100;
+    }
+    else if (restrictionValue == static_cast<int>(Restrinctions::Hundred)){
+        user_progress = (progress_steps / restrictionValue) * 100;
+    }
+    else if (restrictionValue == static_cast<int>(Restrinctions::TwoHundred)){
+        user_progress = (progress_steps / restrictionValue) * 100;
+    }
+    else{
+        user_progress = (progress_steps / static_cast<int>(Restrinctions::FiveHundred)) * 100;
+    }
+    // unsigned user_progress = (progress_steps / all_words.size()) * 100;
+
     ui->progressBar->setValue(user_progress);
     progress_steps += 1.0;
 
@@ -329,40 +370,62 @@ void UserLearns::on_nextButton_clicked()
     ui->statsButton->setDisabled(false);
 
     // first of all let's check if counter less then words we have in the data base
-    if(counter == all_words.size()){
-        // save the last user's answer
-        QString last_user_answer = (ui->userTextEdit->toPlainText()).trimmed();
+    //if(counter == all_words.size()){
+    if(restrictionValue == static_cast<int>(Restrinctions::None) &&
+        counter == all_words.size()){
+        prepareCustomRange(all_words.size() - 1);
+        // // save the last user's answer
+        // QString last_user_answer = (ui->userTextEdit->toPlainText()).trimmed();
 
-        // we have to check the very last user answer as well
-        auto last_it = all_words.cbegin();
-        std::advance(last_it, all_words.size() - 1);
+        // // we have to check the very last user answer as well
+        // auto last_it = all_words.cbegin();
+        // std::advance(last_it, all_words.size() - 1);
 
-        //answer_is_right(last_task, last_user_answer);
-        answer_is_right(last_it.key(), last_user_answer);
+        // //answer_is_right(last_task, last_user_answer);
+        // answer_is_right(last_it.key(), last_user_answer);
 
-        // let's clear user's line
-        ui->userTextEdit->clear();
+        // // let's clear user's line
+        // ui->userTextEdit->clear();
 
-        // let's block user's line while user pushes restart
-        ui->userTextEdit->setDisabled(true);
+        // // let's block user's line while user pushes restart
+        // ui->userTextEdit->setDisabled(true);
 
-        // let's make button "Next" unaccessable
-        ui->nextButton->setDisabled(true);
+        // // let's make button "Next" unaccessable
+        // ui->nextButton->setDisabled(true);
 
-        // make focus on the "Restart" button
-        ui->restartButton->setFocus();
+        // // make focus on the "Restart" button
+        // ui->restartButton->setFocus();
 
-        // clear the task line
-        ui->taskTextEdit->clear();
+        // // clear the task line
+        // ui->taskTextEdit->clear();
 
-        // saving statistics
-        save_stats();
+        // // saving statistics
+        // save_stats();
 
-        // draw a result label with loading animation
-        waitingMovie();
+        // // draw a result label with loading animation
+        // waitingMovie();
 
-        QDialog::accept();
+        // QDialog::accept();
     }
+    // new
+    else if(restrictionValue == static_cast<int>(Restrinctions::Fifty)
+            && counter == restrictionValue){
+        prepareCustomRange(restrictionValue);
+    }
+    else if(restrictionValue == static_cast<int>(Restrinctions::Hundred)
+            && counter == restrictionValue){
+        prepareCustomRange(restrictionValue);
+    }
+    else if(restrictionValue == static_cast<int>(Restrinctions::TwoHundred)
+            && counter == restrictionValue){
+        prepareCustomRange(restrictionValue);
+    }
+    else if(restrictionValue == static_cast<int>(Restrinctions::FiveHundred)
+            && counter == restrictionValue){
+        prepareCustomRange(restrictionValue);
+    }
+    // end new
+
 
     // let's read user's answer from the line
     // and get rid of unwanted leading and trailing spaces
@@ -380,8 +443,44 @@ void UserLearns::on_nextButton_clicked()
     // let's check user answer
     auto task = all_words.cbegin();
     std::advance(task, answers_counter);
-
     answer_is_right(task.key(), user_answer);
+}
+
+
+void UserLearns::prepareCustomRange(const int restrictionValue)
+{
+    // save the last user's answer
+    QString last_user_answer = (ui->userTextEdit->toPlainText()).trimmed();
+
+    // we have to check the very last user answer as well
+    auto last_it = all_words.cbegin();
+    std::advance(last_it, restrictionValue);
+
+    //answer_is_right(last_task, last_user_answer);
+    answer_is_right(last_it.key(), last_user_answer);
+
+    // let's clear user's line
+    ui->userTextEdit->clear();
+
+    // let's block user's line while user pushes restart
+    ui->userTextEdit->setDisabled(true);
+
+    // let's make button "Next" unaccessable
+    ui->nextButton->setDisabled(true);
+
+    // make focus on the "Restart" button
+    ui->restartButton->setFocus();
+
+    // clear the task line
+    ui->taskTextEdit->clear();
+
+    // saving statistics
+    save_stats();
+
+    // draw a result label with loading animation
+    waitingMovie();
+
+    QDialog::accept();
 }
 
 
@@ -443,4 +542,25 @@ void UserLearns::on_fontDownButton_clicked()
 {
     //decrease font
     setTextEditCursor(font_size, ui->taskTextEdit, ui->userTextEdit, this, false);
+}
+
+void UserLearns::wordsRangeComboChanged()
+{
+    QString currentRange = ui->wordsNumberComboBox->currentText();
+
+    if(currentRange == "All"){
+        restrictionValue = 0;
+    }
+    else if(currentRange == "50"){
+        restrictionValue = 50;
+    }
+    else if(currentRange == "100"){
+        restrictionValue = 100;
+    }
+    else if(currentRange == "200"){
+        restrictionValue = 200;
+    }
+    else{
+        restrictionValue = 500;
+    }
 }

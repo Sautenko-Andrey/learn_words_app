@@ -28,6 +28,8 @@ private slots:
 
     void on_overall_res_Button_clicked();
 
+    void on_dropStatsButton_clicked();
+
 private:
     Ui::UserStats *ui;
 

@@ -27,5 +27,9 @@
         <file>font_up.png</file>
         <file>bold.png</file>
         <file>italic.png</file>
+        <file>50.png</file>
+        <file>100.png</file>
+        <file>all.png</file>
+        <file>volume.png</file>
     </qresource>
 </RCC>

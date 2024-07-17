@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>740</width>
-    <height>438</height>
+    <width>888</width>
+    <height>452</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,98 +43,109 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="statsButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+S</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="restartButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+R</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="finishButton">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="showtasksButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+T</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="nextButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+Return</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="reloadDataButton">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="helpButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+H</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="clearButton">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+D</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="fontUpButton">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="fontDownButton">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QPushButton" name="statsButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+S</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="restartButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+R</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="finishButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+F</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="showtasksButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+T</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="nextButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Return</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="reloadDataButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Shift+R</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="helpButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+H</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clearButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+Shift+D</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="fontUpButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+U</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="fontDownButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+D</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="wordsNumberComboBox"/>
        </item>
        <item>
         <spacer name="modeSpacer">
@@ -143,8 +154,8 @@
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>18</width>
-           <height>20</height>
+           <width>13</width>
+           <height>17</height>
           </size>
          </property>
         </spacer>

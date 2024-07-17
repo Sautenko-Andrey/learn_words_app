@@ -11,6 +11,10 @@ namespace Ui {
 class UserLearns;
 }
 
+// enum class wordsNumberMode {
+//     All, Fifty, Hundred, TwoHundred, FiveHundred
+// };
+
 class UserLearns : public QDialog
 {
     Q_OBJECT
@@ -43,12 +47,17 @@ private slots:
 
     void on_fontDownButton_clicked();
 
+    void wordsRangeComboChanged();
+
+
 private:
     Ui::UserLearns *ui;
 
     QSqlDatabase *db{nullptr};
 
     QHash<QString, QString> all_words;
+
+    //QHash<QString, QString> words_range;
 
     unsigned counter = 0;
 
@@ -59,6 +68,12 @@ private:
     double progress_steps = 1.0;
 
     int font_size = 14;
+
+    unsigned restrictionValue{0};
+
+    //bool restrictionFlag = false;
+
+    //wordsNumberMode wordsNumberIndex = wordsNumberMode::All;
 
     void answer_is_right(const QString &task, const QString &answer) noexcept;
 
@@ -75,6 +90,10 @@ private:
     void prepareData(const QString &request_msg,
                      const QString &path_to_flag,
                      QSqlQuery &query);
+
+    //void prepareWordsRange(const int amount);
+
+    void prepareCustomRange(const int restrictionValue);
 
 };
 

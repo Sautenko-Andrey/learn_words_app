@@ -1,5 +1,7 @@
 #include "userstats.h"
 #include "ui_userstats.h"
+#include <QSqlQuery>
+#include <QMessageBox>
 
 UserStats::UserStats(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
@@ -75,3 +77,29 @@ void UserStats::on_overall_res_Button_clicked()
     // creating a chart
     createChart(statsMode::OVERALL);
 }
+
+void UserStats::on_dropStatsButton_clicked()
+{
+    // drop all stats
+
+    QMessageBox::StandardButton reply;
+
+    reply = QMessageBox::question(this, "Confirmation", "Wanna delete all stats?",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes){
+
+        QSqlQuery deleteAllQuery(*db);
+
+        if(!deleteAllQuery.exec("DELETE FROM Stats")){
+            QMessageBox::warning(this, "Error",
+                                 "Error occured when deleting all stats from thr database");
+            close();
+        }
+
+        QMessageBox::information(this, "Report", "All statistic has been removed.");
+
+        close();
+    }
+}
+
