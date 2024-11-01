@@ -1,6 +1,5 @@
 #include "common.h"
 #include <QtSql>
-#include <QDebug>
 #include "sizes.h"
 #include <QStringList>
 
@@ -56,18 +55,23 @@ QString& PathToIcon(QString &&file_name) noexcept
 
 void DrawLangLabel(QLabel *label, const QString &path)
 {
-    QString full_path = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + path;
-    QPixmap curr_lang_pixmap(full_path);
-    label->setPixmap(curr_lang_pixmap);
-    label->setMask(curr_lang_pixmap.mask());
+    if(label){
+        QString full_path = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + path;
+        QPixmap curr_lang_pixmap(std::move(full_path));
+        label->setPixmap(curr_lang_pixmap);
+        label->setMask(curr_lang_pixmap.mask());
+    }
 }
 
 void makeButtonIcon(const QString &img_path, const QString &tool_tip,
                     QAbstractButton *button){
-    QIcon icon;
-    icon.addPixmap(QPixmap(img_path), QIcon::Active, QIcon::On);
-    button->setIcon(icon);
-    button->setToolTip(tool_tip);
+
+    if(button){
+        QIcon icon;
+        icon.addPixmap(QPixmap(img_path), QIcon::Active, QIcon::On);
+        button->setIcon(icon);
+        button->setToolTip(tool_tip);
+    }
 }
 
 
@@ -75,65 +79,68 @@ void setTextEditCursor(int &font_size, QTextEdit *leftTextEdit,
                QTextEdit *rightTextEdit, QDialog *dialog,
                bool increase)
 {
-    // minimum and maximum font size
-    int minimum = 5;
-    int maximum = 35;
+    if(leftTextEdit && rightTextEdit && dialog){
+        // minimum and maximum font size
+        int minimum = 5;
+        int maximum = 35;
 
-    // logic when user goes out of bounds
-    if (font_size < minimum){
-        QMessageBox::warning(dialog, "Warning", "You are out of minimal bound.");
-        font_size = ++minimum;
-        leftTextEdit->setFontPointSize(minimum);
-        rightTextEdit->setFontPointSize(minimum);
+        // logic when user goes out of bounds
+        if (font_size < minimum){
+            QMessageBox::warning(dialog, "Warning", "You are out of minimal bound.");
+            font_size = ++minimum;
+            leftTextEdit->setFontPointSize(minimum);
+            rightTextEdit->setFontPointSize(minimum);
+        }
+        else if (font_size > maximum){
+            QMessageBox::warning(dialog, "Warning", "You are out of maximum bound.");
+            font_size = --maximum;
+            leftTextEdit->setFontPointSize(maximum);
+            rightTextEdit->setFontPointSize(maximum);
+        }
+
+        QTextCursor cursor_left = leftTextEdit->textCursor();
+        QTextCursor cursor_right = rightTextEdit->textCursor();
+        leftTextEdit->selectAll();
+        rightTextEdit->selectAll();
+
+        increase ? ++font_size : --font_size;
+
+        leftTextEdit->setFontPointSize(font_size);
+        rightTextEdit->setFontPointSize(font_size);
+
+        leftTextEdit->setTextCursor(cursor_left);
+        rightTextEdit->setTextCursor(cursor_right);
     }
-    else if (font_size > maximum){
-        QMessageBox::warning(dialog, "Warning", "You are out of maximum bound.");
-        font_size = --maximum;
-        leftTextEdit->setFontPointSize(maximum);
-        rightTextEdit->setFontPointSize(maximum);
-    }
-
-    QTextCursor cursor_left = leftTextEdit->textCursor();
-    QTextCursor cursor_right = rightTextEdit->textCursor();
-    leftTextEdit->selectAll();
-    rightTextEdit->selectAll();
-
-    increase ? ++font_size : --font_size;
-
-    leftTextEdit->setFontPointSize(font_size);
-    rightTextEdit->setFontPointSize(font_size);
-
-    leftTextEdit->setTextCursor(cursor_left);
-    rightTextEdit->setTextCursor(cursor_right);
 }
 
 
 void setTextEditCursor(int &font_size, QTextEdit *textEdit,
                        QDialog *dialog, bool increase)
 {
-    // minimum and maximum font size
-    int minimum = 5;
-    int maximum = 35;
+    if(textEdit && dialog){
+        // minimum and maximum font size
+        int minimum = 5;
+        int maximum = 35;
 
-    // logic when user goes out of bounds
-    if (font_size < minimum){
-        QMessageBox::warning(dialog, "Warning", "You are out of minimal bound.");
-        font_size = ++minimum;
-        textEdit->setFontPointSize(minimum);
+        // logic when user goes out of bounds
+        if (font_size < minimum){
+            QMessageBox::warning(dialog, "Warning", "You are out of minimal bound.");
+            font_size = ++minimum;
+            textEdit->setFontPointSize(minimum);
+        }
+        else if (font_size > maximum){
+            QMessageBox::warning(dialog, "Warning", "You are out of maximum bound.");
+            font_size = --maximum;
+            textEdit->setFontPointSize(maximum);
+        }
+
+        QTextCursor cursor_left = textEdit->textCursor();
+        textEdit->selectAll();
+
+        increase ? ++font_size : --font_size;
+
+        textEdit->setFontPointSize(font_size);
+
+        textEdit->setTextCursor(cursor_left);
     }
-    else if (font_size > maximum){
-        QMessageBox::warning(dialog, "Warning", "You are out of maximum bound.");
-        font_size = --maximum;
-        textEdit->setFontPointSize(maximum);
-    }
-
-    QTextCursor cursor_left = textEdit->textCursor();
-    textEdit->selectAll();
-
-    increase ? ++font_size : --font_size;
-
-    textEdit->setFontPointSize(font_size);
-
-    textEdit->setTextCursor(cursor_left);
 }
-

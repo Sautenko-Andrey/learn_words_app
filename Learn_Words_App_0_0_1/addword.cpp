@@ -1,6 +1,5 @@
 #include "addword.h"
 #include "ui_addword.h"
-#include <QDebug>
 #include <QString>
 #include <QSqlQuery>
 #include <QtSql>

@@ -1,19 +1,14 @@
 #include "userlearns.h"
 #include "ui_userlearns.h"
 #include <QMessageBox>
-#include <QDebug>
 #include <QtSql>
 #include <QTimer>
 #include <QHash>
 #include <QPixmap>
 #include "listwidget.h"
 #include <QMovie>
-//#include <thread>
-//#include<future>
 #include <algorithm>
-// #include <QThread>
-// #include <QFuture>
-// #include <QtConcurrent>
+
 
 
 enum class Restrinctions {
@@ -41,22 +36,6 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
 
     prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
                 "eng_flag.png", get_all_words_query);
-
-
-    //new=------------------------------------------------------------
-    // QFuture<void> future_1 = QtConcurrent::run(this, &UserLearns::prepareData,
-    //                          "SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
-    //                          "eng_flag.png", get_all_words_query);
-    // future_1.waitForFinished();
-
-    // QFuture<void> future_1 = QtConcurrent::run(
-    //     [&](){ prepareData("SELECT lower(eng_word), rus_word FROM ENG_RUS_WORDS",
-    //                         "eng_flag.png", get_all_words_query); }
-    // );
-
-    // future_1.waitForFinished();
-
-    //-----------------------------------------------------------------
 
 
     // Show to user what he has type in edit line
@@ -157,6 +136,7 @@ void UserLearns::prepareData(const QString &request_msg,
                          query.value(1).toString());
     }
 
+
     // let's show the very first word(rus) to user
     QString first_word = all_words.cbegin().value();
     ui->taskTextEdit->setText(first_word);
@@ -213,9 +193,11 @@ void UserLearns::waitingMovie()
 
 void UserLearns::DrawLabel(QString &&path, QLabel *label)
 {
-    QPixmap pixmap(PathToIcon(std::move(path)));
-    label->setPixmap(pixmap);
-    label->setMask(pixmap.mask());
+    if(label){
+        QPixmap pixmap(PathToIcon(std::move(path)));
+        label->setPixmap(pixmap);
+        label->setMask(pixmap.mask());
+    }
 }
 
 
@@ -370,44 +352,10 @@ void UserLearns::on_nextButton_clicked()
     ui->statsButton->setDisabled(false);
 
     // first of all let's check if counter less then words we have in the data base
-    //if(counter == all_words.size()){
     if(restrictionValue == static_cast<int>(Restrinctions::None) &&
         counter == all_words.size()){
         prepareCustomRange(all_words.size() - 1);
-        // // save the last user's answer
-        // QString last_user_answer = (ui->userTextEdit->toPlainText()).trimmed();
-
-        // // we have to check the very last user answer as well
-        // auto last_it = all_words.cbegin();
-        // std::advance(last_it, all_words.size() - 1);
-
-        // //answer_is_right(last_task, last_user_answer);
-        // answer_is_right(last_it.key(), last_user_answer);
-
-        // // let's clear user's line
-        // ui->userTextEdit->clear();
-
-        // // let's block user's line while user pushes restart
-        // ui->userTextEdit->setDisabled(true);
-
-        // // let's make button "Next" unaccessable
-        // ui->nextButton->setDisabled(true);
-
-        // // make focus on the "Restart" button
-        // ui->restartButton->setFocus();
-
-        // // clear the task line
-        // ui->taskTextEdit->clear();
-
-        // // saving statistics
-        // save_stats();
-
-        // // draw a result label with loading animation
-        // waitingMovie();
-
-        // QDialog::accept();
     }
-    // new
     else if(restrictionValue == static_cast<int>(Restrinctions::Fifty)
             && counter == restrictionValue){
         prepareCustomRange(restrictionValue);
@@ -424,8 +372,6 @@ void UserLearns::on_nextButton_clicked()
             && counter == restrictionValue){
         prepareCustomRange(restrictionValue);
     }
-    // end new
-
 
     // let's read user's answer from the line
     // and get rid of unwanted leading and trailing spaces
@@ -443,7 +389,7 @@ void UserLearns::on_nextButton_clicked()
     // let's check user answer
     auto task = all_words.cbegin();
     std::advance(task, answers_counter);
-    answer_is_right(task.key(), user_answer);
+    answer_is_right(task.key(), std::move(user_answer));
 }
 
 

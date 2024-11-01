@@ -28,30 +28,32 @@ DrawStatsChart::~DrawStatsChart()
 void DrawStatsChart::createAndAddLineSeries(QSqlDatabase *connection,
                                             All_Languges lesson_mode, QChart *chart)
 {
-    QString mode{};
-    (lesson_mode == All_Languges::ENG) ? mode = "eng" : mode = "swe";
+    if(connection && chart){
+        QString mode{};
+        (lesson_mode == All_Languges::ENG) ? mode = "eng" : mode = "swe";
 
-    QSqlQuery query(*connection);
-    query.prepare("SELECT success FROM Stats WHERE mode = :user_mode");
-    query.bindValue(":user_mode", mode);
+        QSqlQuery query(*connection);
+        query.prepare("SELECT success FROM Stats WHERE mode = :user_mode");
+        query.bindValue(":user_mode", mode);
 
-    if(!query.exec()){
-        QMessageBox::warning(this, "Error!",
+        if(!query.exec()){
+            QMessageBox::warning(this, "Error!",
                                  "Can't get statistics. Try one more time.");
-        return;
+            return;
+        }
+
+        // creating series
+        auto series = new QLineSeries();
+        series->setName(std::move(mode));
+
+        int i{1};
+        while(query.next()){
+            series->append(i, query.value(0).toDouble());
+            ++i;
+        }
+
+        chart->addSeries(series);
     }
-
-    // creating series
-    auto series = new QLineSeries();
-    series->setName(mode);
-
-    int i{1};
-    while(query.next()){
-        series->append(i, query.value(0).toDouble());
-        ++i;
-    }
-
-    chart->addSeries(series);
 }
 
 
@@ -79,19 +81,22 @@ void DrawStatsChart::drawOverallStats()
 void DrawStatsChart::appendDatatoBarSet(QSqlDatabase *connection,
                                         QBarSet *set, const QString &user_query)
 {
-    QSqlQuery query(*connection);
-    if(!query.exec(user_query)){
-        QMessageBox::warning(this, "Error!",
-                             "Can't get statistics. Try one more time.");
-        return;
-    }
+    if(connection && set){
+        QSqlQuery query(*connection);
+        if(!query.exec(user_query)){
+            QMessageBox::warning(this, "Error!",
+                                 "Can't get statistics. Try one more time.");
+            return;
+        }
 
-    if(query.next()){
-        *set << query.value(0).toDouble();
+        if(query.next()){
+            *set << query.value(0).toDouble();
+        }
     }
 }
 
-void DrawStatsChart::drawBarChart(const QString &title, const QString &eng_query, const QString &swe_query)
+void DrawStatsChart::drawBarChart(const QString &title, const QString &eng_query,
+                                  const QString &swe_query)
 {
     auto eng_set = new QBarSet("ENG");
     auto swe_set = new QBarSet("SWE");

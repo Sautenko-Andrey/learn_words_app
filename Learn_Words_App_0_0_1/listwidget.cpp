@@ -25,24 +25,26 @@ ListWidget::ListWidget(QSqlDatabase &db, QWidget *parent, All_Languges lang_mode
 
 void ListWidget::prepareListData(const QSqlDatabase *db)
 {
-    // Open a data base and read all data
-    QSqlQuery query(*db);
+    if(db){
+        // Open a data base and read all data
+        QSqlQuery query(*db);
 
-    if(*current_lang_mode == All_Languges::ENG){
-        query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS"
-                                 " ORDER BY rus_word ASC");
-    }
-    else{
-        query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS"
-                                 " ORDER BY rus_word ASC");
-    }
+        if(*current_lang_mode == All_Languges::ENG){
+            query.exec("SELECT eng_word, rus_word FROM ENG_RUS_WORDS"
+                       " ORDER BY rus_word ASC");
+        }
+        else{
+            query.exec("SELECT swe_word, rus_word FROM SWE_RUS_WORDS"
+                       " ORDER BY rus_word ASC");
+        }
 
-    // fill the list widget
-    while(query.next()){
-        ui->listWidget->addItem(
-            query.value(1).toString() + "  ->  " +
-            query.value(0).toString()
-            );
+        // fill the list widget
+        while(query.next()){
+            ui->listWidget->addItem(
+                query.value(1).toString() + "  ->  " +
+                query.value(0).toString()
+                );
+        }
     }
 }
 

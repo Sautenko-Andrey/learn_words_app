@@ -14,7 +14,6 @@ UserStats::UserStats(QSqlDatabase &database, QWidget *parent)
 
     // initializing DrawStatsChart class object
     stats_chart = std::make_unique<DrawStatsChart>(database, this);
-
 }
 
 UserStats::~UserStats()
@@ -102,4 +101,3 @@ void UserStats::on_dropStatsButton_clicked()
         close();
     }
 }
-

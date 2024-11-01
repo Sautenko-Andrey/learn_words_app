@@ -3,7 +3,6 @@
 #include <QSqlQuery>
 #include <QtSql>
 #include <QString>
-#include <QDebug>
 
 DeleteWord::DeleteWord(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)

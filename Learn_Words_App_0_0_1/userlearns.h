@@ -11,10 +11,6 @@ namespace Ui {
 class UserLearns;
 }
 
-// enum class wordsNumberMode {
-//     All, Fifty, Hundred, TwoHundred, FiveHundred
-// };
-
 class UserLearns : public QDialog
 {
     Q_OBJECT
@@ -57,8 +53,6 @@ private:
 
     QHash<QString, QString> all_words;
 
-    //QHash<QString, QString> words_range;
-
     unsigned counter = 0;
 
     unsigned right_answers = 0;
@@ -70,10 +64,6 @@ private:
     int font_size = 14;
 
     unsigned restrictionValue{0};
-
-    //bool restrictionFlag = false;
-
-    //wordsNumberMode wordsNumberIndex = wordsNumberMode::All;
 
     void answer_is_right(const QString &task, const QString &answer) noexcept;
 
@@ -90,8 +80,6 @@ private:
     void prepareData(const QString &request_msg,
                      const QString &path_to_flag,
                      QSqlQuery &query);
-
-    //void prepareWordsRange(const int amount);
 
     void prepareCustomRange(const int restrictionValue);
 
