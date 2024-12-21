@@ -73,7 +73,7 @@ SetWord::~SetWord()
 }
 
 
-void SetWord::make_set_query(const QString &corrupted_word,
+void SetWord::makeSetQuery(const QString &corrupted_word,
                          const QString &correct_word, All_Modes mode)
 {
 
@@ -132,22 +132,22 @@ void SetWord::on_setButton_clicked()
     switch (mode_index) {
     case static_cast<int>(All_Modes::RUS__ENG_RUS):
         // let's update rus word in eng-rus data base
-        make_set_query(corrupted_word, correct_word, All_Modes::RUS__ENG_RUS);
+        makeSetQuery(corrupted_word, correct_word, All_Modes::RUS__ENG_RUS);
         break;
 
     case static_cast<int>(All_Modes::ENG__ENG_RUS):
         // let's update eng word in eng-rus data base
-        make_set_query(corrupted_word, correct_word, All_Modes::ENG__ENG_RUS);
+        makeSetQuery(corrupted_word, correct_word, All_Modes::ENG__ENG_RUS);
         break;
 
     case static_cast<int>(All_Modes::SWE__SWE_RUS):
         // let's update swedish word in swe-rus data base
-        make_set_query(corrupted_word, correct_word, All_Modes::SWE__SWE_RUS);
+        makeSetQuery(corrupted_word, correct_word, All_Modes::SWE__SWE_RUS);
         break;
 
     case static_cast<int>(All_Modes::RUS__SWE_RUS):
         // let's update rus word in swe-rus data base
-        make_set_query(corrupted_word, correct_word, All_Modes::RUS__SWE_RUS);
+        makeSetQuery(corrupted_word, correct_word, All_Modes::RUS__SWE_RUS);
         break;
     }
 

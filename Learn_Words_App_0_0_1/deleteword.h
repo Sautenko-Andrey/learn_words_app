@@ -30,7 +30,7 @@ private:
 
     QSqlDatabase *db{nullptr};
 
-    void make_delete_query(const QString &target_word, All_Modes mode);
+    void makeDeleteQuery(const QString &target_word, All_Modes mode);
 
     int mode_index;
 

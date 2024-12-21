@@ -30,7 +30,7 @@ AddWord::AddWord(QSqlDatabase &database, QWidget *parent)
     ui->rightTextEdit->setPlaceholderText(QString("type russian word"));
 
     // let's show a number of words in current data base
-    show_total_words();
+    showTotalWords();
 
     // Make focus on modes select
     ui->selectButton->setFocus();
@@ -133,7 +133,7 @@ void AddWord::on_addButton_clicked()
 
     // let's show total words
     // before that we should flush old value
-    show_total_words();
+    showTotalWords();
 }
 
 
@@ -156,14 +156,14 @@ void AddWord::on_selectButton_clicked()
     mode_index = ui->modeComboBox->currentIndex();
 
     // let's show a number of words in current data base
-    show_total_words();
+    showTotalWords();
 
     // Focus on the first edit line
     ui->leftTextEdit->setFocus();
 }
 
 // Function counts how many words saved in particular data base
-void AddWord::show_total_words()
+void AddWord::showTotalWords()
 {
     // lcdNumber settings
     auto palette = ui->lcdNumber->palette();

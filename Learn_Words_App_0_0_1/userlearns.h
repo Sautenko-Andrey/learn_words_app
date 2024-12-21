@@ -65,13 +65,13 @@ private:
 
     unsigned restrictionValue{0};
 
-    void answer_is_right(const QString &task, const QString &answer) noexcept;
+    void answerIsRight(const QString &task, const QString &answer) noexcept;
 
-    void display_first_word();
+    void displayFirstWord();
 
-    double get_stats() noexcept;
+    double getStats() noexcept;
 
-    void save_stats();
+    void saveStats();
 
     void DrawLabel(QString &&path, QLabel *label);
 

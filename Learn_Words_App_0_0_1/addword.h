@@ -34,7 +34,7 @@ private slots:
 private:
     Ui::AddWord *ui;
 
-    void show_total_words();
+    void showTotalWords();
 
     int getTotalWords();
 

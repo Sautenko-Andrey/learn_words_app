@@ -43,7 +43,7 @@ void ListWidget::prepareListData(const QSqlDatabase *db)
             ui->listWidget->addItem(
                 query.value(1).toString() + "  ->  " +
                 query.value(0).toString()
-                );
+            );
         }
     }
 }

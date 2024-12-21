@@ -39,7 +39,7 @@ private:
 
     QSqlDatabase *db;
 
-    void make_set_query(const QString &corrupted_word,
+    void makeSetQuery(const QString &corrupted_word,
                     const QString &correct_word, All_Modes mode);
 
     int mode_index;

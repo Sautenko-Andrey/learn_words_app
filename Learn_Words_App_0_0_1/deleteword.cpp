@@ -66,22 +66,22 @@ void DeleteWord::on_deleteButton_clicked()
     switch (mode_index) {
     case static_cast<int>(All_Modes::RUS__ENG_RUS):
         // let's delete rus word in eng-rus data base
-        make_delete_query(target_word, All_Modes::RUS__ENG_RUS);
+        makeDeleteQuery(target_word, All_Modes::RUS__ENG_RUS);
         break;
 
     case static_cast<int>(All_Modes::ENG__ENG_RUS):
         // let's delete eng word in eng-rus data base
-        make_delete_query(target_word, All_Modes::ENG__ENG_RUS);
+        makeDeleteQuery(target_word, All_Modes::ENG__ENG_RUS);
         break;
 
     case static_cast<int>(All_Modes::SWE__SWE_RUS):
         // let's delete swedish word in swe-rus data base
-        make_delete_query(target_word, All_Modes::SWE__SWE_RUS);
+        makeDeleteQuery(target_word, All_Modes::SWE__SWE_RUS);
         break;
 
     case static_cast<int>(All_Modes::RUS__SWE_RUS):
         // let's delete rus word in swe-rus data base
-        make_delete_query(target_word, All_Modes::RUS__SWE_RUS);
+        makeDeleteQuery(target_word, All_Modes::RUS__SWE_RUS);
         break;
     }
 
@@ -90,7 +90,6 @@ void DeleteWord::on_deleteButton_clicked()
 
     // make set button unaccessable
     ui->setButton->setDefault(false);
-
 
     // make focus on the line edit
     ui->textEdit->setFocus();
@@ -113,7 +112,7 @@ void DeleteWord::on_setButton_clicked()
     mode_index = ui->modeComboBox->currentIndex();
 }
 
-void DeleteWord::make_delete_query(const QString &target_word, All_Modes mode)
+void DeleteWord::makeDeleteQuery(const QString &target_word, All_Modes mode)
 {
     // Make a query
     QSqlQuery query(*db);

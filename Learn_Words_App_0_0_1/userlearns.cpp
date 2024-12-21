@@ -202,7 +202,7 @@ void UserLearns::DrawLabel(QString &&path, QLabel *label)
 
 
 // Function checks if the user answer is right
-void UserLearns::answer_is_right(const QString &task, const QString &answer) noexcept
+void UserLearns::answerIsRight(const QString &task, const QString &answer) noexcept
 {
     ++answers_counter;
     if(task == answer)
@@ -224,7 +224,7 @@ void UserLearns::answer_is_right(const QString &task, const QString &answer) noe
 }
 
 // Function displays on edit line word (rus) from the DB
-void UserLearns::display_first_word()
+void UserLearns::displayFirstWord()
 {
     auto iter = all_words.cbegin();
     std::advance(iter, counter);
@@ -236,7 +236,7 @@ void UserLearns::display_first_word()
 }
 
 
-double UserLearns::get_stats() noexcept
+double UserLearns::getStats() noexcept
 {
     double result = (static_cast<double>(right_answers) / answers_counter) * 100;
 
@@ -251,7 +251,7 @@ double UserLearns::get_stats() noexcept
 
 void UserLearns::on_statsButton_clicked()
 {
-    get_stats();
+    getStats();
 
     // return focus on user's edit line
     ui->userTextEdit->setFocus();
@@ -292,14 +292,14 @@ void UserLearns::on_restartButton_clicked()
     right_answers = 0;
 
     // let's show the very first word(task) to the user
-    display_first_word();
+    displayFirstWord();
 }
 
 
 void UserLearns::on_finishButton_clicked()
 {
     // save stats and exit
-    save_stats();
+    saveStats();
 
     QDialog::accept();
 }
@@ -384,12 +384,12 @@ void UserLearns::on_nextButton_clicked()
     ui->userTextEdit->setFocus();
 
     // show a word for the user
-    display_first_word();
+    displayFirstWord();
 
     // let's check user answer
     auto task = all_words.cbegin();
     std::advance(task, answers_counter);
-    answer_is_right(task.key(), std::move(user_answer));
+    answerIsRight(task.key(), std::move(user_answer));
 }
 
 
@@ -403,7 +403,7 @@ void UserLearns::prepareCustomRange(const int restrictionValue)
     std::advance(last_it, restrictionValue);
 
     //answer_is_right(last_task, last_user_answer);
-    answer_is_right(last_it.key(), last_user_answer);
+    answerIsRight(last_it.key(), last_user_answer);
 
     // let's clear user's line
     ui->userTextEdit->clear();
@@ -421,7 +421,7 @@ void UserLearns::prepareCustomRange(const int restrictionValue)
     ui->taskTextEdit->clear();
 
     // saving statistics
-    save_stats();
+    saveStats();
 
     // draw a result label with loading animation
     waitingMovie();
@@ -430,10 +430,10 @@ void UserLearns::prepareCustomRange(const int restrictionValue)
 }
 
 
-void UserLearns::save_stats()
+void UserLearns::saveStats()
 {
     // Get the final stats in the end
-    auto user_stats = get_stats();
+    auto user_stats = getStats();
 
     // make a query
     QSqlQuery save_result_query(*db);
