@@ -34,7 +34,7 @@ private:
 
     int mode_index;
 
-    int font_size = 14;
+    int font_size{14};
 };
 
 #endif // DELETEWORD_H

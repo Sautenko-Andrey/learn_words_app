@@ -64,7 +64,7 @@ Utility for the data preparing provides with the app.
 
 For this application I use C++, QT6 and SQLite3.
 
-This release marked as 0.0.1.
+This release marked as 0.0.2.
 It means that I will upgrade it time to time.
 If you have any questions you can send me an email using
 this adress: sautenkoandrey@gmail.com

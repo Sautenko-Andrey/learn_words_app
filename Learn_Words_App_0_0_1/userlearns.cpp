@@ -10,9 +10,9 @@
 #include <algorithm>
 
 
-
 enum class Restrinctions {
-    None = 0, Fifty = 50, Hundred = 100, TwoHundred = 200, FiveHundred = 500
+    None = 0, TwentyFive = 25, Fifty = 50,
+    Hundred = 100, TwoHundred = 200, FiveHundred = 500
 };
 
 UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
@@ -26,7 +26,7 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
 
     // add words numbers modes
     ui->wordsNumberComboBox->addItems(
-        {"All" ,"50", "100", "200", "500"}
+        {"All" , "25", "50", "100", "200", "500"}
     );
 
     ui->engModeRadioButton->setChecked(true);
@@ -58,37 +58,54 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
 
     // making icons for buttons
     // stats button
-    makeButtonIcon(":all_pics/stats.png", "Getting current stats", ui->statsButton);
+    makeButtonIcon(QString(":all_pics/stats.png"),
+                   QString("Getting current stats"),
+                   ui->statsButton);
 
     // restart button
-    makeButtonIcon(":all_pics/restart_lesson.png", "Restart current lesson",
+    makeButtonIcon(QString(":all_pics/restart_lesson.png"),
+                   QString("Restart current lesson"),
                    ui->restartButton);
 
     // finish button
-    makeButtonIcon(":all_pics/finish_lesson.png", "Finish current lesson",
+    makeButtonIcon(QString(":all_pics/finish_lesson.png"),
+                   QString("Finish current lesson"),
                    ui->finishButton);
 
     // tasks button
-    makeButtonIcon(":all_pics/task_list.png", "Getting all tasks and answers",
+    makeButtonIcon(QString(":all_pics/task_list.png"),
+                   QString("Getting all tasks and answers"),
                    ui->showtasksButton);
 
     // next button
-    makeButtonIcon(":all_pics/next.png", "Go to the next task", ui->nextButton);
+    makeButtonIcon(QString(":all_pics/next.png"),
+                   QString("Go to the next task"),
+                   ui->nextButton);
 
     // reload database button
-    makeButtonIcon(":all_pics/restart.png", "Reload database", ui->reloadDataButton);
+    makeButtonIcon(QString(":all_pics/restart.png"),
+                   QString("Reload database"),
+                   ui->reloadDataButton);
 
     // help button
-    makeButtonIcon(":all_pics/help.png", "Show the right answer", ui->helpButton);
+    makeButtonIcon(QString(":all_pics/help.png"),
+                   QString("Show the right answer"),
+                   ui->helpButton);
 
     // clear button
-    makeButtonIcon(":all_pics/clear_all.png", "Clear user's input text", ui->clearButton);
+    makeButtonIcon(QString(":all_pics/clear_all.png"),
+                   QString("Clear user's input text"),
+                   ui->clearButton);
 
     // font up button
-    makeButtonIcon(":all_pics/font_up.png", "Make text bigger", ui->fontUpButton);
+    makeButtonIcon(QString(":all_pics/font_up.png"),
+                   QString("Make text bigger"),
+                   ui->fontUpButton);
 
     // font down button
-    makeButtonIcon(":all_pics/font_down.png", "Make text smaller", ui->fontDownButton);
+    makeButtonIcon(QString(":all_pics/font_down.png"),
+                   QString("Make text smaller"),
+                   ui->fontDownButton);
 
     // connections
     connect(ui->engModeRadioButton, SIGNAL(toggled(bool)), this, SLOT(modeChanged()));
@@ -113,7 +130,7 @@ void UserLearns::prepareData(const QString &request_msg,
     }
 
     // Set language flag
-    DrawLangLabel(ui->current_languageLabel, path_to_flag);
+    drawLangLabel(ui->current_languageLabel, path_to_flag);
 
     // let's clear data
     all_words.clear();
@@ -191,10 +208,10 @@ void UserLearns::waitingMovie()
 }
 
 
-void UserLearns::DrawLabel(QString &&path, QLabel *label)
+void UserLearns::drawLabel(QString &&path, QLabel *label)
 {
     if(label){
-        QPixmap pixmap(PathToIcon(std::move(path)));
+        QPixmap pixmap(pathToIcon(path));
         label->setPixmap(pixmap);
         label->setMask(pixmap.mask());
     }
@@ -202,26 +219,33 @@ void UserLearns::DrawLabel(QString &&path, QLabel *label)
 
 
 // Function checks if the user answer is right
-void UserLearns::answerIsRight(const QString &task, const QString &answer) noexcept
+void UserLearns::answerIsRight(const QString &task, const QString &answer)
 {
     ++answers_counter;
     if(task == answer)
     {
         ++right_answers;
-        DrawLabel("done.png", ui->resultLabel);
+        drawLabel("done.png", ui->resultLabel);
     }
     else{
-        DrawLabel("fail.png", ui->resultLabel);
+        drawLabel("fail.png", ui->resultLabel);
+
+        constexpr int miliseconds{5000};
 
         // show to user information window with the correct answer
-        ShowTempMessage("Fail!",
-                        "Correct answer: <b><u>" + task + "</u></b>"
-                                                          ", yours was: <b><i>" + answer + "</i></b>", 5000);
+        showTempMessage(QString("Fail!"),
+                        QString("Correct answer: <b><u>") +
+                        task +
+                        QString("</u></b>, yours was: <b><i>") +
+                        answer +
+                        QString("</i></b>"),
+                        miliseconds);
     }
 
     // let's hide the result label after 2 seconds
     ui->resultLabel->setVisible(true);
 }
+
 
 // Function displays on edit line word (rus) from the DB
 void UserLearns::displayFirstWord()
@@ -320,6 +344,13 @@ void UserLearns::on_showtasksButton_clicked()
 }
 
 
+constexpr unsigned UserLearns::computeUserProgress(double progress_steps,
+                                     int restriction_value)
+{
+    return static_cast<unsigned>((progress_steps / restriction_value) * 100);
+}
+
+
 void UserLearns::on_nextButton_clicked()
 {
     // We display user's progress through progress bar
@@ -328,22 +359,31 @@ void UserLearns::on_nextButton_clicked()
     // make range mode button unaccessable
     ui->wordsNumberComboBox->setDisabled(true);
 
-    if (restrictionValue == static_cast<int>(Restrinctions::None)){
-        user_progress = (progress_steps / all_words.size()) * 100;
+    if (restriction_value == static_cast<int>(Restrinctions::None)){
+        user_progress = computeUserProgress(progress_steps,
+                                            all_words.size());
     }
-    else if (restrictionValue == static_cast<int>(Restrinctions::Fifty)){
-        user_progress = (progress_steps / restrictionValue) * 100;
+    else if(restriction_value == static_cast<int>(Restrinctions::TwentyFive)){
+        user_progress = computeUserProgress(progress_steps,
+                                            restriction_value);
     }
-    else if (restrictionValue == static_cast<int>(Restrinctions::Hundred)){
-        user_progress = (progress_steps / restrictionValue) * 100;
+    else if (restriction_value == static_cast<int>(Restrinctions::Fifty)){
+        user_progress = computeUserProgress(progress_steps,
+                                            restriction_value);
     }
-    else if (restrictionValue == static_cast<int>(Restrinctions::TwoHundred)){
-        user_progress = (progress_steps / restrictionValue) * 100;
+    else if (restriction_value == static_cast<int>(Restrinctions::Hundred)){
+        user_progress = computeUserProgress(progress_steps,
+                                            restriction_value);
+    }
+    else if (restriction_value == static_cast<int>(Restrinctions::TwoHundred)){
+        user_progress = computeUserProgress(progress_steps,
+                                            restriction_value);
     }
     else{
-        user_progress = (progress_steps / static_cast<int>(Restrinctions::FiveHundred)) * 100;
+
+        user_progress = computeUserProgress(progress_steps,
+                                            static_cast<int>(Restrinctions::FiveHundred));
     }
-    // unsigned user_progress = (progress_steps / all_words.size()) * 100;
 
     ui->progressBar->setValue(user_progress);
     progress_steps += 1.0;
@@ -352,25 +392,29 @@ void UserLearns::on_nextButton_clicked()
     ui->statsButton->setDisabled(false);
 
     // first of all let's check if counter less then words we have in the data base
-    if(restrictionValue == static_cast<int>(Restrinctions::None) &&
+    if(restriction_value == static_cast<int>(Restrinctions::None) &&
         counter == all_words.size()){
         prepareCustomRange(all_words.size() - 1);
     }
-    else if(restrictionValue == static_cast<int>(Restrinctions::Fifty)
-            && counter == restrictionValue){
-        prepareCustomRange(restrictionValue);
+    else if(restriction_value == static_cast<int>(Restrinctions::TwentyFive)
+             && counter == restriction_value){
+        prepareCustomRange(restriction_value);
     }
-    else if(restrictionValue == static_cast<int>(Restrinctions::Hundred)
-            && counter == restrictionValue){
-        prepareCustomRange(restrictionValue);
+    else if(restriction_value == static_cast<int>(Restrinctions::Fifty)
+            && counter == restriction_value){
+        prepareCustomRange(restriction_value);
     }
-    else if(restrictionValue == static_cast<int>(Restrinctions::TwoHundred)
-            && counter == restrictionValue){
-        prepareCustomRange(restrictionValue);
+    else if(restriction_value == static_cast<int>(Restrinctions::Hundred)
+            && counter == restriction_value){
+        prepareCustomRange(restriction_value);
     }
-    else if(restrictionValue == static_cast<int>(Restrinctions::FiveHundred)
-            && counter == restrictionValue){
-        prepareCustomRange(restrictionValue);
+    else if(restriction_value == static_cast<int>(Restrinctions::TwoHundred)
+            && counter == restriction_value){
+        prepareCustomRange(restriction_value);
+    }
+    else if(restriction_value == static_cast<int>(Restrinctions::FiveHundred)
+            && counter == restriction_value){
+        prepareCustomRange(restriction_value);
     }
 
     // let's read user's answer from the line
@@ -389,7 +433,7 @@ void UserLearns::on_nextButton_clicked()
     // let's check user answer
     auto task = all_words.cbegin();
     std::advance(task, answers_counter);
-    answerIsRight(task.key(), std::move(user_answer));
+    answerIsRight(std::move(task.key()), std::move(user_answer));
 }
 
 
@@ -495,18 +539,27 @@ void UserLearns::wordsRangeComboChanged()
     QString currentRange = ui->wordsNumberComboBox->currentText();
 
     if(currentRange == "All"){
-        restrictionValue = 0;
+        restriction_value = static_cast<unsigned>(
+                            Restrinctions::None);
+    }
+    else if(currentRange == "25"){
+        restriction_value = static_cast<unsigned>(
+                            Restrinctions::TwentyFive);
     }
     else if(currentRange == "50"){
-        restrictionValue = 50;
+        restriction_value = static_cast<unsigned>(
+                            Restrinctions::Fifty);
     }
     else if(currentRange == "100"){
-        restrictionValue = 100;
+        restriction_value = static_cast<unsigned>(
+                            Restrinctions::Hundred);
     }
     else if(currentRange == "200"){
-        restrictionValue = 200;
+        restriction_value = static_cast<unsigned>(
+                            Restrinctions::TwoHundred);
     }
     else{
-        restrictionValue = 500;
+        restriction_value = static_cast<unsigned>(
+                            Restrinctions::FiveHundred);
     }
 }

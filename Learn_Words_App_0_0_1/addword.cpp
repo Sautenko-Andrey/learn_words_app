@@ -42,30 +42,39 @@ AddWord::AddWord(QSqlDatabase &database, QWidget *parent)
 
     // making icons for buttons
     // add button
-    makeButtonIcon(":all_pics/add.png", "Add a new word", ui->addButton);
+    makeButtonIcon(QString(":all_pics/add.png"),
+                   QString("Add a new word"),
+                   ui->addButton);
 
     // clear all button
-    makeButtonIcon(":all_pics/clear_all.png", "Clear all lines", ui->clearLinesButton);
+    makeButtonIcon(QString(":all_pics/clear_all.png"),
+                   QString("Clear all lines"),
+                   ui->clearLinesButton);
 
     // clear left line button
-    makeButtonIcon(":all_pics/clear_f.png",
-                   "Clear the left line", ui->clearForeignButton);
+    makeButtonIcon(QString(":all_pics/clear_f.png"),
+                   QString("Clear the left line"),
+                   ui->clearForeignButton);
 
     // clear right line button
-    makeButtonIcon(":all_pics/clear_r.png",
-                   "Clear the right line", ui->clearRusButton);
+    makeButtonIcon(QString(":all_pics/clear_r.png"),
+                   QString("Clear the right line"),
+                   ui->clearRusButton);
 
     // confirm selection button
-    makeButtonIcon(":all_pics/confirm.png",
-                   "Confirm selection", ui->selectButton);
+    makeButtonIcon(QString(":all_pics/confirm.png"),
+                   QString("Confirm selection"),
+                   ui->selectButton);
 
     // font up button
-    makeButtonIcon(":all_pics/font_up.png",
-                   "Make text bigger", ui->fontUpButton);
+    makeButtonIcon(QString(":all_pics/font_up.png"),
+                   QString("Make text bigger"),
+                   ui->fontUpButton);
 
     // font down button
-    makeButtonIcon(":all_pics/font_down.png",
-                   "Make text smaller", ui->fontDownButton);
+    makeButtonIcon(QString(":all_pics/font_down.png"),
+                   QString("Make text smaller"),
+                   ui->fontDownButton);
 
     // Set tool tip for the words counter
     ui->lcdNumber->setToolTip(QString("Total words"));
@@ -124,7 +133,12 @@ void AddWord::on_addButton_clicked()
         return;
     }
     else{
-        ShowTempMessage("Status", "A new word has been successfuly added.", 1000);
+
+        constexpr int miliseconds{1000};
+
+        showTempMessage(QString("Status"),
+                        QString("A new word has been successfuly added."),
+                        miliseconds);
     }
 
     // let's clean both edit lines

@@ -17,7 +17,9 @@ ListWidget::ListWidget(QSqlDatabase &db, QWidget *parent, All_Languges lang_mode
 
     // buttons settings
     // reload database button
-    makeButtonIcon(":all_pics/restart.png", "Reload database", ui->reloadButton);
+    makeButtonIcon(QString(":all_pics/restart.png"),
+                   QString("Reload database"),
+                   ui->reloadButton);
 
     // display all words from the database in widget
     prepareListData(database);

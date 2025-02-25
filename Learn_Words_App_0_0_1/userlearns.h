@@ -53,19 +53,20 @@ private:
 
     QHash<QString, QString> all_words;
 
-    unsigned counter = 0;
+    unsigned counter{0};
 
-    unsigned right_answers = 0;
+    unsigned right_answers{0};
 
-    unsigned answers_counter = 0;
+    unsigned answers_counter{0};
 
-    double progress_steps = 1.0;
+    double progress_steps{1.0};
 
-    int font_size = 14;
+    int font_size{14};
 
-    unsigned restrictionValue{0};
+    unsigned restriction_value{0};
 
-    void answerIsRight(const QString &task, const QString &answer) noexcept;
+    void answerIsRight(const QString &task,
+                       const QString &answer);
 
     void displayFirstWord();
 
@@ -73,7 +74,7 @@ private:
 
     void saveStats();
 
-    void DrawLabel(QString &&path, QLabel *label);
+    void drawLabel(QString &&path, QLabel *label);
 
     void waitingMovie();
 
@@ -82,6 +83,9 @@ private:
                      QSqlQuery &query);
 
     void prepareCustomRange(const int restrictionValue);
+
+    constexpr unsigned computeUserProgress(double progress_steps,
+                                         int restriction_value);
 
 };
 

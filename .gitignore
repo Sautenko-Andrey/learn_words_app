@@ -127,6 +127,7 @@ access.txt
 
 build-Learn_Words_App_0_0_1-Debug/
 build-Learn_Words_App_0_0_1-Profile/
+build-Learn_Words_App_0_0_1-Release/
 
 src/contacts/qtcontactsversion.h
 src/organizer/qtorganizerversion.h

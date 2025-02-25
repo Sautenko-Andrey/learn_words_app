@@ -1,9 +1,9 @@
 #include "setword.h"
 #include "ui_setword.h"
 #include <QDebug>
-#include <QSqlQuery>
 #include <QtSql>
 #include <QMessageBox>
+
 
 SetWord::SetWord(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
@@ -39,85 +39,44 @@ SetWord::SetWord(QSqlDatabase &database, QWidget *parent)
 
     // buttons views
     // confirm selection button
-    makeButtonIcon(":all_pics/confirm.png",
-                   "Confirm selection", ui->selectButton);
+    makeButtonIcon(QString(":all_pics/confirm.png"),
+                   QString("Confirm selection"),
+                   ui->selectButton);
 
     // confirm set button
-    makeButtonIcon(":all_pics/update.png",
-                   "Update the word", ui->setButton);
+    makeButtonIcon(QString(":all_pics/update.png"),
+                   QString("Update the word"),
+                   ui->setButton);
 
     // font up button
-    makeButtonIcon(":all_pics/font_up.png",
-                   "Make text bigger", ui->fontUpButton);
+    makeButtonIcon(QString(":all_pics/font_up.png"),
+                   QString("Make text bigger"),
+                   ui->fontUpButton);
 
     // font down button
-    makeButtonIcon(":all_pics/font_down.png",
-                   "Make text smaller", ui->fontDownButton);
+    makeButtonIcon(QString(":all_pics/font_down.png"),
+                   QString("Make text smaller"),
+                   ui->fontDownButton);
 
     // clear all button
-    makeButtonIcon(":all_pics/clear_all.png",
-                   "Clear all lines", ui->clearAllButton);
+    makeButtonIcon(QString(":all_pics/clear_all.png"),
+                   QString("Clear all lines"),
+                   ui->clearAllButton);
 
     // clear left line button
-    makeButtonIcon(":all_pics/clear_f.png",
-                   "Clear left line", ui->clearLeftButton);
+    makeButtonIcon(QString(":all_pics/clear_f.png"),
+                   QString("Clear left line"),
+                   ui->clearLeftButton);
 
     // clear right line button
-    makeButtonIcon(":all_pics/clear_r.png",
-                   "Clear right line", ui->clearRightButton);
+    makeButtonIcon(QString(":all_pics/clear_r.png"),
+                   QString("Clear right line"),
+                   ui->clearRightButton);
 }
 
 SetWord::~SetWord()
 {
     delete ui;
-}
-
-
-void SetWord::makeSetQuery(const QString &corrupted_word,
-                         const QString &correct_word, All_Modes mode)
-{
-
-    // Make a query
-    QSqlQuery query(*db);
-
-    switch (mode) {
-    case All_Modes::RUS__ENG_RUS:
-        query.prepare("UPDATE ENG_RUS_WORDS SET "
-                      "rus_word = :correct_data "
-                      "WHERE rus_word = :corrupted_data");
-        break;
-
-    case All_Modes::ENG__ENG_RUS:
-        query.prepare("UPDATE ENG_RUS_WORDS SET "
-                      "eng_word = :correct_data "
-                      "WHERE eng_word = :corrupted_data");
-        break;
-
-    case All_Modes::SWE__SWE_RUS:
-        query.prepare("UPDATE SWE_RUS_WORDS SET "
-                      "swe_word = :correct_data "
-                      "WHERE swe_word = :corrupted_data");
-        break;
-
-    case All_Modes::RUS__SWE_RUS:
-        query.prepare("UPDATE SWE_RUS_WORDS SET "
-                      "rus_word = :correct_data "
-                      "WHERE rus_word = :corrupted_data");
-        break;
-    }
-
-    query.bindValue(":correct_data", correct_word);
-    query.bindValue(":corrupted_data", corrupted_word);
-
-    if(!query.exec()){
-        qDebug() << "Error while setting a word in the data base!";
-        QMessageBox::information(this, "Error!",
-                                 "Data base corrupted. Try one more time.");
-        return;
-    }
-    else{
-        ShowTempMessage("Status", "Word has been successfuly setted.", 2000);
-    }
 }
 
 

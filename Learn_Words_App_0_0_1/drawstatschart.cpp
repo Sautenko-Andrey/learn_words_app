@@ -1,13 +1,10 @@
 #include "drawstatschart.h"
 #include "ui_drawstatschart.h"
 #include <QtCharts>
-#include <QChartView>
 #include <QLineSeries>
-#include <QBarSeries>
-#include <QBarSet>
-#include <QSqlQuery>
 #include <QtSql>
 #include <QMessageBox>
+
 
 DrawStatsChart::DrawStatsChart(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
@@ -78,58 +75,16 @@ void DrawStatsChart::drawOverallStats()
 }
 
 
-void DrawStatsChart::appendDatatoBarSet(QSqlDatabase *connection,
-                                        QBarSet *set, const QString &user_query)
-{
-    if(connection && set){
-        QSqlQuery query(*connection);
-        if(!query.exec(user_query)){
-            QMessageBox::warning(this, "Error!",
-                                 "Can't get statistics. Try one more time.");
-            return;
-        }
-
-        if(query.next()){
-            *set << query.value(0).toDouble();
-        }
-    }
-}
-
-void DrawStatsChart::drawBarChart(const QString &title, const QString &eng_query,
-                                  const QString &swe_query)
-{
-    auto eng_set = new QBarSet("ENG");
-    auto swe_set = new QBarSet("SWE");
-
-    appendDatatoBarSet(db, eng_set, eng_query);
-    appendDatatoBarSet(db, swe_set, swe_query);
-
-    QBarSeries *series = new QBarSeries;
-    series->append(eng_set);
-    series->append(swe_set);
-
-    auto chart = new QChart;
-    chart->addSeries(series);
-    chart->setTitle(title);
-    chart->createDefaultAxes();
-    chart->setTheme(QChart::ChartTheme::ChartThemeBlueCerulean);
-    chart->legend()->setAlignment(Qt::AlignmentFlag::AlignBottom);
-
-    QChartView *view = new QChartView(chart);
-    view->setParent(ui->horizontalFrame);
-}
-
-
 void DrawStatsChart::drawTodayStats()
 {
     drawBarChart(
-        "Today stats",
+        QString("Today stats"),
 
-        "SELECT round(avg(success), 2) FROM Stats "
-                 "WHERE mode = 'eng' and DATE(session_time) = DATE('now')",
+        QString("SELECT round(avg(success), 2) FROM Stats "
+                       "WHERE mode = 'eng' and DATE(session_time) = DATE('now')"),
 
-        "SELECT round(avg(success), 2) FROM Stats "
-        "WHERE mode = 'swe' and DATE(session_time) = DATE('now')"
+        QString("SELECT round(avg(success), 2) FROM Stats "
+                       "WHERE mode = 'swe' and DATE(session_time) = DATE('now')")
     );
 }
 
@@ -137,15 +92,15 @@ void DrawStatsChart::drawTodayStats()
 void DrawStatsChart::drawLastWeekStats()
 {
     drawBarChart(
-        "Last week stats",
+        QString("Last week stats"),
 
-        "SELECT round(avg(success), 2) FROM Stats "
+        QString("SELECT round(avg(success), 2) FROM Stats "
         "WHERE mode = 'eng' AND session_time BETWEEN datetime('now', '-6 days') "
-        "AND datetime('now', 'localtime')",
+                       "AND datetime('now', 'localtime')"),
 
-        "SELECT round(avg(success), 2) FROM Stats "
+        QString("SELECT round(avg(success), 2) FROM Stats "
         "WHERE mode = 'swe' AND session_time BETWEEN datetime('now', '-6 days') "
-        "AND datetime('now', 'localtime')"
+                       "AND datetime('now', 'localtime')")
     );
 }
 
@@ -153,14 +108,14 @@ void DrawStatsChart::drawLastWeekStats()
 void DrawStatsChart::drawLastMonthStats()
 {
     drawBarChart(
-        "Last month stats",
+        QString("Last month stats"),
 
-        "SELECT round(avg(success), 2) FROM Stats "
+        QString("SELECT round(avg(success), 2) FROM Stats "
         "WHERE mode = 'eng' AND session_time BETWEEN datetime('now', 'start of month') "
-        "AND datetime('now', 'localtime')",
+                       "AND datetime('now', 'localtime')"),
 
-        "SELECT round(avg(success), 2) FROM Stats "
+        QString("SELECT round(avg(success), 2) FROM Stats "
         "WHERE mode = 'swe' AND session_time BETWEEN datetime('now', 'start of month') "
-        "AND datetime('now', 'localtime')"
+                       "AND datetime('now', 'localtime')")
     );
 }

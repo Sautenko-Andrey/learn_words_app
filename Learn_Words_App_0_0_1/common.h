@@ -10,6 +10,8 @@
 #include <QAbstractButton>
 #include <QTextEdit>
 #include <QListWidgetItem>
+#include "sizes.h"
+#include <QTimer>
 
 
 //Common data
@@ -29,13 +31,15 @@ extern const QVector<QString> LANGUAGES_DB;
 
 extern const QString BACKGROUND_COLOR;
 
+static const QString app_path_name = "/learn_words_app/Learn_Words_App_0_0_1/";
+
 // Common classes
 
 // Class for opening/closing sqlite3 data base
 class OpenDB
 {
     QSqlDatabase my_db = QSqlDatabase::addDatabase("QSQLITE","Connection");
-    const QString path_to_db = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/data.db";
+    const QString path_to_db = QDir::homePath() + app_path_name + "data.db";
 public:
     OpenDB();
     ~OpenDB() { my_db.close(); }
@@ -44,16 +48,68 @@ public:
 };
 
 // Function displays custom QMessagebox when it needs
-void ShowTempMessage(const QString &title, const QString &message, unsigned milisecs);
+// void ShowTempMessage(const QString &title,
+//                      const QString &message,
+//                      unsigned milisecs);
+template<typename T>
+void showTempMessage(T &&title, T &&message, unsigned milisecs){
+
+    auto mbox = std::make_unique<QMessageBox>();
+    mbox->resize(static_cast<int>(Sizes::TEMP_MESSAGE_BOX_WIDTH),
+                 static_cast<int>(Sizes::TEMP_MESSAGE_BOX_HEIGHT));
+
+    mbox->setWindowTitle(std::forward<T>(title));
+    mbox->setText(std::forward<T>(message));
+    mbox->setStyleSheet(BACKGROUND_COLOR);
+    mbox->show();
+
+    QTimer::singleShot(milisecs, mbox.get(), SLOT(hide()));
+
+    // Release a memory
+    QTimer::singleShot(milisecs + 10, [mbox = std::move(mbox)]() mutable {
+        mbox.reset();
+    });
+}
+
+
 
 // Function shows an icon you choose
-QString& PathToIcon(QString &&file_name) noexcept;
+template<typename T>
+QString pathToIcon(T &&file_name){
+    // Path to the icon ( assuming that file is in all_pics resources )
+    QString path = QDir::homePath() +
+                app_path_name +
+                std::forward<T>(file_name);
+    return path;
+}
 
 
-void DrawLangLabel(QLabel *label, const QString &path);
+template<typename T>
+void drawLangLabel(QLabel *label, T &&path){
+    if(label){
+        QString full_path = QDir::homePath() +
+                            app_path_name +
+                            std::forward<T>(path);
 
-void makeButtonIcon(const QString &img_path, const QString &tool_tip,
-                    QAbstractButton *button);
+        QPixmap curr_lang_pixmap(std::move(full_path));
+        label->setPixmap(curr_lang_pixmap);
+        label->setMask(curr_lang_pixmap.mask());
+    }
+}
+
+
+template<typename T>
+void makeButtonIcon(T &&img_path,
+                    T &&tool_tip,
+                    QAbstractButton *button)
+{
+    if(button){
+        QIcon icon;
+        icon.addPixmap(QPixmap(std::forward<T>(img_path)), QIcon::Active, QIcon::On);
+        button->setIcon(icon);
+        button->setToolTip(std::forward<T>(tool_tip));
+    }
+}
 
 void setTextEditCursor(int &font_size, QTextEdit *leftTextEdit,
                QTextEdit *rightTextEdit, QDialog *dialog,

@@ -3,6 +3,8 @@
 #include <QSqlQuery>
 #include <QtSql>
 #include <QString>
+#include <QStringLiteral>
+
 
 DeleteWord::DeleteWord(QSqlDatabase &database, QWidget *parent)
     : QDialog(parent)
@@ -34,20 +36,24 @@ DeleteWord::DeleteWord(QSqlDatabase &database, QWidget *parent)
 
     // buttons views
     // confirm selection button
-    makeButtonIcon(":all_pics/confirm.png",
-                   "Confirm selection", ui->setButton);
+    makeButtonIcon(QString(":all_pics/confirm.png"),
+                   QString("Confirm selection"),
+                   ui->setButton);
 
     // delete button
-    makeButtonIcon(":all_pics/delete.png",
-                   "Delete the word", ui->deleteButton);
+    makeButtonIcon(QString(":all_pics/delete.png"),
+                   QString("Delete the word"),
+                   ui->deleteButton);
 
     // font up button
-    makeButtonIcon(":all_pics/font_up.png",
-                   "Make text bigger", ui->fontUpButton);
+    makeButtonIcon(QString(":all_pics/font_up.png"),
+                   QString("Make text bigger"),
+                   ui->fontUpButton);
 
     // font down button
-    makeButtonIcon(":all_pics/font_down.png",
-                   "Make text smaller", ui->fontDownButton);
+    makeButtonIcon(QString(":all_pics/font_down.png"),
+                   QString("Make text smaller"),
+                   ui->fontDownButton);
 }
 
 DeleteWord::~DeleteWord()
@@ -148,9 +154,15 @@ void DeleteWord::makeDeleteQuery(const QString &target_word, All_Modes mode)
         return;
     }
     else{
-        ShowTempMessage("Status", "Word has been successfuly deleted.", 2000);
+
+        constexpr int miliseconds{2000};
+
+        showTempMessage(QString("Status"),
+                        QString("Word has been successfuly deleted."),
+                        miliseconds);
     }
 }
+
 
 void DeleteWord::on_fontUpButton_clicked()
 {

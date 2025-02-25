@@ -1,6 +1,5 @@
 #include "common.h"
 #include <QtSql>
-#include "sizes.h"
 #include <QStringList>
 
 
@@ -29,48 +28,6 @@ OpenDB::OpenDB()
         qDebug() << "Error!";
         qDebug() << my_db.lastError().text();
         exit(1);
-    }
-}
-
-void ShowTempMessage(const QString &title, const QString &message, unsigned milisecs)
-{
-    // show to user information window with the correct answer
-    QMessageBox *mbox = new QMessageBox();
-    mbox->resize(static_cast<int>(Sizes::TEMP_MESSAGE_BOX_WIDTH),
-                 static_cast<int>(Sizes::TEMP_MESSAGE_BOX_HEIGHT));
-    mbox->setWindowTitle(title);
-    mbox->setText(message);
-    mbox->setStyleSheet(BACKGROUND_COLOR);
-    mbox->show();
-    QTimer::singleShot(milisecs, mbox, SLOT(hide()));
-}
-
-
-QString& PathToIcon(QString &&file_name) noexcept
-{
-    // Path to the icon ( assuming that file is in all_pics resources )
-    file_name = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + file_name;
-    return file_name;
-}
-
-void DrawLangLabel(QLabel *label, const QString &path)
-{
-    if(label){
-        QString full_path = QDir::homePath() + "/learn_words_app/Learn_Words_App_0_0_1/" + path;
-        QPixmap curr_lang_pixmap(std::move(full_path));
-        label->setPixmap(curr_lang_pixmap);
-        label->setMask(curr_lang_pixmap.mask());
-    }
-}
-
-void makeButtonIcon(const QString &img_path, const QString &tool_tip,
-                    QAbstractButton *button){
-
-    if(button){
-        QIcon icon;
-        icon.addPixmap(QPixmap(img_path), QIcon::Active, QIcon::On);
-        button->setIcon(icon);
-        button->setToolTip(tool_tip);
     }
 }
 

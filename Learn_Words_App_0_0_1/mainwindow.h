@@ -12,7 +12,7 @@
 #include <memory>
 #include "sizes.h"
 #include "common.h"
-
+#include "ui_drawstatschart.h"
 
 
 QT_BEGIN_NAMESPACE
