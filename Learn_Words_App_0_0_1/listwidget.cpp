@@ -40,13 +40,29 @@ void ListWidget::prepareListData(const QSqlDatabase *db)
                        " ORDER BY rus_word ASC");
         }
 
+
         // fill the list widget
+        // For perfomance
+        // Enable ui updates before inserting
+        ui->listWidget->setUpdatesEnabled(false);
+
+        // Much less allocations using pointers
+        QStringList items;
+
+        constexpr size_t guessed_words_amount{1000};
+        items.reserve(guessed_words_amount);
+
         while(query.next()){
-            ui->listWidget->addItem(
-                query.value(1).toString() + "  ->  " +
+            items.append(
+                query.value(1).toString() +
+                " -> " +
                 query.value(0).toString()
             );
         }
+
+        // add a scoupe via 1 add
+        ui->listWidget->addItems(items);
+        ui->listWidget->setUpdatesEnabled(true);
     }
 }
 

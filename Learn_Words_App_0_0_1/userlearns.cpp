@@ -24,6 +24,10 @@ UserLearns::UserLearns(QSqlDatabase &database, QWidget *parent)
     // pointer on the database
     db = &database;
 
+    // reserve memory for all_words container
+    constexpr int reserved_memory_amount{1000};
+    all_words.reserve(reserved_memory_amount);
+
     // add words numbers modes
     ui->wordsNumberComboBox->addItems(
         {"All" , "25", "50", "100", "200", "500"}

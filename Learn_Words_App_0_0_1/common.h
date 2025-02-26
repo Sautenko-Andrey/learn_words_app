@@ -47,10 +47,7 @@ public:
     QSqlDatabase& get_my_db() { return my_db; }
 };
 
-// Function displays custom QMessagebox when it needs
-// void ShowTempMessage(const QString &title,
-//                      const QString &message,
-//                      unsigned milisecs);
+
 template<typename T>
 void showTempMessage(T &&title, T &&message, unsigned milisecs){
 
