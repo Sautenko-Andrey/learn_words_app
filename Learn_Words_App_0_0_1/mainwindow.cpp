@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->imageLabel->resize(static_cast<int>(Sizes::MAIN_WINDOW_IMAGE_LABEL),
                            static_cast<int>(Sizes::MAIN_WINDOW_IMAGE_LABEL));
     // Path to main image
-    const QString path_main_image = QDir::homePath() +
-                              "/learn_words_app/Learn_Words_App_0_0_1/main.jpeg";
+    QString path_main_image = QDir::homePath() +
+                        "/learn_words_app/Learn_Words_App_0_0_1/main.jpeg";
     QPixmap pixmap(path_main_image);
     ui->imageLabel->setPixmap(pixmap);
     ui->imageLabel->setMask(pixmap.mask());
@@ -101,7 +101,8 @@ void MainWindow::on_actionFinish_lesson_triggered()
 void MainWindow::on_actionAdd_words_from_file_triggered()
 {
     // get a file
-    const QString file_path = QFileDialog::getOpenFileName(this, "Select a file");
+    const auto &file_path =
+        QFileDialog::getOpenFileName(this, "Select a file");
 
     // work with file
     QFile file(file_path);

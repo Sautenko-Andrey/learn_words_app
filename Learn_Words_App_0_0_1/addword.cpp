@@ -107,8 +107,8 @@ void AddWord::on_addButton_clicked()
     // let's read words from line edits
     // let's get rid of potential unwanted leading and trailing characters
     // in this case spaces
-    QString user_foreign_word = (ui->leftTextEdit->toPlainText()).trimmed();
-    QString user_rus_word = (ui->rightTextEdit->toPlainText()).trimmed();
+    const auto user_foreign_word = (ui->leftTextEdit->toPlainText()).trimmed();
+    const auto user_rus_word = (ui->rightTextEdit->toPlainText()).trimmed();
 
     // Adding word to the data_base
     // let's make a query

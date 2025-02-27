@@ -66,7 +66,7 @@ void DeleteWord::on_deleteButton_clicked()
     // Action when user clickes on delete button
     // let's read users data from edit lines
     // get rid of unwanted leading and traling spaces
-    QString target_word = (ui->textEdit->toPlainText()).trimmed();
+    const QString target_word = (ui->textEdit->toPlainText()).trimmed();
 
     // depened of mode we set a desired word
     switch (mode_index) {
