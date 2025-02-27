@@ -46,14 +46,14 @@ void ListWidget::prepareListData(const QSqlDatabase *db)
         // Enable ui updates before inserting
         ui->listWidget->setUpdatesEnabled(false);
 
-        // Much less allocations using pointers
-        QStringList items;
+
+        QList<QString> items;
 
         constexpr size_t guessed_words_amount{1000};
         items.reserve(guessed_words_amount);
 
         while(query.next()){
-            items.append(
+            items.emplace_back(
                 query.value(1).toString() +
                 " -> " +
                 query.value(0).toString()

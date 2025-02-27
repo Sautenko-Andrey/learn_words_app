@@ -157,7 +157,6 @@ void UserLearns::prepareData(const QString &request_msg,
                          query.value(1).toString());
     }
 
-
     // let's show the very first word(rus) to user
     QString first_word = all_words.cbegin().value();
     ui->taskTextEdit->setText(first_word);
